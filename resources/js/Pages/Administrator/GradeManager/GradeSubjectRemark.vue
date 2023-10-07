@@ -15,14 +15,14 @@ export default {
         return {
 
             crud : {
-                title: 'Grade Subject Book Manager',
-                model: 'GradeSubjectBook',
+                title: 'Grade Subject Remarks',
+                model: 'GradeSubjectRemark',
                 files: '',
                 data: null,
                 rows: 10,
                 orderBy: 'id',
                 order: 'desc',
-                with: 'grade_subject,grade,subject',
+                with: 'grade,subject',
                 table: [
                     {
                         field: 'id',
@@ -37,18 +37,18 @@ export default {
                         fieldWidth: 'w-full' 
                     },
                     {
-                        field: 'grade_id',
-                        text: 'Grade.',
-                        type: 'select',
-                        value: '',
+                        field:'grade_id',
+                        text:'Grade',
+                        type:'select',
+                        value:null,
                         values:this.grades,
-                        validation: '',
-                        display: true,
+                        validation:'required',
+                        display:true,
                         display_value: 'grade,name',
-                        isForm: true,
-                        isSearch: true,
-                        colWidth: 'w-20',
-                        fieldWidth: 'w-full' 
+                        isForm:true,
+                        isSearch:true,
+                        colWidth:'w-auto',
+                        fieldWidth:'w-full'
                     },
                     {
                         field: 'subject',
@@ -60,7 +60,7 @@ export default {
                         display_value: 'subject,name',
                         isForm: false,
                         isSearch: true,
-                        colWidth: 'w-20',
+                        colWidth: 'w-auto',
                         fieldWidth: 'w-full' 
                     },
                     {
@@ -78,8 +78,8 @@ export default {
                         fieldWidth:'w-full'
                     },
                     {
-                        field:'publication',
-                        text:'Publication',
+                        field:'code',
+                        text:'Remark Code',
                         type:'text',
                         value:null,
                         validation:'required',
@@ -90,8 +90,8 @@ export default {
                         fieldWidth:'w-full'
                     },
                     {
-                        field:'book_title',
-                        text:'Book Title',
+                        field:'remark',
+                        text:'Remark',
                         type:'text',
                         value:null,
                         validation:'required',
@@ -101,20 +101,6 @@ export default {
                         colWidth:'w-auto',
                         fieldWidth:'w-full'
                     },
-                    {
-                        field:'status',
-                        text:'Status',
-                        type:'select',
-                        value:null,
-                        values:[{id: 'Active', text: 'Active'}, {id: 'Absolute', text: 'Absolute'},],
-                        validation:'required',
-                        display:true,
-                        isForm:true,
-                        isSearch:true,
-                        colWidth:'w-auto',
-                        fieldWidth:'w-full'
-                    },
-                    
 
                 ],
             },
@@ -127,9 +113,14 @@ export default {
         async change(e){
             if(e.key == 'grade_id'){
                 const response = await fetch('/grade_manager/fetch/grade_subject/' + e.val);
-                this.crud.table[3].values = await response.json();
+                this.crud.table[2].values = await response.json();
             }
         },
+
+        async edit(e){
+            console.log(e.grade.id);
+            this.crud.table[1].value = e.grade.id;
+        }
 
     },
 
@@ -142,11 +133,11 @@ export default {
 
 <template>
 
-    <Head title="Grade Subject Books" />
+    <Head title="Grade Subject Remark" />
 
     <Administrator>
 
-        <CRUD :crud="crud" @onChange="change($event)"></CRUD>
+        <CRUD :crud="crud" @onChange="change($event)" @onEdit="edit($event)"></CRUD>
 
     </Administrator>
 

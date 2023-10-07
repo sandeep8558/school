@@ -1,12 +1,11 @@
 <script>
 import Administrator from '@/Layouts/Administrator.vue';
-import { Head, Link, useForm } from '@inertiajs/vue3';
+import { Head, Link } from '@inertiajs/vue3';
 
 export default {
     
     props: {
         errors: Object,
-        classrooms: Object,
     },
 
     data: function () {

@@ -76,6 +76,7 @@ export default {
         editRow(item){
             this.isForm = true;
             this.setItem(item);
+            this.$emit('onEdit', item);
         },
 
         deleteRow(item){
@@ -134,7 +135,11 @@ export default {
 
         emitE(key, val){
             this.$emit('onChange', {key:key,val:val});
-        }
+        },
+
+        setFile(field, e){
+            this.form[field] = e.target.files[0];
+        },
 
     },
 
@@ -184,8 +189,17 @@ export default {
                     <template v-for="elm in crud.table" :key="elm">
                         <template v-if="elm.isForm">
 
-                            <!-- Input -->
-                            <div v-if="elm.type == 'text'" class="w-full mb-5">
+                            <!-- File -->
+                            <div v-if="elm.type == 'file'" class="mb-5" :class="elm.fieldWidth">
+                                <div class="relative">
+                                    <label for="floating_outlined" class="">{{ elm.text }}</label>
+                                    <input @change="setFile(elm.field, $event)" type="file" id="floating_outlined" class="peer inp inp-file" placeholder="" />
+                                </div>
+                                <span v-if="$page.props.errors" class="text-sm text-red-500">{{ $page.props.errors[elm.field] }}</span>
+                            </div>
+
+                            <!-- Text -->
+                            <div v-if="elm.type == 'text'" class="mb-5" :class="elm.fieldWidth">
                                 <div class="relative">
                                     <input @change="emitE(elm.field, form[elm.field])" type="text" id="floating_outlined" class="peer floating-inp" v-model="form[elm.field]" placeholder="" />
                                     <label for="floating_outlined" class="floating-lbl">{{ elm.text }}</label>
@@ -193,8 +207,17 @@ export default {
                                 <span v-if="$page.props.errors" class="text-sm text-red-500">{{ $page.props.errors[elm.field] }}</span>
                             </div>
 
+                            <!-- Date -->
+                            <div v-if="elm.type == 'date'" class="mb-5" :class="elm.fieldWidth">
+                                <div class="relative">
+                                    <input @change="emitE(elm.field, form[elm.field])" type="date" id="floating_outlined" class="peer floating-inp" v-model="form[elm.field]" placeholder="" />
+                                    <label for="floating_outlined" class="floating-lbl">{{ elm.text }}</label>
+                                </div>
+                                <span v-if="$page.props.errors" class="text-sm text-red-500">{{ $page.props.errors[elm.field] }}</span>
+                            </div>
+
                             <!-- Select -->
-                            <div v-if="elm.type == 'select'" class="w-full mb-5">
+                            <div v-if="elm.type == 'select'" class="mb-5" :class="elm.fieldWidth">
                                 <div class="relative">
                                     <select @change="emitE(elm.field, form[elm.field])" id="floating_outlined" class="peer floating-inp" v-model="form[elm.field]" placeholder="">
                                         <option v-for="option in elm.values" :key="option.id" :value="option.id">{{ option.text }}</option>
@@ -259,9 +282,9 @@ export default {
 
                 <table class="w-full">
                     <thead class="bg-gray-50 border-b-2 border-gray-200">
-                        <tr class="">
+                        <tr class="w-full">
                             <template v-for="col in crud.table" :key="col.field">
-                                <th v-if="col.display" class="p-3 text-sm font-semibold tracking-wide text-left" :class="col.colWidth">
+                                <th v-if="col.display" class="p-3 text-sm font-semibold tracking-wide text-left">
                                     <div class="items-center flex space-x-2">
                                         <div class="flex flex-col">
 
@@ -279,7 +302,7 @@ export default {
                                             
                                         </div>
                                         
-                                        <span>{{ col.text }}</span>
+                                        <span class="whitespace-nowrap">{{ col.text }}</span>
                                     </div>
                                 </th>
                             </template>
@@ -291,7 +314,14 @@ export default {
                         <tr v-for="row in myData" :key="row.id" class="odd:bg-white even:bg-gray-50">
                             
                             <template v-for="col in crud.table" :key="col.field">
-                                <td v-if="col.display" class="p-3 text-sm text-gray-700 whitespace-nowrap">{{ col.display_value != undefined ? setValue(row, col.display_value) : row[col.field] }}</td>
+                                <td v-if="col.display" class="p-3 text-sm text-gray-700 whitespace-nowrap" :class="col.colWidth">
+                                    <template v-if="col.type == 'file'">
+                                        <img :src="col.display_value != undefined ? setValue(row, col.display_value) : row[col.field]" class="h-16">
+                                    </template>
+                                    <template v-if="col.type != 'file'">
+                                        {{ col.display_value != undefined ? setValue(row, col.display_value) : row[col.field] }}
+                                    </template>
+                                </td>
                             </template>
 
                             <td class="p-3 text-right text-sm text-gray-700 whitespace-nowrap">

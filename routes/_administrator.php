@@ -45,10 +45,29 @@ Route::middleware(['auth','verified','administrator'])->group(function () {
     Route::get('/grade_manager/grade_subject_books', [App\Http\Controllers\GradeManagerController::class, 'grade_subject_books']);
     Route::get('/grade_manager/grade_subject_book_topics', [App\Http\Controllers\GradeManagerController::class, 'grade_subject_book_topics']);
     Route::get('/grade_manager/grade_subject_book_topic_subtopics', [App\Http\Controllers\GradeManagerController::class, 'grade_subject_book_topic_subtopics']);
+    Route::get('/grade_manager/grade_remark', [App\Http\Controllers\GradeManagerController::class, 'grade_remark']);
+    Route::get('/grade_manager/grade_subjects_remark', [App\Http\Controllers\GradeManagerController::class, 'grade_subjects_remark']);
+    Route::get('/grade_manager/division', [App\Http\Controllers\GradeManagerController::class, 'division']);
 
     /* Grade Manager API Calls */
     Route::get('/grade_manager/fetch/grade_subject/{grade_id}', [App\Http\Controllers\GradeManagerController::class, 'fetch_grade_subject']);
     Route::get('/grade_manager/fetch/grade_subject_book/{grade_subject_id}', [App\Http\Controllers\GradeManagerController::class, 'fetch_grade_subject_book']);
+    Route::get('/grade_manager/fetch/grade_subject_book_topic/{grade_subject_book_id}', [App\Http\Controllers\GradeManagerController::class, 'fetch_grade_subject_book_topic']);
+
+
+    /* Staff Manager Pages */
+    Route::get('/staff_manager/staffs', [App\Http\Controllers\StaffManagerController::class, 'staffs']);
+    Route::get('/staff_manager/staff_photo', [App\Http\Controllers\StaffManagerController::class, 'staff_photo']);
+    Route::get('/staff_manager/staff_address', [App\Http\Controllers\StaffManagerController::class, 'staff_address']);
+    Route::get('/staff_manager/staff_documents', [App\Http\Controllers\StaffManagerController::class, 'staff_documents']);
+    Route::get('/staff_manager/staff_branch', [App\Http\Controllers\StaffManagerController::class, 'staff_branch']);
+    Route::get('/staff_manager/staff_designation', [App\Http\Controllers\StaffManagerController::class, 'staff_designation']);
+    Route::get('/staff_manager/staff_shift_duty', [App\Http\Controllers\StaffManagerController::class, 'staff_shift_duty']);
+    Route::get('/staff_manager/staff_section', [App\Http\Controllers\StaffManagerController::class, 'staff_section']);
+    Route::get('/staff_manager/staff_grade', [App\Http\Controllers\StaffManagerController::class, 'staff_grade']);
+    Route::get('/staff_manager/staff_subject', [App\Http\Controllers\StaffManagerController::class, 'staff_subject']);
+
+    /* Staff Manager API Calls */
     
 
 });

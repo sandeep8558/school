@@ -10,6 +10,7 @@ use App\Models\Grade;
 use App\Models\Subject;
 use App\Models\GradeSubject;
 use App\Models\GradeSubjectBook;
+use App\Models\GradeSubjectBookTopic;
 use DB; 
 
 class GradeManagerController extends Controller
@@ -40,12 +41,8 @@ class GradeManagerController extends Controller
 
     /* Grade Subject Books Page */
     public function grade_subject_books(){
-        $grade_subjects = GradeSubject::
-        join('subjects', 'subjects.id', 'grade_subjects.subject_id')
-        ->join('grades', 'grades.id', 'grade_subjects.grade_id')
-        ->select(DB::raw("CONCAT(grades.name, ' ', subjects.name) AS text"), 'grade_subjects.id')
-        ->get();
-        return Inertia::render('Administrator/GradeManager/GradeSubjectBooks', compact('grade_subjects'));
+        $grades = Grade::select('id', 'name as text')->get();
+        return Inertia::render('Administrator/GradeManager/GradeSubjectBooks', compact('grades'));
     }
 
     /* Book Topics */
@@ -56,12 +53,25 @@ class GradeManagerController extends Controller
 
     /* Book Subtopics */
     public function grade_subject_book_topic_subtopics(){
-        return Inertia::render('Administrator/GradeManager/GradeSubjectBookTopicSubtopic');
+        $grades = Grade::select('id', 'name as text')->get();
+        return Inertia::render('Administrator/GradeManager/GradeSubjectBookTopicSubtopic', compact('grades'));
     }
 
-    /* Template */
-    public function temp(){
-        return Inertia::render('Administrator/GradeManager/Temp');
+    /* Grade Remarks */
+    public function grade_remark(){
+        $grades = Grade::select('id', 'name as text')->get();
+        return Inertia::render('Administrator/GradeManager/GradeRemark', compact('grades'));
+    }
+
+    /* Grade Subject Remark */
+    public function grade_subjects_remark(){
+        $grades = Grade::select('id', 'name as text')->get();
+        return Inertia::render('Administrator/GradeManager/GradeSubjectRemark', compact('grades'));
+    }
+
+    /* Division Manager */
+    public function division(){
+        return Inertia::render('Administrator/GradeManager/Division');
     }
 
     /* API Calls routes are below */
@@ -76,6 +86,10 @@ class GradeManagerController extends Controller
 
     public function fetch_grade_subject_book($grade_subject_id){
         return GradeSubjectBook::select('id', 'book_title as text')->where('grade_subject_id', $grade_subject_id)->get();
+    }
+
+    public function fetch_grade_subject_book_topic($grade_subject_book_id){
+        return GradeSubjectBookTopic::select('id', 'topic as text')->where('grade_subject_book_id', $grade_subject_book_id)->get();
     }
 
 }
