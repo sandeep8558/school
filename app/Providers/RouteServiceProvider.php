@@ -17,7 +17,7 @@ class RouteServiceProvider extends ServiceProvider
      *
      * @var string
      */
-    public const HOME = '/role-splitter';
+    public const HOME = '/role_splitter';
 
     /**
      * Define your route model bindings, pattern filters, and other route configuration.

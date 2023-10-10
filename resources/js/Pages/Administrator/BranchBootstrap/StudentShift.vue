@@ -12,6 +12,7 @@ export default {
         return {
             isForm: false,
             form: useForm({
+                branch_id: this.$page.props.gbranch ? this.$page.props.gbranch.id : null,
                 id: null,
                 name: null,
                 from: null,
@@ -31,7 +32,7 @@ export default {
     methods: {
 
         save(){
-            this.form.post('/school_bootstrap/save_student_shift', {
+            this.form.post('/branch_bootstrap/save_student_shift', {
                 onSuccess: data => {
                     if(this.form.id != null){
                         this.isForm = false;
@@ -66,7 +67,7 @@ export default {
                     this.form.from = student_shift.from;
                     this.form.to = student_shift.to;
 
-                    this.form.post('/school_bootstrap/delete_student_shift', {
+                    this.form.post('/branch_bootstrap/delete_student_shift', {
                         onSuccess: data => {
                             this.form.reset();
                         }
@@ -90,7 +91,7 @@ export default {
 
                     this.planForm.id = plan.id;
 
-                    this.planForm.post('/school_bootstrap/delete_student_shift_plan', {
+                    this.planForm.post('/branch_bootstrap/delete_student_shift_plan', {
                         onSuccess: data => {
                             this.planForm.reset();
                         }
@@ -141,7 +142,7 @@ export default {
 
                     this.$swal.showLoading();
 
-                    this.planForm.post('/school_bootstrap/save_student_shift_plan',{
+                    this.planForm.post('/branch_bootstrap/save_student_shift_plan',{
                         onSuccess: data => {
                             this.$swal.close();
                         },
@@ -192,6 +193,18 @@ export default {
 
                     <div class="w-full mb-5">
                         <h2 class="text-2xl font-bold uppercase py-6 text-left">Add Student Shift Here!</h2>
+                    </div>
+
+                    <div class="w-full mb-5">
+                        <div class="relative">
+                            <select id="floating_outlined" class="peer floating-inp" v-model="form.branch_id" placeholder="" :readonly="true">
+                                <template v-if="$page.props.gbranch != null">
+                                    <option :value="$page.props.gbranch.id">{{ $page.props.gbranch.name }}</option>
+                                </template>
+                            </select>
+                            <label for="floating_outlined" class="floating-lbl">Branch</label>
+                        </div>
+                        <span v-if="errors" class="text-sm text-red-500">{{ errors.branch_id }}</span>
                     </div>
 
                     <div class="w-full mb-5">

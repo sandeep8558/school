@@ -13,8 +13,13 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('student_guardians', function (Blueprint $table) {
+        Schema::create('subject_remarks', function (Blueprint $table) {
             $table->id();
+
+            $table->bigInteger('subject_in_group_id')->index();
+            $table->string('code', 35);
+            $table->string('remark');
+
             $table->timestamps();
         });
     }
@@ -26,6 +31,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('student_guardians');
+        Schema::dropIfExists('subject_remarks');
     }
 };

@@ -55,6 +55,19 @@ class CrudController extends Controller
             $query = $query->orderBy($request->order_by, $request->order);
         }
 
+        if(isset($request->where)){
+            $w = explode(',', $request->where);
+            $s = sizeof($w);
+            $m = $s % 3;
+            $l = $s/3;
+
+            if($m == 0){
+                for($i = 0; $i < $l; $i++){
+                    $query = $query->where($w[0], $w[1], $w[2]);
+                }
+            }
+        }
+
 
         $data = $query->simplePaginate($request->rows);
         return $data;

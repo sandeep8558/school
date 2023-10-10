@@ -23,6 +23,6 @@ class Student
             }
         }
         //Auth::logout();
-        return redirect('/role-splitter');
+        return redirect('/role_splitter');
     }
 }

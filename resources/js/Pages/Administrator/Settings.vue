@@ -169,7 +169,7 @@ export default {
 
 <template>
 
-    <Head title="Dashboard" />
+    <Head title="Settings" />
 
     <Administrator>
 

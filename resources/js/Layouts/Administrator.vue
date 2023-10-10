@@ -1,5 +1,5 @@
 <script>
-import { Head, Link } from '@inertiajs/vue3';
+import { Head, Link, useForm } from '@inertiajs/vue3';
 
 
 export default {
@@ -11,9 +11,14 @@ export default {
             isSidebar: true,
             ughadZap : {
                 schoolBootstrap : false,
+                branchBootstrap : false,
                 gradeManager: false,
                 staffManager: false,
             },
+            isBranchSelect: false,
+            form: useForm({
+                branch_id: null,
+            }),
         };
     },
 
@@ -31,14 +36,24 @@ export default {
 
             switch(what){
                 case "schoolBootstrap" : this.ughadZap.schoolBootstrap = val; break;
+                case "branchBootstrap" : this.ughadZap.branchBootstrap = val; break;
                 case "gradeManager" : this.ughadZap.gradeManager = val; break;
                 case "staffManager" : this.ughadZap.staffManager = val; break;
             }
             
+        },
+
+        branchChange(e){
+            this.form.post('/user_manager/branch/update', {
+                onSuccess: data => {
+                    this.isBranchSelect = false;
+                }
+            });
         }
     },
 
     mounted: function() {
+        this.form.branch_id = this.$page.props.gbranch ? this.$page.props.gbranch.id : null;
     },
 
     components: { Head, Link }
@@ -100,17 +115,31 @@ export default {
                                     <li>
                                         <Link class="nav-sec-link" :class="{'active': $page.url === '/school_bootstrap/designation'}" href="/school_bootstrap/designation">Designation</Link>
                                     </li>
+                                </ul>
+                            </li>
+
+
+                            <!-- Branch Bootstart Menu -->
+                            <li class="nav-li">
+                                <a href="#" class="nav-link" :class="ughadZap.branchBootstrap || $page.url.startsWith('/branch_bootstrap') ? 'active' : ''" @click="ughadZapKar('branchBootstrap', !ughadZap.branchBootstrap)">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" class="w-6 h-6 inline-block mr-2">
+                                        <path strokeLinecap="round" strokeLinejoin="round" d="M4.26 10.147a60.436 60.436 0 00-.491 6.347A48.627 48.627 0 0112 20.904a48.627 48.627 0 018.232-4.41 60.46 60.46 0 00-.491-6.347m-15.482 0a50.57 50.57 0 00-2.658-.813A59.905 59.905 0 0112 3.493a59.902 59.902 0 0110.399 5.84c-.896.248-1.783.52-2.658.814m-15.482 0A50.697 50.697 0 0112 13.489a50.702 50.702 0 017.74-3.342M6.75 15a.75.75 0 100-1.5.75.75 0 000 1.5zm0 0v-3.675A55.378 55.378 0 0112 8.443m-7.007 11.55A5.981 5.981 0 006.75 15.75v-1.5" />
+                                    </svg>
+                                    <span class="">Branch Bootstrap</span>
+                                    <span class="float-right">&#128899;</span>
+                                </a>
+                                <ul class="nav-sec-ul" v-if="ughadZap.branchBootstrap || $page.url.startsWith('/branch_bootstrap')">
                                     <li>
-                                        <Link class="nav-sec-link" :class="{'active': $page.url === '/school_bootstrap/classroom'}" href="/school_bootstrap/classroom">Classroom Manager</Link>
+                                        <Link class="nav-sec-link" :class="{'active': $page.url === '/branch_bootstrap/classroom'}" href="/branch_bootstrap/classroom">Classroom Manager</Link>
                                     </li>
                                     <li>
-                                        <Link class="nav-sec-link" :class="{'active': $page.url === '/school_bootstrap/house'}" href="/school_bootstrap/house">House</Link>
+                                        <Link class="nav-sec-link" :class="{'active': $page.url === '/branch_bootstrap/house'}" href="/branch_bootstrap/house">House</Link>
                                     </li>
                                     <li>
-                                        <Link class="nav-sec-link" :class="{'active': $page.url === '/school_bootstrap/staff_shift'}" href="/school_bootstrap/staff_shift">Staff Shift</Link>
+                                        <Link class="nav-sec-link" :class="{'active': $page.url === '/branch_bootstrap/staff_shift'}" href="/branch_bootstrap/staff_shift">Staff Shift</Link>
                                     </li>
                                     <li>
-                                        <Link class="nav-sec-link" :class="{'active': $page.url === '/school_bootstrap/student_shift'}" href="/school_bootstrap/student_shift">Student Shift</Link>
+                                        <Link class="nav-sec-link" :class="{'active': $page.url === '/branch_bootstrap/student_shift'}" href="/branch_bootstrap/student_shift">Student Shift</Link>
                                     </li>
                                 </ul>
                             </li>
@@ -135,6 +164,10 @@ export default {
                                     <li>
                                         <Link class="nav-sec-link" :class="{'active': $page.url.startsWith('/grade_manager/grades')}" href="/grade_manager/grades">Grades</Link>
                                     </li>
+                                    <li>
+                                        <Link class="nav-sec-link" :class="{'active': $page.url.startsWith('/grade_manager/subject_group')}" href="/grade_manager/subject_group">Subject Group</Link>
+                                    </li>
+                                    
                                     <li>
                                         <Link class="nav-sec-link" :class="{'active': $page.url.startsWith('/grade_manager/grade_subjects')}" href="/grade_manager/grade_subjects">Grade Subjects</Link>
                                     </li>
@@ -409,6 +442,15 @@ export default {
                             </li>
 
                             <li class="cursor-pointer select-none">
+                                <Link href="/user_manager" class="nav-link" :class="{'active': $page.url.startsWith('/user_manager')}">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" class="w-6 h-6 inline-block mr-2">
+                                        <path strokeLinecap="round" strokeLinejoin="round" d="M4.26 10.147a60.436 60.436 0 00-.491 6.347A48.627 48.627 0 0112 20.904a48.627 48.627 0 018.232-4.41 60.46 60.46 0 00-.491-6.347m-15.482 0a50.57 50.57 0 00-2.658-.813A59.905 59.905 0 0112 3.493a59.902 59.902 0 0110.399 5.84c-.896.248-1.783.52-2.658.814m-15.482 0A50.697 50.697 0 0112 13.489a50.702 50.702 0 017.74-3.342M6.75 15a.75.75 0 100-1.5.75.75 0 000 1.5zm0 0v-3.675A55.378 55.378 0 0112 8.443m-7.007 11.55A5.981 5.981 0 006.75 15.75v-1.5" />
+                                    </svg>
+                                    User Manager
+                                </Link>
+                            </li>
+
+                            <li class="cursor-pointer select-none">
                                 <Link href="/logout" method="post" as="button" class="nav-link w-full text-left" :class="{'active': $page.url === '/logout'}">
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" class="w-6 h-6 inline-block mr-2">
                                         <path strokeLinecap="round" strokeLinejoin="round" d="M4.26 10.147a60.436 60.436 0 00-.491 6.347A48.627 48.627 0 0112 20.904a48.627 48.627 0 018.232-4.41 60.46 60.46 0 00-.491-6.347m-15.482 0a50.57 50.57 0 00-2.658-.813A59.905 59.905 0 0112 3.493a59.902 59.902 0 0110.399 5.84c-.896.248-1.783.52-2.658.814m-15.482 0A50.697 50.697 0 0112 13.489a50.702 50.702 0 017.74-3.342M6.75 15a.75.75 0 100-1.5.75.75 0 000 1.5zm0 0v-3.675A55.378 55.378 0 0112 8.443m-7.007 11.55A5.981 5.981 0 006.75 15.75v-1.5" />
@@ -437,7 +479,17 @@ export default {
                                 <div class="border-2 border-gray-500"></div>
                             </div>
 
-                            <div class="font-extrabold text-lg uppercase select-none">{{$page.props.settings.schoolName}}</div>
+                            <div class="font-extrabold text-lg uppercase select-none w-full">{{$page.props.settings.schoolName}}</div>
+
+                            <div class="w-auto whitespace-nowrap text-xs cursor-pointer">
+                                <span v-if="!isBranchSelect" @click="isBranchSelect = !isBranchSelect">
+                                    {{ $page.props.gbranch ? $page.props.gbranch.name : 'No Branch' }}
+                                </span>
+                                
+                                <select @change="branchChange($event)" v-if="isBranchSelect" class="py-1 text-xs" v-model="form.branch_id">
+                                    <option v-for="bra in $page.props.gbranches" :key="bra.id" :value="bra.id" :selected="bra.id == $page.props.gbranch.id">{{ bra.name }}</option>
+                                </select>
+                            </div>
 
                         </div>
                     </div>

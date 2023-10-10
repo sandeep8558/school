@@ -9,5 +9,5 @@ class StaffShift extends Model
 {
     use HasFactory;
 
-    protected $fillable = [ 'name', 'from', 'to' ];
+    protected $fillable = [ 'branch_id', 'name', 'from', 'to' ];
 }

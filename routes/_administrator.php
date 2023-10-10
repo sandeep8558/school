@@ -7,6 +7,11 @@ Route::middleware(['auth','verified','administrator'])->group(function () {
     /* Administrator Dashboard Route */
     Route::get('/dashboard_administrator', [App\Http\Controllers\AdministratorController::class, 'dashboard_administrator']);
 
+    /* User Manager */
+    Route::get('/user_manager', [App\Http\Controllers\AdministratorController::class, 'user_manager']);
+    Route::get('/user_manager/roles/{user_id}', [App\Http\Controllers\AdministratorController::class, 'user_manager_roles']);
+    Route::post('/user_manager/branch/update', [App\Http\Controllers\AdministratorController::class, 'branch_update']);
+
     /* Settings Routes */
     Route::get('/settings', [App\Http\Controllers\SettingController::class, 'settings']);
     Route::post('/settings/update', [App\Http\Controllers\SettingController::class, 'settings_update']);
@@ -14,10 +19,6 @@ Route::middleware(['auth','verified','administrator'])->group(function () {
     /* School Bootstrap Pages  */
     Route::get('/school_bootstrap/school_profile', [App\Http\Controllers\BootstrapController::class, 'school_profile']);
     Route::get('/school_bootstrap/designation', [App\Http\Controllers\BootstrapController::class, 'designation']);
-    Route::get('/school_bootstrap/classroom', [App\Http\Controllers\BootstrapController::class, 'classroom']);
-    Route::get('/school_bootstrap/house', [App\Http\Controllers\BootstrapController::class, 'house']);
-    Route::get('/school_bootstrap/staff_shift', [App\Http\Controllers\BootstrapController::class, 'staff_shift']);
-    Route::get('/school_bootstrap/student_shift', [App\Http\Controllers\BootstrapController::class, 'student_shift']);
 
     /* School Bootstrap API calls */
     Route::post('/school_bootstrap/store_branch', [App\Http\Controllers\BootstrapController::class, 'store_branch']);
@@ -26,21 +27,34 @@ Route::middleware(['auth','verified','administrator'])->group(function () {
     Route::post('/school_bootstrap/save_accreditation', [App\Http\Controllers\BootstrapController::class, 'save_accreditation']);
     Route::post('/school_bootstrap/save_designation', [App\Http\Controllers\BootstrapController::class, 'save_designation']);
     Route::post('/school_bootstrap/delete_designation', [App\Http\Controllers\BootstrapController::class, 'delete_designation']);
-    Route::post('/school_bootstrap/save_classroom', [App\Http\Controllers\BootstrapController::class, 'save_classroom']);
-    Route::post('/school_bootstrap/delete_classroom', [App\Http\Controllers\BootstrapController::class, 'delete_classroom']);
-    Route::post('/school_bootstrap/save_house', [App\Http\Controllers\BootstrapController::class, 'save_house']);
-    Route::post('/school_bootstrap/delete_house', [App\Http\Controllers\BootstrapController::class, 'delete_house']);
-    Route::post('/school_bootstrap/save_staff_shift', [App\Http\Controllers\BootstrapController::class, 'save_staff_shift']);
-    Route::post('/school_bootstrap/delete_staff_shift', [App\Http\Controllers\BootstrapController::class, 'delete_staff_shift']);
-    Route::post('/school_bootstrap/save_student_shift', [App\Http\Controllers\BootstrapController::class, 'save_student_shift']);
-    Route::post('/school_bootstrap/delete_student_shift', [App\Http\Controllers\BootstrapController::class, 'delete_student_shift']);
-    Route::post('/school_bootstrap/save_student_shift_plan', [App\Http\Controllers\BootstrapController::class, 'save_student_shift_plan']);
-    Route::post('/school_bootstrap/delete_student_shift_plan', [App\Http\Controllers\BootstrapController::class, 'delete_student_shift_plan']);
+
+
+    /* Branch Bootstrap Pages */
+    Route::get('/branch_bootstrap/classroom', [App\Http\Controllers\BranchBootstrapController::class, 'classroom']);
+    Route::get('/branch_bootstrap/house', [App\Http\Controllers\BranchBootstrapController::class, 'house']);
+    Route::get('/branch_bootstrap/staff_shift', [App\Http\Controllers\BranchBootstrapController::class, 'staff_shift']);
+    Route::get('/branch_bootstrap/student_shift', [App\Http\Controllers\BranchBootstrapController::class, 'student_shift']);
+
+
+    /* Branch Bootstrap API Calls */
+    Route::post('/branch_bootstrap/save_classroom', [App\Http\Controllers\BranchBootstrapController::class, 'save_classroom']);
+    Route::post('/branch_bootstrap/delete_classroom', [App\Http\Controllers\BranchBootstrapController::class, 'delete_classroom']);
+    Route::post('/branch_bootstrap/save_house', [App\Http\Controllers\BranchBootstrapController::class, 'save_house']);
+    Route::post('/branch_bootstrap/delete_house', [App\Http\Controllers\BranchBootstrapController::class, 'delete_house']);
+    Route::post('/branch_bootstrap/save_staff_shift', [App\Http\Controllers\BranchBootstrapController::class, 'save_staff_shift']);
+    Route::post('/branch_bootstrap/delete_staff_shift', [App\Http\Controllers\BranchBootstrapController::class, 'delete_staff_shift']);
+    Route::post('/branch_bootstrap/save_student_shift', [App\Http\Controllers\BranchBootstrapController::class, 'save_student_shift']);
+    Route::post('/branch_bootstrap/delete_student_shift', [App\Http\Controllers\BranchBootstrapController::class, 'delete_student_shift']);
+    Route::post('/branch_bootstrap/save_student_shift_plan', [App\Http\Controllers\BranchBootstrapController::class, 'save_student_shift_plan']);
+    Route::post('/branch_bootstrap/delete_student_shift_plan', [App\Http\Controllers\BranchBootstrapController::class, 'delete_student_shift_plan']);
+
 
     /* Grade Manager Pages */
     Route::get('/grade_manager/sections', [App\Http\Controllers\GradeManagerController::class, 'sections']);
     Route::get('/grade_manager/subjects', [App\Http\Controllers\GradeManagerController::class, 'subjects']);
     Route::get('/grade_manager/grades', [App\Http\Controllers\GradeManagerController::class, 'grades']);
+    Route::get('/grade_manager/subject_group', [App\Http\Controllers\GradeManagerController::class, 'subject_group']);
+
     Route::get('/grade_manager/grade_subjects', [App\Http\Controllers\GradeManagerController::class, 'grade_subjects']);
     Route::get('/grade_manager/grade_subject_books', [App\Http\Controllers\GradeManagerController::class, 'grade_subject_books']);
     Route::get('/grade_manager/grade_subject_book_topics', [App\Http\Controllers\GradeManagerController::class, 'grade_subject_book_topics']);

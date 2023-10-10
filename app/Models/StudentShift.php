@@ -9,7 +9,7 @@ class StudentShift extends Model
 {
     use HasFactory;
 
-    protected $fillable = [ 'name', 'from', 'to' ];
+    protected $fillable = [ 'branch_id', 'name', 'from', 'to' ];
 
     public function student_shift_plans(){
         return $this->hasMany('App\Models\StudentShiftPlan')->orderBy('period_index', 'asc');

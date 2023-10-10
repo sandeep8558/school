@@ -13,8 +13,13 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('student_photos', function (Blueprint $table) {
+        Schema::create('subject_book_topics', function (Blueprint $table) {
             $table->id();
+
+            $table->bigInteger('subject_book_id')->index();
+            $table->integer('topic_index');
+            $table->string('topic');
+
             $table->timestamps();
         });
     }
@@ -26,6 +31,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('student_photos');
+        Schema::dropIfExists('subject_book_topics');
     }
 };

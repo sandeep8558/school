@@ -13,13 +13,13 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('grade_subject_book_subtopics', function (Blueprint $table) {
+        Schema::create('subject_book_subtopics', function (Blueprint $table) {
             $table->id();
 
-            $table->bigInteger('grade_subject_book_topic_id')->index();
+            $table->bigInteger('subject_book_topic_id')->index();
             $table->integer('subtopic_index');
             $table->string('subtopic');
-            
+
             $table->timestamps();
         });
     }
@@ -31,6 +31,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('grade_subject_book_subtopics');
+        Schema::dropIfExists('subject_book_subtopics');
     }
 };

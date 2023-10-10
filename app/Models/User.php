@@ -7,6 +7,8 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use Auth;
+use App\Models\UserRole;
 
 class User extends Authenticatable
 {
@@ -19,8 +21,14 @@ class User extends Authenticatable
      */
     protected $fillable = [
         'name',
+        'mobile',
         'email',
         'password',
+
+        'branch_id',
+        'api_token',
+        'token_expire_at',
+        'otp',
     ];
 
     /**
@@ -43,63 +51,69 @@ class User extends Authenticatable
     ];
 
 
+    
+    public function user_roles(){
+        return $this->hasMany('App\Models\UserRole');
+    }
+
+    public function branch(){
+        return $this->belongsTo(Branch::class);
+    }
+
+    protected $appends = ['roles'];
+
+    public function getRolesAttribute(){
+        return implode(', ', $this->user_roles()->pluck('role')->toArray());
+    }
+
+
     /* Function to check role Accountant */
     public function isAccountant(){
-        $check = $this->whereHas('user_roles', function($q){
-            $q->where('role', 'Accountant');
-        })->exists();
-        return $check;
+        $id = Auth::id();
+        $c = UserRole::where('user_id', $id)->where('role', 'Accountant')->count();
+        return $c > 0 ? true :false;
     }
 
     /* Function to check role Administrator */
     public function isAdministrator(){
-        $check = $this->whereHas('user_roles', function($q){
-            $q->where('role', 'Administrator');
-        })->exists();
-        return $check;
+        $id = Auth::id();
+        $c = UserRole::where('user_id', $id)->where('role', 'Administrator')->count();
+        return $c > 0 ? true :false;
     }
 
     /* Function to check role Branch Administrator */
     public function isBranchAdministrator(){
-        $check = $this->whereHas('user_roles', function($q){
-            $q->where('role', 'Branch Administrator');
-        })->exists();
-        return $check;
+        $id = Auth::id();
+        $c = UserRole::where('user_id', $id)->where('role', 'Branch Administrator')->count();
+        return $c > 0 ? true :false;
     }
 
     /* Function to check role Head */
     public function isHead(){
-        $check = $this->whereHas('user_roles', function($q){
-            $q->where('role', 'Head');
-        })->exists();
-        return $check;
+        $id = Auth::id();
+        $c = UserRole::where('user_id', $id)->where('role', 'Head')->count();
+        return $c > 0 ? true :false;
     }
 
     /* Function to check role Principal */
     public function isPrincipal(){
-        $check = $this->whereHas('user_roles', function($q){
-            $q->where('role', 'Principal');
-        })->exists();
-        return $check;
+        $id = Auth::id();
+        $c = UserRole::where('user_id', $id)->where('role', 'Principal')->count();
+        return $c > 0 ? true :false;
     }
 
     /* Function to check role Student */
     public function isStudent(){
-        $check = $this->whereHas('user_roles', function($q){
-            $q->where('role', 'Student');
-        })->exists();
-        return $check;
+        $id = Auth::id();
+        $c = UserRole::where('user_id', $id)->where('role', 'Student')->count();
+        return $c > 0 ? true :false;
     }
 
     /* Function to check role Teacher */
     public function isTeacher(){
-        $check = $this->whereHas('user_roles', function($q){
-            $q->where('role', 'Teacher');
-        })->exists();
-        return $check;
+        $id = Auth::id();
+        $c = UserRole::where('user_id', $id)->where('role', 'Teacher')->count();
+        return $c > 0 ? true :false;
     }
 
-    public function user_roles(){
-        return $this->hasMany('App\Models\UserRole');
-    }
 }

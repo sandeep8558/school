@@ -51,43 +51,6 @@ Route::middleware('auth')->group(function () {
     Route::post('/crud/delete', [CrudController::class, 'delete'])->name('crud.delete');
 });
 
-/* This route redirects to users Dashboard as per role */
-Route::get('/role-splitter', function(){
-
-    $user = User::with('user_roles')->find(Auth::id());
-
-    if($user->user_roles->count() > 0){
-        $role = $user->user_roles[0]->role;
-        switch($role){
-            case "Accountant":
-            return redirect('/dashboard-accountant');
-            break;
-            case "Administrator":
-            return redirect('/dashboard_administrator');
-            break;
-            case "Branch Administrator":
-            return redirect('/dashboard-branch-administrator');
-            break;
-            case "Head":
-            return redirect('/dashboard-head');
-            break;
-            case "Principal":
-            return redirect('/dashboard-principal');
-            break;
-            case "Student":
-            return redirect('/dashboard-student');
-            break;
-            case "Teacher":
-            return redirect('/dashboard-teacher');
-            break;
-        }
-    } else {
-        Auth::logout();
-        return redirect('/');
-    }
-
-})->middleware(['auth', 'verified']);
-
 require __DIR__.'/auth.php';
 
 require __DIR__.'/_accountant.php';
@@ -103,6 +66,61 @@ require __DIR__.'/_principal.php';
 require __DIR__.'/_student.php';
 
 require __DIR__.'/_teacher.php';
+
+
+
+
+
+/* This route redirects to users Dashboard as per role */
+Route::get('/role_splitter', function(){
+
+    $user = User::with('user_roles')->find(Auth::id());
+
+    if($user->user_roles->count() > 0){
+
+        $role = $user->user_roles[0]->role;
+
+        switch($role){
+            
+            case "Accountant":
+            return redirect('/dashboard_accountant');
+            break;
+            
+            case "Administrator":
+            return redirect('/dashboard_administrator');
+            break;
+            
+            case "Branch Administrator":
+            return redirect('/dashboard_branch_administrator');
+            break;
+            
+            case "Head":
+            return redirect('/dashboard_head');
+            break;
+            
+            case "Principal":
+            return redirect('/dashboard_principal');
+            break;
+            
+            case "Student":
+            return redirect('/dashboard_student');
+            break;
+            
+            case "Teacher":
+            return redirect('/dashboard_teacher');
+            break;
+
+            default:
+            Auth::logout();
+            return redirect('/');
+        }
+
+    } else {
+        Auth::logout();
+        return redirect('/');
+    }
+
+})->middleware(['auth', 'verified']);
 
 
 View::composer(['*'], function($view){

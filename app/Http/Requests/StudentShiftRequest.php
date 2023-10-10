@@ -24,6 +24,7 @@ class StudentShiftRequest extends FormRequest
     public function rules()
     {
         return [
+            'branch_id' => 'required',
             'name' => 'required',
             'from' => 'required',
             'to' => 'required'

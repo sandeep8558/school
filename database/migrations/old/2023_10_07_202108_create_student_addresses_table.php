@@ -13,12 +13,15 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('grade_subject_remarks', function (Blueprint $table) {
+        Schema::create('student_addresses', function (Blueprint $table) {
             $table->id();
 
-            $table->bigInteger('grade_subject_id')->index();
-            $table->string('code', 35);
-            $table->string('remark');
+            $table->bigInteger('student_id')->index();
+            $table->string('address');
+            $table->string('city', 65);
+            $table->string('pincode', 12);
+            $table->string('state', 65);
+            $table->string('country', 65);
 
             $table->timestamps();
         });
@@ -31,6 +34,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('grade_subject_remarks');
+        Schema::dropIfExists('student_addresses');
     }
 };

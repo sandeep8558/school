@@ -5,16 +5,18 @@ import { Head, Link, useForm } from '@inertiajs/vue3';
 export default {
     props: {
         errors: Object,
-        classrooms: Object,
+        staff_shifts: Object,
     },
 
     data: function () {
         return {
             isForm: false,
             form: useForm({
+                branch_id: this.$page.props.gbranch ? this.$page.props.gbranch.id : null,
                 id: null,
                 name: null,
-                capacity: null,
+                from: null,
+                to: null,
             }),
         };
     },
@@ -22,7 +24,7 @@ export default {
     methods: {
 
         save(){
-            this.form.post('/school_bootstrap/save_classroom', {
+            this.form.post('/branch_bootstrap/save_staff_shift', {
                 onSuccess: data => {
                     if(this.form.id != null){
                         this.isForm = false;
@@ -32,18 +34,19 @@ export default {
             });
         },
 
-        editRow(classroom){
-            this.form.id = classroom.id;
-            this.form.name = classroom.name;
-            this.form.capacity = classroom.capacity;
+        editRow(staff_shift){
+            this.form.id = staff_shift.id;
+            this.form.name = staff_shift.name;
+            this.form.from = staff_shift.from;
+            this.form.to = staff_shift.to;
             this.isForm = true;
         },
 
-        deleteRow(classroom){
+        deleteRow(staff_shift){
 
             this.$swal.fire({
                 title: "Warning",
-                text: "Do you want to delete this classroom?",
+                text: "Do you want to delete this staff shift?",
                 showCancelButton: true,
                 showConfirmButton: true,
                 cancelButtonText: 'No',
@@ -51,13 +54,14 @@ export default {
             }).then((e) => {
                 if(e.isConfirmed){
 
-                    this.form.id = classroom.id;
-                    this.form.name = classroom.name;
-                    this.form.capacity = classroom.capacity;
+                    this.form.id = staff_shift.id;
+                    this.form.name = staff_shift.name;
+                    this.form.from = staff_shift.from;
+                    this.form.to = staff_shift.to;
 
-                    this.form.post('/school_bootstrap/delete_classroom', {
-                        onFinish: data => {
-                            //this.form.reset();
+                    this.form.post('/branch_bootstrap/delete_staff_shift', {
+                        onSuccess: data => {
+                            this.form.reset();
                         }
                     });
 
@@ -77,7 +81,7 @@ export default {
 
 <template>
 
-    <Head title="Classroom" />
+    <Head title="Staff Shift" />
 
     <Administrator>
 
@@ -86,11 +90,11 @@ export default {
             <div class="w-full">
 
                 <div class="mb-6 flex items-center">
-                    <h2 class="text-2xl font-bold w-full">Classroom Manager</h2>
+                    <h2 class="text-2xl font-bold w-full">Staff Shift Manager</h2>
                     <div class="w-80">
                         <button class="btn float-right" :class="isForm ? 'btn-red' : 'btn-orange'" @click="isForm = !isForm;">
                             <span class="inline-block mr-3"> {{ isForm ? 'X' : '+' }} </span>
-                            <span>{{ isForm ? 'Close Form' : 'Add Classroom' }}</span>
+                            <span>{{ isForm ? 'Close Form' : 'Add Staff Shift' }}</span>
                         </button>
                     </div>
                 </div>
@@ -98,28 +102,48 @@ export default {
                 <div v-if="isForm" class="form-box bg-white" id="branchForm">
 
                     <div class="w-full mb-5">
-                        <h2 class="text-2xl font-bold uppercase py-6 text-left">Add Classroom Here!</h2>
+                        <h2 class="text-2xl font-bold uppercase py-6 text-left">Add Staff Shift Here!</h2>
+                    </div>
+
+                    <div class="w-full mb-5">
+                        <div class="relative">
+                            <select id="floating_outlined" class="peer floating-inp" v-model="form.branch_id" placeholder="" :readonly="true">
+                                <template v-if="$page.props.gbranch != null">
+                                    <option :value="$page.props.gbranch.id">{{ $page.props.gbranch.name }}</option>
+                                </template>
+                            </select>
+                            <label for="floating_outlined" class="floating-lbl">Branch</label>
+                        </div>
+                        <span v-if="errors" class="text-sm text-red-500">{{ errors.branch_id }}</span>
                     </div>
 
                     <div class="w-full mb-5">
                         <div class="relative">
                             <input type="text" id="floating_outlined" class="peer floating-inp" v-model="form.name" placeholder="" />
-                            <label for="floating_outlined" class="floating-lbl">Classroom Name</label>
+                            <label for="floating_outlined" class="floating-lbl">Staff Shift Name</label>
                         </div>
                         <span v-if="errors" class="text-sm text-red-500">{{ errors.name }}</span>
                     </div>
 
                     <div class="w-full mb-5">
                         <div class="relative">
-                            <input type="text" id="floating_outlined" class="peer floating-inp" v-model="form.capacity" placeholder="" />
-                            <label for="floating_outlined" class="floating-lbl">Classroom Capacity</label>
+                            <input type="time" id="floating_outlined" class="peer floating-inp" v-model="form.from" placeholder="" />
+                            <label for="floating_outlined" class="floating-lbl">From Time</label>
                         </div>
-                        <span v-if="errors" class="text-sm text-red-500">{{ errors.capacity }}</span>
+                        <span v-if="errors" class="text-sm text-red-500">{{ errors.from }}</span>
+                    </div>
+
+                    <div class="w-full mb-5">
+                        <div class="relative">
+                            <input type="time" id="floating_outlined" class="peer floating-inp" v-model="form.to" placeholder="" />
+                            <label for="floating_outlined" class="floating-lbl">To Time</label>
+                        </div>
+                        <span v-if="errors" class="text-sm text-red-500">{{ errors.to }}</span>
                     </div>
 
                     <div class="w-full">
                         <button :disabled="form.processing" @click="save()" class="btn btn-purple disabled:btn-red">
-                            {{ form.id == null ? 'Add Classroom' : 'Update Classroom' }}
+                            {{ form.id == null ? 'Add Staff Shift' : 'Update Staff Shift' }}
                         </button>
                     </div>
 
@@ -127,21 +151,21 @@ export default {
 
                 <hr class="">
 
-                <div v-for="classroom in classrooms" :key="classroom.id" class="w-full p-6 odd:bg-gray-200 border rounded-md shadow-sm">
+                <div v-for="staff_shift in staff_shifts" :key="staff_shift.id" class="w-full p-6 odd:bg-gray-200 border rounded-md shadow-sm">
 
                     <div  class="flex space-x-10 items-center">
                         <div class="w-full">
-                            <h1 class="text-xl font-bold">{{classroom.name}} - {{ classroom.capacity }}</h1>
+                            <h1 class="text-xl font-bold">{{staff_shift.name}}: {{ staff_shift.from }} - {{ staff_shift.to }}</h1>
                         </div>
                         <div class="w-80 text-right">
 
-                            <button @click="editRow(classroom)" class="btn btn-orange px-2 mr-1">
+                            <button @click="editRow(staff_shift)" class="btn btn-orange px-2 mr-1">
                                 <svg class="w-4 h-4 stroke-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 21 21">
                                     <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M7.418 17.861 1 20l2.139-6.418m4.279 4.279 10.7-10.7a3.027 3.027 0 0 0-2.14-5.165c-.802 0-1.571.319-2.139.886l-10.7 10.7m4.279 4.279-4.279-4.279m2.139 2.14 7.844-7.844m-1.426-2.853 4.279 4.279"/>
                                 </svg>
                             </button>
 
-                            <button @click="deleteRow(classroom)" class="btn btn-red px-2">
+                            <button @click="deleteRow(staff_shift)" class="btn btn-red px-2">
                                 <svg class="w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 20">
                                     <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M1 5h16M7 8v8m4-8v8M7 1h4a1 1 0 0 1 1 1v3H6V2a1 1 0 0 1 1-1ZM3 5h12v13a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V5Z"/>
                                 </svg>
@@ -155,6 +179,7 @@ export default {
             </div>
 
         </div>
+
 
     </Administrator>
 

@@ -13,14 +13,13 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('grade_subjects', function (Blueprint $table) {
+        Schema::create('student_branches', function (Blueprint $table) {
             $table->id();
 
-            $table->bigInteger('grade_id')->index();
-            $table->bigInteger('subject_id')->index();
-            $table->integer('lectures_per_week');
-            $table->set('is_consecutive', ['Yes', 'No', 'Any']);
-            $table->set('is_graded', ['Yes', 'No']);
+            $table->bigInteger('student_id')->index();
+            $table->bigInteger('branch_id')->index();
+            $table->date('from')->nullable();
+            $table->date('to')->nullable();
 
             $table->timestamps();
         });
@@ -33,6 +32,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('grade_subjects');
+        Schema::dropIfExists('student_branches');
     }
 };

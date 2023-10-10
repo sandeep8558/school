@@ -32,6 +32,12 @@ class GradeManagerController extends Controller
         return Inertia::render('Administrator/GradeManager/Grades', compact('sections'));
     }
 
+    /* Subject Group Page */
+    public function subject_group(){
+        $sections = Section::select('id', 'name as text')->get();
+        return Inertia::render('Administrator/GradeManager/SubjectGroup', compact('sections'));
+    }
+
     /* Grade Subjectt Page */
     public function grade_subjects(){
         $grades = Grade::select('id', 'name as text')->get();

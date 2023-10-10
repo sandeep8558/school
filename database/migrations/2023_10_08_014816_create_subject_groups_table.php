@@ -13,13 +13,13 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('grade_subject_book_topics', function (Blueprint $table) {
+        Schema::create('subject_groups', function (Blueprint $table) {
             $table->id();
 
-            $table->bigInteger('grade_subject_book_id')->index();
-            $table->integer('topic_index');
-            $table->string('topic');
-            
+            $table->bigInteger('grade_id')->index();
+            $table->string('name');
+            $table->set('least', [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20]);
+
             $table->timestamps();
         });
     }
@@ -31,6 +31,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('grade_subject_book_topics');
+        Schema::dropIfExists('subject_groups');
     }
 };

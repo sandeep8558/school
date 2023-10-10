@@ -13,12 +13,13 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('divisions', function (Blueprint $table) {
+        Schema::create('student_guardians', function (Blueprint $table) {
             $table->id();
 
-            $table->string('name');
-            $table->integer('strength');
-
+            $table->bigInteger('student_id')->index();
+            $table->string('document_name');
+            $table->text('document');
+            
             $table->timestamps();
         });
     }
@@ -30,6 +31,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('divisions');
+        Schema::dropIfExists('student_guardians');
     }
 };

@@ -5,8 +5,6 @@ use Inertia\Inertia;
 
 Route::middleware(['auth','verified', 'branchadministrator'])->group(function () {
 
-    Route::get('/dashboard-branch-administrator', function(){
-        return Inertia::render('Dashboard');
-    });
+    Route::get('/dashboard_branch_administrator', [App\Http\Controllers\BranchAdministratorController::class, 'dashboard_branch_administrator']);
 
 });

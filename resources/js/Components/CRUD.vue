@@ -1,5 +1,6 @@
 <script>
 import { useForm, router } from '@inertiajs/vue3';
+import {  Link } from '@inertiajs/vue3';
 
 export default {
     
@@ -25,13 +26,15 @@ export default {
             next_page_url: null,
             prev_page_url: null,
             current_page: 1,
+            buttons: [],
+            where: '',
         };
     },
 
     methods: {
 
         getData(page = 1){
-            let url = '/crud/index?model=' + this.crud.model + '&kuthe=' + this.search.kuthe + '&kay=' + this.search.kay + '&shodha=' + this.search.shodha + '&page=' + page + '&rows=' + this.search.rows + '&order_by=' + this.search.order_by + '&order=' + this.search.order + '&with=' + this.crud.with;
+            let url = '/crud/index?model=' + this.crud.model + '&kuthe=' + this.search.kuthe + '&kay=' + this.search.kay + '&shodha=' + this.search.shodha + '&page=' + page + '&rows=' + this.search.rows + '&order_by=' + this.search.order_by + '&order=' + this.search.order + '&with=' + this.crud.with + '&where=' + this.where;
             fetch(url).then(data => {
                 data.json().then((ddd) => {
                     this.next_page_url = ddd.next_page_url;
@@ -58,7 +61,7 @@ export default {
             let a = val.split(",")
             let b = row;
             a.forEach(d => {
-                b = b[d];
+                b = b != null ? b[d] : null;
             });
             return b;
         },
@@ -141,6 +144,15 @@ export default {
             this.form[field] = e.target.files[0];
         },
 
+        setURL(str, row){
+            let a = str.match(/{([^}]+)}/);
+            if(a != null){
+                str = str.replaceAll(a[0], row[a[1]]);
+            }
+            
+            return str;
+        },
+
     },
 
     computed: {
@@ -153,6 +165,8 @@ export default {
 
         this.title = this.crud.title != null && this.crud.title;
 
+        this.where = this.crud.where;
+
         this.setItems();
 
         this.getData();
@@ -160,9 +174,14 @@ export default {
     },
 
     mounted: function() {
+        if (this.crud.buttons != undefined && this.crud.buttons != null && this.crud.buttons != ''){
+            this.buttons = this.crud.buttons;
+        }
+
+        
     },
 
-    components: { }
+    components: { Link }
 }
 </script>
 
@@ -324,9 +343,14 @@ export default {
                                 </td>
                             </template>
 
-                            <td class="p-3 text-right text-sm text-gray-700 whitespace-nowrap">
+                            <td class="p-3 text-right text-sm text-gray-700 whitespace-nowrap items-start relative">
+
+                                <template v-for="btn in buttons" :key="btn.text">
+                                    <Link :href="setURL(btn.route, row)" class="btn btn-purple px-2 py-2 text-xs mr-1 relative"><span>{{ btn.text }}</span></Link>
+                                </template>
                                 
-                                <button @click="editRow(row)" class="btn btn-orange px-2 mr-1">
+                                
+                                <button @click="editRow(row)" class="btn btn-orange px-2 mr-1 relative">
                                     <svg class="w-4 h-4 stroke-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 21 21">
                                         <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M7.418 17.861 1 20l2.139-6.418m4.279 4.279 10.7-10.7a3.027 3.027 0 0 0-2.14-5.165c-.802 0-1.571.319-2.139.886l-10.7 10.7m4.279 4.279-4.279-4.279m2.139 2.14 7.844-7.844m-1.426-2.853 4.279 4.279"/>
                                     </svg>

@@ -4,6 +4,7 @@ import { Head, useForm } from '@inertiajs/vue3';
 
 const form = useForm({
     name: '',
+    mobile: '',
     email: '',
     password: '',
     password_confirmation: '',
@@ -28,6 +29,9 @@ const submit = () => {
 
             <input type="text" id="name" v-model="form.name" autofocus autocomplete="name" placeholder="Name" class="w-full rounded-md border-1 focus:border-2 border-purple-500 focus:border-purple-500 focus:ring-0">
             <span class="block px-3 mt-1 mb-4 text-left text-xs text-red-600">{{ form.errors.name }}</span>
+
+            <input type="text" id="mobile" v-model="form.mobile" autofocus autocomplete="username" placeholder="Mobile Number" class="w-full rounded-md border-1 focus:border-2 border-purple-500 focus:border-purple-500 focus:ring-0">
+            <span class="block px-3 mt-1 mb-4 text-left text-xs text-red-600">{{ form.errors.mobile }}</span>
 
             <input type="email" id="email" v-model="form.email" autofocus autocomplete="username" placeholder="Email Address" class="w-full rounded-md border-1 focus:border-2 border-purple-500 focus:border-purple-500 focus:ring-0">
             <span class="block px-3 mt-1 mb-4 text-left text-xs text-red-600">{{ form.errors.email }}</span>

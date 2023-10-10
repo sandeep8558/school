@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Inertia\Middleware;
 use Tightenco\Ziggy\Ziggy;
 use App\Models\Setting;
+use App\Models\Branch;
 
 class HandleInertiaRequests extends Middleware
 {
@@ -33,9 +34,19 @@ class HandleInertiaRequests extends Middleware
     {
         config('APP_NAME','My Application');
 
-        Setting::all();
+        $branch = null;
+        if($request->user()){
+            if($request->user()->branch_id != null && $request->user()->branch_id != '') {
+                $branch = Branch::find($request->user()->branch_id);
+            }
+        }
+
+        $branches = Branch::count() > 0 ? Branch::get() : null;
+        
 
         return array_merge(parent::share($request), [
+            'gbranches' => $branches,
+            'gbranch' => $branch,
             'auth' => [
                 'user' => $request->user(),
             ],

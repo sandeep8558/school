@@ -16,6 +16,7 @@ return new class extends Migration
         Schema::create('houses', function (Blueprint $table) {
             $table->id();
 
+            $table->bigInteger('branch_id')->index();
             $table->string('name');
             
             $table->timestamps();

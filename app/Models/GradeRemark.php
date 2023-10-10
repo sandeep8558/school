@@ -10,8 +10,4 @@ class GradeRemark extends Model
     use HasFactory;
 
     protected $fillable = ['grade_id','code','remark'];
-
-    public function grade(){
-        return $this->belongsTo('App\Models\Grade');
-    }
 }
