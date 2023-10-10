@@ -1,6 +1,6 @@
 <script>
 import Administrator from '@/Layouts/Administrator.vue';
-import { Head, Link } from '@inertiajs/vue3';
+import { Head, Link, useForm } from '@inertiajs/vue3';
 
 import CRUD from '@/Components/CRUD.vue';
 
@@ -15,14 +15,14 @@ export default {
         return {
 
             crud : {
-                title: 'Grade Remarks',
-                model: 'GradeRemark',
+                title: 'Subject Book Topic Manager',
+                model: 'SubjectBookTopic',
                 files: '',
                 data: null,
                 rows: 10,
                 orderBy: 'id',
                 order: 'desc',
-                with: 'grade,section',
+                with: 'grade,subject,subject_group,subject_book',
                 table: [
                     {
                         field: 'id',
@@ -36,6 +36,8 @@ export default {
                         colWidth: 'w-20',
                         fieldWidth: 'w-full' 
                     },
+
+
                     {
                         field:'section_id',
                         text:'Section name',
@@ -43,8 +45,7 @@ export default {
                         value:null,
                         values:this.sections,
                         validation:'required',
-                        display:true,
-                        display_value: 'section,name',
+                        display:false,
                         isForm:true,
                         isSearch:true,
                         colWidth:'w-auto',
@@ -65,8 +66,50 @@ export default {
                         fieldWidth:'w-full'
                     },
                     {
-                        field:'code',
-                        text:'Remark Code',
+                        field:'subject_group_id',
+                        text:'Subject Group',
+                        type:'select',
+                        value:null,
+                        values:[],
+                        validation:'required',
+                        display:true,
+                        display_value: 'subject_group,name',
+                        isForm:true,
+                        isSearch:true,
+                        colWidth:'w-auto',
+                        fieldWidth:'w-full'
+                    },
+                    {
+                        field:'subject_in_group_id',
+                        text:'Subject',
+                        type:'select',
+                        value:null,
+                        values:[],
+                        validation:'required',
+                        display:true,
+                        display_value: 'subject,name',
+                        isForm:true,
+                        isSearch:false,
+                        colWidth:'w-auto',
+                        fieldWidth:'w-full'
+                    },
+                    {
+                        field:'subject_book_id',
+                        text:'Subject Book',
+                        type:'select',
+                        value:null,
+                        values:[],
+                        validation:'required',
+                        display:true,
+                        display_value: 'subject_book,book_title',
+                        isForm:true,
+                        isSearch:true,
+                        colWidth:'w-auto',
+                        fieldWidth:'w-full'
+                    },
+                    {
+                        field:'topic_index',
+                        text:'Topic Index No',
                         type:'text',
                         value:null,
                         validation:'required',
@@ -77,8 +120,8 @@ export default {
                         fieldWidth:'w-full'
                     },
                     {
-                        field:'remark',
-                        text:'Remark',
+                        field:'topic',
+                        text:'Topic Name',
                         type:'text',
                         value:null,
                         validation:'required',
@@ -103,6 +146,21 @@ export default {
                 this.crud.table[2].values = await a.json();
                 this.crud.table[2].value = null;
             }
+            if(e.key == 'grade_id'){
+                let a = await fetch('/grade_manager/fetch/subject_group/' + e.val);
+                this.crud.table[3].values = await a.json();
+                this.crud.table[3].value = null;
+            }
+            if(e.key == 'subject_group_id'){
+                let a = await fetch('/grade_manager/fetch/subject_in_group/' + e.val);
+                this.crud.table[4].values = await a.json();
+                this.crud.table[4].value = null;
+            }
+            if(e.key == 'subject_in_group_id'){
+                let a = await fetch('/grade_manager/fetch/subject_book/' + e.val);
+                this.crud.table[5].values = await a.json();
+                this.crud.table[5].value = null;
+            }
         },
 
         init(){
@@ -124,11 +182,11 @@ export default {
 
 <template>
 
-    <Head title="Grade Remark" />
+    <Head title="Bookk Topics" />
 
     <Administrator>
 
-        <CRUD :crud="crud" @onChange="change($event)"></CRUD>
+        <CRUD @onChange="change($event)" :crud="crud"></CRUD>
 
     </Administrator>
 

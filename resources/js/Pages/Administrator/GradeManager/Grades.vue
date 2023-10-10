@@ -22,6 +22,7 @@ export default {
                 orderBy: 'id',
                 order: 'desc',
                 with: 'section',
+                whereHas: null,
                 table: [
                     {
                         field: 'id',
@@ -91,9 +92,18 @@ export default {
     },
 
     methods: {
+
+        init(){
+            this.crud.whereHas = this.$page.props.gbranch ? 'section,branch_id,' + this.$page.props.gbranch.id : null;
+        },
+
     },
 
     mounted: function() {
+    },
+
+    created: function() {
+        this.init();
     },
 
     components: { Administrator, Head, Link, CRUD }

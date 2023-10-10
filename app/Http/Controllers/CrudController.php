@@ -68,6 +68,16 @@ class CrudController extends Controller
             }
         }
 
+        if(isset($request->whereHas)){
+            $w = explode(',', $request->whereHas);
+            $s = sizeof($w);
+            if($s == 3){
+                $query = $query->whereHas($w[0], function($q) use($w){
+                    $q->where($w[1], $w[2]);
+                });
+            }
+        }
+
 
         $data = $query->simplePaginate($request->rows);
         return $data;

@@ -1,6 +1,6 @@
 <script>
 import Administrator from '@/Layouts/Administrator.vue';
-import { Head, Link, useForm } from '@inertiajs/vue3';
+import { Head, Link } from '@inertiajs/vue3';
 
 import CRUD from '@/Components/CRUD.vue';
 
@@ -8,21 +8,22 @@ export default {
     
     props: {
         errors: Object,
-        grades: Object,
+        sections: Object,
+        subjects: Object,
     },
 
     data: function () {
         return {
-
             crud : {
-                title: 'Grade Subject Book Topic Manager',
-                model: 'GradeSubjectBookTopic',
+                title: 'Subject In Group Manager',
+                model: 'SubjectInGroup',
                 files: '',
                 data: null,
                 rows: 10,
                 orderBy: 'id',
                 order: 'desc',
-                with: 'grade_subject_book,grade,subject',
+                with: 'section,grade,subject_group,subject',
+                whereHas: '',
                 table: [
                     {
                         field: 'id',
@@ -37,89 +38,100 @@ export default {
                         fieldWidth: 'w-full' 
                     },
                     {
+                        field:'section_id',
+                        text:'Section name',
+                        type:'select',
+                        value:null,
+                        values:this.sections,
+                        validation:'required',
+                        display:true,
+                        display_value: 'section,name',
+                        isForm:true,
+                        isSearch:true,
+                        colWidth:'w-auto',
+                        fieldWidth:'w-full'
+                    },
+                    {
                         field:'grade_id',
                         text:'Grade',
                         type:'select',
                         value:null,
-                        values:this.grades,
+                        values:[],
                         validation:'required',
-                        display:false,
+                        display:true,
+                        display_value: 'grade,name',
                         isForm:true,
-                        isSearch:false,
+                        isSearch:true,
                         colWidth:'w-auto',
                         fieldWidth:'w-full'
                     },
                     {
-                        field:'grade_subject_id',
-                        text:'Grade Subject',
-                        type:'select',
-                        value:null,
-                        values: [],
-                        validation:'required',
-                        display:false,
-                        isForm:true,
-                        isSearch:false,
-                        colWidth:'w-auto',
-                        fieldWidth:'w-full'
-                    },
-                    {
-                        field:'grade_subject_book_id',
-                        text:'Grade Subject Book',
+                        field:'subject_group_id',
+                        text:'Subject Group',
                         type:'select',
                         value:null,
                         values:[],
                         validation:'required',
-                        display:false,
+                        display:true,
+                        display_value: 'subject_group,name',
                         isForm:true,
-                        isSearch:false,
+                        isSearch:true,
+                        colWidth:'w-auto',
+                        fieldWidth:'w-full'
+                    },
+                    {
+                        field:'subject_id',
+                        text:'Subject',
+                        type:'select',
+                        value:null,
+                        values:this.subjects,
+                        validation:'required',
+                        display:true,
+                        display_value: 'subject,name',
+                        isForm:true,
+                        isSearch:true,
+                        colWidth:'w-auto',
+                        fieldWidth:'w-full'
+                    },
+                    {
+                        field: 'lectures_per_week',
+                        text: 'Lectures per week',
+                        type: 'text',
+                        value: '',
+                        validation: '',
+                        display: true,
+                        isForm: true,
+                        isSearch: true,
+                        colWidth: 'w-20',
+                        fieldWidth: 'w-full' 
+                    },
+                    {
+                        field:'is_consecutive',
+                        text:'Is Cosecutive',
+                        type:'select',
+                        value:null,
+                        values:[
+                            {id: 'Yes', text: 'Yes'},
+                            {id: 'No', text: 'No'},
+                            {id: 'Any', text: 'Any'},
+                        ],
+                        validation:'required',
+                        display:true,
+                        isForm:true,
+                        isSearch:true,
                         colWidth:'w-auto',
                         fieldWidth:'w-full'
                     },
 
                     {
-                        field: 'grade',
-                        text: 'Grade.',
-                        type: 'text',
-                        value: '',
-                        validation: '',
-                        display: true,
-                        display_value: 'grade,name',
-                        isForm: false,
-                        isSearch: true,
-                        colWidth: 'w-20',
-                        fieldWidth: 'w-full' 
-                    },
-                    {
-                        field: 'subject',
-                        text: 'Subject.',
-                        type: 'text',
-                        value: '',
-                        validation: '',
-                        display: true,
-                        display_value: 'subject,name',
-                        isForm: false,
-                        isSearch: true,
-                        colWidth: 'w-20',
-                        fieldWidth: 'w-full' 
-                    },
-                    {
-                        field: 'book_title',
-                        text: 'Book Title',
-                        type: 'text',
-                        value: '',
-                        validation: '',
-                        display: true,
-                        display_value: 'grade_subject_book,book_title',
-                        isForm: false,
-                        isSearch: true,
-                        colWidth: 'w-auto',
-                        fieldWidth: 'w-full' 
-                    },
-                    {
-                        field:'topic_index',
-                        text:'Topic Index No',
-                        type:'text',
+                        field:'is_graded',
+                        text:'Is Graded',
+                        type:'select',
                         value:null,
+                        values:[
+                            {id: 'Yes', text: 'Yes'},
+                            {id: 'No', text: 'No'},
+                        ],
                         validation:'required',
                         display:true,
                         isForm:true,
@@ -127,43 +139,38 @@ export default {
                         colWidth:'w-auto',
                         fieldWidth:'w-full'
                     },
-                    {
-                        field:'topic',
-                        text:'Topic Name',
-                        type:'text',
-                        value:null,
-                        validation:'required',
-                        display:true,
-                        isForm:true,
-                        isSearch:true,
-                        colWidth:'w-auto',
-                        fieldWidth:'w-full'
-                    },
-                    
-                    
 
                 ],
             },
-
         };
     },
 
     methods: {
 
-        async crudChange(e){
+        async change(e){
+            if(e.key == 'section_id'){
+                let a = await fetch('/grade_manager/fetch/grade/' + e.val);
+                this.crud.table[2].values = await a.json();
+                this.crud.table[2].value = null;
+            }
             if(e.key == 'grade_id'){
-                const response = await fetch('/grade_manager/fetch/grade_subject/' + e.val);
-                this.crud.table[2].values = await response.json();
+                let a = await fetch('/grade_manager/fetch/subject_group/' + e.val);
+                this.crud.table[3].values = await a.json();
+                this.crud.table[3].value = null;
             }
+        },
 
-            if(e.key == 'grade_subject_id'){
-                const response = await fetch('/grade_manager/fetch/grade_subject_book/' + e.val);
-                this.crud.table[3].values = await response.json();
-            }
-        }
+        init(){
+            this.crud.whereHas = this.$page.props.gbranch ? 'section,branch_id,' + this.$page.props.gbranch.id : null;
+        },
+
     },
 
     mounted: function() {
+    },
+
+    created: function() {
+        this.init();
     },
 
     components: { Administrator, Head, Link, CRUD }
@@ -172,11 +179,11 @@ export default {
 
 <template>
 
-    <Head title="Bookk Topics" />
+    <Head title="Grades" />
 
     <Administrator>
 
-        <CRUD @onChange="crudChange($event)" :crud="crud"></CRUD>
+        <CRUD :crud="crud" @onChange="change($event)"></CRUD>
 
     </Administrator>
 

@@ -52,21 +52,23 @@ Route::middleware(['auth','verified','administrator'])->group(function () {
     /* Grade Manager Pages */
     Route::get('/grade_manager/sections', [App\Http\Controllers\GradeManagerController::class, 'sections']);
     Route::get('/grade_manager/subjects', [App\Http\Controllers\GradeManagerController::class, 'subjects']);
+    Route::get('/grade_manager/division', [App\Http\Controllers\GradeManagerController::class, 'division']);
     Route::get('/grade_manager/grades', [App\Http\Controllers\GradeManagerController::class, 'grades']);
     Route::get('/grade_manager/subject_group', [App\Http\Controllers\GradeManagerController::class, 'subject_group']);
-
-    Route::get('/grade_manager/grade_subjects', [App\Http\Controllers\GradeManagerController::class, 'grade_subjects']);
-    Route::get('/grade_manager/grade_subject_books', [App\Http\Controllers\GradeManagerController::class, 'grade_subject_books']);
-    Route::get('/grade_manager/grade_subject_book_topics', [App\Http\Controllers\GradeManagerController::class, 'grade_subject_book_topics']);
-    Route::get('/grade_manager/grade_subject_book_topic_subtopics', [App\Http\Controllers\GradeManagerController::class, 'grade_subject_book_topic_subtopics']);
+    Route::get('/grade_manager/subject_in_group', [App\Http\Controllers\GradeManagerController::class, 'subject_in_group']);
+    Route::get('/grade_manager/subject_books', [App\Http\Controllers\GradeManagerController::class, 'subject_books']);
+    Route::get('/grade_manager/subject_book_topic', [App\Http\Controllers\GradeManagerController::class, 'subject_book_topic']);
+    Route::get('/grade_manager/subject_book_subtopic', [App\Http\Controllers\GradeManagerController::class, 'subject_book_subtopic']);
     Route::get('/grade_manager/grade_remark', [App\Http\Controllers\GradeManagerController::class, 'grade_remark']);
-    Route::get('/grade_manager/grade_subjects_remark', [App\Http\Controllers\GradeManagerController::class, 'grade_subjects_remark']);
-    Route::get('/grade_manager/division', [App\Http\Controllers\GradeManagerController::class, 'division']);
+    Route::get('/grade_manager/subjects_remark', [App\Http\Controllers\GradeManagerController::class, 'subjects_remark']);
+    
 
     /* Grade Manager API Calls */
-    Route::get('/grade_manager/fetch/grade_subject/{grade_id}', [App\Http\Controllers\GradeManagerController::class, 'fetch_grade_subject']);
-    Route::get('/grade_manager/fetch/grade_subject_book/{grade_subject_id}', [App\Http\Controllers\GradeManagerController::class, 'fetch_grade_subject_book']);
-    Route::get('/grade_manager/fetch/grade_subject_book_topic/{grade_subject_book_id}', [App\Http\Controllers\GradeManagerController::class, 'fetch_grade_subject_book_topic']);
+    Route::get('/grade_manager/fetch/grade/{section_id}', [App\Http\Controllers\GradeManagerController::class, 'fetch_grade']);
+    Route::get('/grade_manager/fetch/subject_group/{grade_id}', [App\Http\Controllers\GradeManagerController::class, 'fetch_subject_group']);
+    Route::get('/grade_manager/fetch/subject_in_group/{subject_group_id}', [App\Http\Controllers\GradeManagerController::class, 'fetch_subject_in_group']);
+    Route::get('/grade_manager/fetch/subject_book/{grade_subject_id}', [App\Http\Controllers\GradeManagerController::class, 'fetch_subject_book']);
+    Route::get('/grade_manager/fetch/subject_book_topic/{subject_book_id}', [App\Http\Controllers\GradeManagerController::class, 'fetch_subject_book_topic']);
 
 
     /* Staff Manager Pages */

@@ -28,13 +28,14 @@ export default {
             current_page: 1,
             buttons: [],
             where: '',
+            whereHas: '',
         };
     },
 
     methods: {
 
         getData(page = 1){
-            let url = '/crud/index?model=' + this.crud.model + '&kuthe=' + this.search.kuthe + '&kay=' + this.search.kay + '&shodha=' + this.search.shodha + '&page=' + page + '&rows=' + this.search.rows + '&order_by=' + this.search.order_by + '&order=' + this.search.order + '&with=' + this.crud.with + '&where=' + this.where;
+            let url = '/crud/index?model=' + this.crud.model + '&kuthe=' + this.search.kuthe + '&kay=' + this.search.kay + '&shodha=' + this.search.shodha + '&page=' + page + '&rows=' + this.search.rows + '&order_by=' + this.search.order_by + '&order=' + this.search.order + '&with=' + this.crud.with + '&where=' + this.where + '&whereHas=' + this.whereHas;
             fetch(url).then(data => {
                 data.json().then((ddd) => {
                     this.next_page_url = ddd.next_page_url;
@@ -166,6 +167,8 @@ export default {
         this.title = this.crud.title != null && this.crud.title;
 
         this.where = this.crud.where;
+
+        this.whereHas = this.crud.whereHas;
 
         this.setItems();
 
