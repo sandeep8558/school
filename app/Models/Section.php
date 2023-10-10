@@ -9,7 +9,7 @@ class Section extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['name'];
+    protected $fillable = [ 'branch_id', 'name' ];
 
     public function grades(){
         return $this->hasMany('App\Models\Grade');

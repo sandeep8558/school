@@ -155,6 +155,7 @@ export default {
                                     <span class="float-right">&#128899;</span>
                                 </a>
                                 <ul class="nav-sec-ul" v-if="ughadZap.gradeManager || $page.url.startsWith('/grade_manager')">
+                                    
                                     <li>
                                         <Link class="nav-sec-link" :class="{'active': $page.url.startsWith('/grade_manager/subjects')}" href="/grade_manager/subjects">Subjects</Link>
                                     </li>
@@ -162,8 +163,12 @@ export default {
                                         <Link class="nav-sec-link" :class="{'active': $page.url.startsWith('/grade_manager/sections')}" href="/grade_manager/sections">Sections</Link>
                                     </li>
                                     <li>
+                                        <Link class="nav-sec-link" :class="{'active': $page.url.startsWith('/grade_manager/division')}" href="/grade_manager/division">Division</Link>
+                                    </li>
+                                    <li>
                                         <Link class="nav-sec-link" :class="{'active': $page.url.startsWith('/grade_manager/grades')}" href="/grade_manager/grades">Grades</Link>
                                     </li>
+
                                     <li>
                                         <Link class="nav-sec-link" :class="{'active': $page.url.startsWith('/grade_manager/subject_group')}" href="/grade_manager/subject_group">Subject Group</Link>
                                     </li>
@@ -185,9 +190,6 @@ export default {
                                     </li>
                                     <li>
                                         <Link class="nav-sec-link" :class="{'active': $page.url.startsWith('/grade_manager/grade_subjects_remark')}" href="/grade_manager/grade_subjects_remark">Grade Subject Remarks</Link>
-                                    </li>
-                                    <li>
-                                        <Link class="nav-sec-link" :class="{'active': $page.url.startsWith('/grade_manager/division')}" href="/grade_manager/division">Division</Link>
                                     </li>
                                 </ul>
                             </li>

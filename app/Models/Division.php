@@ -9,5 +9,5 @@ class Division extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['name','strength'];
+    protected $fillable = [ 'branch_id', 'name', 'strength' ];
 }
