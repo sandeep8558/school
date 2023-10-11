@@ -36,6 +36,19 @@ export default {
                         fieldWidth:'w-full'
                     },
                     {
+                        field:'branch_id',
+                        text:'Branch',
+                        type:'select',
+                        value:'',
+                        values: [],
+                        validation:'',
+                        display:false,
+                        isForm:true,
+                        isSearch:false,
+                        colWidth:'w-20',
+                        fieldWidth:'w-full'
+                    },
+                    {
                         field:'first_name',
                         text:'First Name',
                         type:'text',
@@ -44,7 +57,7 @@ export default {
                         display:true,
                         isForm:true,
                         isSearch:true,
-                        colWidth:'w-full',
+                        colWidth:'w-auto',
                         fieldWidth:'w-1/3'
                     },
                     {
@@ -56,7 +69,7 @@ export default {
                         display:false,
                         isForm:true,
                         isSearch:true,
-                        colWidth:'w-full',
+                        colWidth:'w-auto',
                         fieldWidth:'w-1/3'
                     },
                     {
@@ -68,7 +81,7 @@ export default {
                         display:true,
                         isForm:true,
                         isSearch:true,
-                        colWidth:'w-full',
+                        colWidth:'w-auto',
                         fieldWidth:'w-1/3'
                     },
                     {
@@ -80,8 +93,8 @@ export default {
                         display:true,
                         isForm:true,
                         isSearch:true,
-                        colWidth:'w-full',
-                        fieldWidth:'w-full'
+                        colWidth:'w-auto',
+                        fieldWidth:'w-1/2'
                     },
                     {
                         field:'phone',
@@ -92,8 +105,8 @@ export default {
                         display:true,
                         isForm:true,
                         isSearch:true,
-                        colWidth:'w-full',
-                        fieldWidth:'w-full'
+                        colWidth:'w-auto',
+                        fieldWidth:'w-1/2'
                     },
                     {
                         field:'gender',
@@ -106,11 +119,11 @@ export default {
                             { id: 'Other', text: 'Other' },
                         ],
                         validation:'required',
-                        display:true,
+                        display:false,
                         isForm:true,
                         isSearch:true,
-                        colWidth:'w-full',
-                        fieldWidth:'w-full'
+                        colWidth:'w-auto',
+                        fieldWidth:'w-1/2'
                     },
                     {
                         field:'blood_group',
@@ -130,11 +143,11 @@ export default {
                             { id: 'Other', text: 'Other' },
                         ],
                         validation:'required',
-                        display:true,
+                        display:false,
                         isForm:true,
                         isSearch:true,
-                        colWidth:'w-full',
-                        fieldWidth:'w-full'
+                        colWidth:'w-auto',
+                        fieldWidth:'w-1/2'
                     },
                     {
                         field:'aadhar',
@@ -145,8 +158,8 @@ export default {
                         display:false,
                         isForm:true,
                         isSearch:true,
-                        colWidth:'w-full',
-                        fieldWidth:'w-full'
+                        colWidth:'w-auto',
+                        fieldWidth:'w-1/2'
                     },
                     {
                         field:'pan',
@@ -157,8 +170,8 @@ export default {
                         display:false,
                         isForm:true,
                         isSearch:true,
-                        colWidth:'w-full',
-                        fieldWidth:'w-full'
+                        colWidth:'w-auto',
+                        fieldWidth:'w-1/2'
                     },
 
                     {
@@ -167,11 +180,11 @@ export default {
                         type:'date',
                         value:null,
                         validation:'required',
-                        display:true,
+                        display:false,
                         isForm:true,
                         isSearch:true,
-                        colWidth:'w-full',
-                        fieldWidth:'w-full'
+                        colWidth:'w-auto',
+                        fieldWidth:'w-1/3'
                     },
                     {
                         field:'doj',
@@ -182,8 +195,8 @@ export default {
                         display:false,
                         isForm:true,
                         isSearch:true,
-                        colWidth:'w-full',
-                        fieldWidth:'w-full'
+                        colWidth:'w-auto',
+                        fieldWidth:'w-1/3'
                     },
                     {
                         field:'doe',
@@ -194,8 +207,137 @@ export default {
                         display:false,
                         isForm:true,
                         isSearch:true,
-                        colWidth:'w-full',
-                        fieldWidth:'w-full'
+                        colWidth:'w-auto',
+                        fieldWidth:'w-1/3'
+                    },
+                    
+
+                    {
+                        field:'religion',
+                        text:'Religion',
+                        type:'select',
+                        value:null,
+                        values:[
+                            { id: 'Hindu', text: 'Hindu' },
+                            { id: 'Muslim', text: 'Muslim' },
+                            { id: 'Christian', text: 'Christian' },
+                            { id: 'Sikh', text: 'Sikh' },
+                            { id: 'Buddhist', text: 'Buddhist' },
+                            { id: 'Jain', text: 'Jain' },
+                            { id: 'Atheist', text: 'Atheist' },
+                            { id: 'Other', text: 'Other' },
+                        ],
+                        validation:'required',
+                        display:false,
+                        isForm:true,
+                        isSearch:true,
+                        colWidth:'w-auto',
+                        fieldWidth:'w-1/3'
+                    },
+                    {
+                        field:'cast',
+                        text:'Cast',
+                        type:'text',
+                        value:null,
+                        validation:'required',
+                        display:false,
+                        isForm:true,
+                        isSearch:true,
+                        colWidth:'w-auto',
+                        fieldWidth:'w-1/3'
+                    },
+                    {
+                        field:'subcast',
+                        text:'Subcast',
+                        type:'text',
+                        value:null,
+                        validation:'required',
+                        display:false,
+                        isForm:true,
+                        isSearch:true,
+                        colWidth:'w-auto',
+                        fieldWidth:'w-1/3'
+                    },
+                    
+                    {
+                        field:'marital_status',
+                        text:'Marital Status',
+                        type:'select',
+                        value:null,
+                        values:[
+                            { id: 'Married', text: 'Married' },
+                            { id: 'Widowed', text: 'Widowed' },
+                            { id: 'Separated', text: 'Separated' },
+                            { id: 'Divorced', text: 'Divorced' },
+                            { id: 'Single', text: 'Single' },
+                            { id: 'Other', text: 'Other' },
+                        ],
+                        validation:'required',
+                        display:false,
+                        isForm:true,
+                        isSearch:true,
+                        colWidth:'w-auto',
+                        fieldWidth:'w-full md:w-1/2 lg:w-1/3'
+                    },
+                    {
+                        field:'qualification',
+                        text:'Qualification',
+                        type:'select',
+                        value:null,
+                        values:[
+                            { id: 'Primary School', text: 'Primary School' },
+                            { id: 'Secondary School', text: 'Secondary School' },
+                            { id: 'High School', text: 'High School' },
+                            { id: 'Undergraduate', text: 'Undergraduate' },
+                            { id: 'Graduate', text: 'Graduate' },
+                            { id: 'Diploma', text: 'Diploma' },
+                            { id: 'Masters', text: 'Masters' },
+                            { id: 'Doctorate', text: 'Doctorate' },
+                            { id: 'Other', text: 'Other' },
+                        ],
+                        validation:'required',
+                        display:false,
+                        isForm:true,
+                        isSearch:true,
+                        colWidth:'w-auto',
+                        fieldWidth:'w-full md:w-1/2 lg:w-1/3'
+                    },
+                    {
+                        field:'degree',
+                        text:'Degree',
+                        type:'text',
+                        value:null,
+                        validation:'required',
+                        display:false,
+                        isForm:true,
+                        isSearch:true,
+                        colWidth:'w-auto',
+                        fieldWidth:'w-full md:w-1/2 lg:w-1/3'
+                    },
+
+                    {
+                        field:'mothertongue',
+                        text:'Mothertongue',
+                        type:'text',
+                        value:null,
+                        validation:'required',
+                        display:false,
+                        isForm:true,
+                        isSearch:true,
+                        colWidth:'w-auto',
+                        fieldWidth:'w-full md:w-1/2 lg:w-1/3'
+                    },
+                    {
+                        field:'nationality',
+                        text:'Nationality',
+                        type:'text',
+                        value:null,
+                        validation:'required',
+                        display:false,
+                        isForm:true,
+                        isSearch:true,
+                        colWidth:'w-auto',
+                        fieldWidth:'w-full md:w-1/2 lg:w-1/3'
                     },
                     {
                         field:'employee_code',
@@ -206,8 +348,8 @@ export default {
                         display:true,
                         isForm:true,
                         isSearch:true,
-                        colWidth:'w-full',
-                        fieldWidth:'w-full'
+                        colWidth:'w-auto',
+                        fieldWidth:'w-full md:w-1/2 lg:w-1/3'
                     },
                 ],
             },
@@ -216,9 +358,26 @@ export default {
     },
 
     methods: {
+
+        init(){
+            let gbranch = this.$page.props.gbranch;
+            if(gbranch){
+                this.crud.table[1].value = gbranch.id
+                this.crud.table[1].values = [{
+                    id: gbranch.id,
+                    text: gbranch.name
+                }];
+                this.crud.where = 'branch_id,=,'+gbranch.id;
+            }
+        },
+
     },
 
     mounted: function() {
+    },
+
+    created: function() {
+        this.init();
     },
 
     components: { Administrator, Head, Link, CRUD }

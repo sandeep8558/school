@@ -13,12 +13,13 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('staff_documents', function (Blueprint $table) {
+        Schema::create('staff_houses', function (Blueprint $table) {
             $table->id();
 
             $table->bigInteger('staff_id')->index();
-            $table->string('document_name');
-            $table->text('document');
+            $table->bigInteger('house_id')->index();
+            $table->date('from')->nullable();
+            $table->date('to')->nullable();
 
             $table->timestamps();
         });
@@ -31,6 +32,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('staff_documents');
+        Schema::dropIfExists('staff_houses');
     }
 };

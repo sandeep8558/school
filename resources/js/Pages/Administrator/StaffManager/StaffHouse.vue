@@ -8,21 +8,21 @@ export default {
     
     props: {
         errors: Object,
-        grades: Object,
+        houses: Object,
     },
 
     data: function () {
         return {
 
             crud : {
-                title: 'Staff Grade',
-                model: 'StaffGrade',
+                title: 'Staff House',
+                model: 'StaffHouse',
                 files: '',
                 data: null,
                 rows: 10,
                 orderBy: 'id',
                 order: 'desc',
-                with: 'staff,grade',
+                with: 'staff,house',
                 table: [
                     {
                         field:'id',
@@ -62,14 +62,14 @@ export default {
                         fieldWidth:'w-full'
                     },
                     {
-                        field:'grade_id',
-                        text:'Staff grade',
+                        field:'house_id',
+                        text:'Staff house',
                         type:'select',
                         value:null,
-                        values: this.grades,
+                        values: this.houses,
                         validation:'required',
                         display:true,
-                        display_value: 'grade,name',
+                        display_value: 'house,name',
                         isForm:true,
                         isSearch:true,
                         colWidth:'w-auto',

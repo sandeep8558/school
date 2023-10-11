@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class StaffGrade extends Model
 {
     use HasFactory;
+    use \Znck\Eloquent\Traits\BelongsToThrough;
 
     protected $fillable = ['staff_id','grade_id','from','to'];
 
@@ -18,4 +19,9 @@ class StaffGrade extends Model
     public function grade(){
         return $this->belongsTo(Grade::class);
     }
+
+    public function branch(){
+        return $this->belongsToThrough(Branch::class, Staff::class);
+    }
+
 }

@@ -11,6 +11,8 @@ use App\Models\StaffShift;
 use App\Models\Section;
 use App\Models\Grade;
 use App\Models\Subject;
+use App\Models\House;
+use Auth;
 
 class StaffManagerController extends Controller
 {
@@ -49,27 +51,41 @@ class StaffManagerController extends Controller
 
     /* Staff Shift Duty */
     public function staff_shift_duty(){
-        $staff_shifts = StaffShift::select('id', 'name as text')->get();
+        $branch_id = Auth::user()->branch_id;
+        $staff_shifts = StaffShift::where('branch_id', $branch_id)->select('id', 'name as text')->get();
         return Inertia::render('Administrator/StaffManager/StaffShiftDuty', compact('staff_shifts'));
     }
 
     /* Staff Section */
     public function staff_section(){
-        $sections = Section::select('id', 'name as text')->get();
+        $branch_id = Auth::user()->branch_id;
+        $sections = Section::where('branch_id', $branch_id)->select('id', 'name as text')->get();
         return Inertia::render('Administrator/StaffManager/StaffSection', compact('sections'));
     }
     
     /* Staff Grade */
     public function staff_grade(){
-        $grades = Grade::select('id', 'name as text')->get();
+        $branch_id = Auth::user()->branch_id;
+        $grades = Grade::whereHas('section', function($q) use($branch_id){
+            $q->where('branch_id', $branch_id);
+        })->select('id', 'name as text')->get();
         return Inertia::render('Administrator/StaffManager/StaffGrade', compact('grades'));
     }
     
     /* Staff Subject */
     public function staff_subject(){
-        $subjects = Subject::select('id', 'name as text')->get();
+        $branch_id = Auth::user()->branch_id;
+        $subjects = Subject::where('branch_id', $branch_id)->select('id', 'name as text')->get();
         return Inertia::render('Administrator/StaffManager/StaffSubject', compact('subjects'));
     }
+
+    /* Staff House Page*/
+    public function staff_house(){
+        $branch_id = Auth::user()->branch_id;
+        $houses = House::where('branch_id', $branch_id)->select('id', 'name as text')->get();
+        return Inertia::render('Administrator/StaffManager/StaffHouse', compact('houses'));
+    }
+    
 
     /* Template */
     public function temp(){

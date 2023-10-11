@@ -22,7 +22,7 @@ return new class extends Migration
             $table->string('pincode', 12);
             $table->string('state', 65);
             $table->string('country', 65);
-
+            
             $table->timestamps();
         });
     }

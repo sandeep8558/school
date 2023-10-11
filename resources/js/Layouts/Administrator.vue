@@ -234,8 +234,13 @@ export default {
                                     <li>
                                         <Link class="nav-sec-link" :class="{'active': $page.url.startsWith('/staff_manager/staff_subject')}" href="/staff_manager/staff_subject">Staff Subject</Link>
                                     </li>
+                                    <li>
+                                        <Link class="nav-sec-link" :class="{'active': $page.url.startsWith('/staff_manager/staff_house')}" href="/staff_manager/staff_house">Staff House</Link>
+                                    </li>
                                 </ul>
                             </li>
+
+                            
 
 
                             <!-- <li class="nav-li">

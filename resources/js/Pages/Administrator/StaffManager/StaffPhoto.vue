@@ -36,6 +36,19 @@ export default {
                         fieldWidth:'w-full'
                     },
                     {
+                        field:'full_name',
+                        text:'Name.',
+                        type:'text',
+                        value:'',
+                        validation:'',
+                        display:true,
+                        display_value: 'staff,full_name',
+                        isForm:false,
+                        isSearch:false,
+                        colWidth:'w-28',
+                        fieldWidth:'w-full'
+                    },
+                    {
                         field:'staff_id',
                         text:'Staff ID',
                         type:'text',
@@ -67,6 +80,15 @@ export default {
     },
 
     methods: {
+
+        init(){
+            this.crud.whereHas = this.$page.props.gbranch ? 'staff,branch_id,' + this.$page.props.gbranch.id : null;
+        },
+
+    },
+
+    created: function() {
+        this.init();
     },
 
     mounted: function() {

@@ -13,14 +13,14 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('staff_grades', function (Blueprint $table) {
+        Schema::create('staff_designations', function (Blueprint $table) {
             $table->id();
 
             $table->bigInteger('staff_id')->index();
-            $table->bigInteger('grade_id')->index();
+            $table->bigInteger('designation_id')->index();
             $table->date('from')->nullable();
             $table->date('to')->nullable();
-
+            
             $table->timestamps();
         });
     }
@@ -32,6 +32,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('staff_grades');
+        Schema::dropIfExists('staff_designations');
     }
 };

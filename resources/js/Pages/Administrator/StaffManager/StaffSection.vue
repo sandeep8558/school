@@ -22,7 +22,7 @@ export default {
                 rows: 10,
                 orderBy: 'id',
                 order: 'desc',
-                with: 'section',
+                with: 'staff,section',
                 table: [
                     {
                         field:'id',
@@ -33,6 +33,19 @@ export default {
                         display:true,
                         isForm:false,
                         isSearch:true,
+                        colWidth:'w-28',
+                        fieldWidth:'w-full'
+                    },
+                    {
+                        field:'full_name',
+                        text:'Name.',
+                        type:'text',
+                        value:'',
+                        validation:'',
+                        display:true,
+                        display_value: 'staff,full_name',
+                        isForm:false,
+                        isSearch:false,
                         colWidth:'w-28',
                         fieldWidth:'w-full'
                     },
@@ -94,6 +107,13 @@ export default {
     },
 
     methods: {
+        init(){
+            this.crud.whereHas = this.$page.props.gbranch ? 'staff,branch_id,' + this.$page.props.gbranch.id : null;
+        },
+    },
+
+    created: function() {
+        this.init();
     },
 
     mounted: function() {

@@ -191,6 +191,7 @@ export default {
 
 <template>
 
+<div class="w-full overflow-hidden">
     <div class="flex flex-col">
 
         <div class="mb-4 shadow border rounded-md">
@@ -385,6 +386,6 @@ export default {
         
 
     </div>
-
+</div>
 </template>
 

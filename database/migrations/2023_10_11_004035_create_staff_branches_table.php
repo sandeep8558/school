@@ -13,14 +13,14 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('staff_sections', function (Blueprint $table) {
+        Schema::create('staff_branches', function (Blueprint $table) {
             $table->id();
 
             $table->bigInteger('staff_id')->index();
-            $table->bigInteger('section_id')->index();
+            $table->bigInteger('branch_id')->index();
             $table->date('from')->nullable();
             $table->date('to')->nullable();
-
+            
             $table->timestamps();
         });
     }
@@ -32,6 +32,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('staff_sections');
+        Schema::dropIfExists('staff_branches');
     }
 };

@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class StaffSubject extends Model
 {
     use HasFactory;
+    use \Znck\Eloquent\Traits\BelongsToThrough;
 
     protected $fillable = ['staff_id','subject_id'];
 
@@ -18,4 +19,9 @@ class StaffSubject extends Model
     public function subject(){
         return $this->belongsTo(Subject::class);
     }
+
+    public function branch(){
+        return $this->belongsToThrough(Branch::class, Staff::class);
+    }
+    
 }

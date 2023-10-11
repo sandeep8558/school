@@ -82,7 +82,7 @@ Route::middleware(['auth','verified','administrator'])->group(function () {
     Route::get('/staff_manager/staff_section', [App\Http\Controllers\StaffManagerController::class, 'staff_section']);
     Route::get('/staff_manager/staff_grade', [App\Http\Controllers\StaffManagerController::class, 'staff_grade']);
     Route::get('/staff_manager/staff_subject', [App\Http\Controllers\StaffManagerController::class, 'staff_subject']);
-
+    Route::get('/staff_manager/staff_house', [App\Http\Controllers\StaffManagerController::class, 'staff_house']);
     /* Staff Manager API Calls */
     
 

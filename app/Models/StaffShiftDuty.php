@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class StaffShiftDuty extends Model
 {
     use HasFactory;
+    use \Znck\Eloquent\Traits\BelongsToThrough;
 
     protected $fillable = ['staff_id','staff_shift_id'];
 
@@ -18,4 +19,9 @@ class StaffShiftDuty extends Model
     public function staff_shift(){
         return $this->belongsTo(StaffShift::class);
     }
+
+    public function branch(){
+        return $this->belongsToThrough(Branch::class, Staff::class);
+    }
+
 }
