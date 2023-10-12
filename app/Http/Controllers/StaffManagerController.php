@@ -85,11 +85,5 @@ class StaffManagerController extends Controller
         $houses = House::where('branch_id', $branch_id)->select('id', 'name as text')->get();
         return Inertia::render('Administrator/StaffManager/StaffHouse', compact('houses'));
     }
-    
-
-    /* Template */
-    public function temp(){
-        return Inertia::render('Administrator/StaffManager/Temp');
-    }
 
 }

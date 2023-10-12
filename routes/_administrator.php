@@ -83,7 +83,15 @@ Route::middleware(['auth','verified','administrator'])->group(function () {
     Route::get('/staff_manager/staff_grade', [App\Http\Controllers\StaffManagerController::class, 'staff_grade']);
     Route::get('/staff_manager/staff_subject', [App\Http\Controllers\StaffManagerController::class, 'staff_subject']);
     Route::get('/staff_manager/staff_house', [App\Http\Controllers\StaffManagerController::class, 'staff_house']);
-    /* Staff Manager API Calls */
+
+
+    /* Student Manager Pages */
+    Route::get('/student_manager/students', [App\Http\Controllers\StudentManagerController::class, 'students']);
+    Route::get('/student_manager/student_photo', [App\Http\Controllers\StudentManagerController::class, 'student_photo']);
+    Route::get('/student_manager/student_address', [App\Http\Controllers\StudentManagerController::class, 'student_address']);
+    Route::get('/student_manager/student_document', [App\Http\Controllers\StudentManagerController::class, 'student_document']);
+    Route::get('/student_manager/student_branch', [App\Http\Controllers\StudentManagerController::class, 'student_branch']);
+    Route::get('/student_manager/student_parent', [App\Http\Controllers\StudentManagerController::class, 'student_parent']);
     
 
 });

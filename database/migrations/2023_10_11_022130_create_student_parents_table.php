@@ -13,31 +13,26 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('staff', function (Blueprint $table) {
+        Schema::create('student_parents', function (Blueprint $table) {
             $table->id();
 
-            $table->bigInteger('branch_id')->index();
+            $table->bigInteger('student_id')->index();
+            $table->set('relation', ['Father', 'Mother', 'Other']);
             $table->string('first_name', 65);
             $table->string('middle_name', 65);
             $table->string('last_name', 65);
             $table->string('email', 100);
             $table->string('phone', 12);
-            $table->date('doj')->nullable();
-            $table->date('doe')->nullable();
             $table->date('dob');
-            $table->set('gender', ['Male', 'Female', 'Other']);
-            $table->set('blood_group', ['O +ve','O -ve','A +ve','A -ve','B +ve','B -ve','AB +ve','AB -ve','HH','Other',]);
-            $table->string('aadhar', 16);
             $table->string('pan', 16);
-            $table->string('employee_code', 65)->index();
-            $table->set('religion', ['Hindu','Muslim','Christian','Sikh','Buddhist','Jain','Atheist','Other']);
-            $table->string('cast', 100)->nullable();
-            $table->string('subcast', 100)->nullable();
-            $table->string('mothertongue', 100);
-            $table->string('nationality', 100);
-            $table->set('marital_status', ['Married', 'Widowed', 'Separated', 'Divorced', 'Single', 'Other']);
+            $table->string('aadhar', 16);
             $table->set('qualification', ['Primary School','Secondary School','High School','Undergraduate','Graduate','Diploma','Masters','Doctorate','Other']);
             $table->string('degree', 100);
+            $table->string('occupation', 100);
+            $table->set('annual_income', ['below 1 Lac', '1 Lac to 5 Lac', '5 Lac to 10 Lac', '10 Lac and above']);
+            $table->string('company_name', 100);
+            $table->string('company_address');
+
 
             $table->timestamps();
         });
@@ -50,6 +45,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('staff');
+        Schema::dropIfExists('student_parents');
     }
 };
