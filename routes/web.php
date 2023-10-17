@@ -51,6 +51,9 @@ Route::middleware('auth')->group(function () {
     Route::post('/crud/delete', [CrudController::class, 'delete'])->name('crud.delete');
 });
 
+
+
+
 require __DIR__.'/auth.php';
 
 require __DIR__.'/_accountant.php';
@@ -67,6 +70,7 @@ require __DIR__.'/_student.php';
 
 require __DIR__.'/_teacher.php';
 
+require __DIR__.'/_api.php';
 
 
 

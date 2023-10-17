@@ -61,6 +61,7 @@ class HandleInertiaRequests extends Middleware
                 "logo" => $this->setting("Logo"),
                 "favicom" => $this->setting("Favicon"),
             ],
+            'csrf_token' => csrf_token(),
         ]);
     }
 

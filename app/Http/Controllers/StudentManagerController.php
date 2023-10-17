@@ -45,9 +45,4 @@ class StudentManagerController extends Controller
         return Inertia::render('Administrator/StudentManager/StudentParent');
     }
 
-    /* Template */
-    public function temp(){
-        return Inertia::render('Administrator/StudentManager/Temp');
-    }
-
 }

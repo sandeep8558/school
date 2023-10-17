@@ -16,6 +16,8 @@ return new class extends Migration
         Schema::create('students', function (Blueprint $table) {
             $table->id();
 
+            $table->bigInteger('academic_year_id')->index();
+            $table->bigInteger('grade_id')->index();
             $table->bigInteger('branch_id')->index();
             $table->bigInteger('house_id')->index()->nullable();
             $table->string('first_name', 65);
@@ -37,7 +39,6 @@ return new class extends Migration
             $table->string('nationality', 100);
             $table->string('aadhar', 16);
             $table->string('gr_number', 65)->index();
-            
 
             $table->timestamps();
         });

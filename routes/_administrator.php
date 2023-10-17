@@ -92,6 +92,28 @@ Route::middleware(['auth','verified','administrator'])->group(function () {
     Route::get('/student_manager/student_document', [App\Http\Controllers\StudentManagerController::class, 'student_document']);
     Route::get('/student_manager/student_branch', [App\Http\Controllers\StudentManagerController::class, 'student_branch']);
     Route::get('/student_manager/student_parent', [App\Http\Controllers\StudentManagerController::class, 'student_parent']);
-    
+
+
+    /* Academic Year Pages */
+    Route::get('/academic_year/year', [App\Http\Controllers\AcademicYearController::class, 'year']);
+    Route::get('/academic_year/weekoff', [App\Http\Controllers\AcademicYearController::class, 'weekoff']);
+    Route::get('/academic_year/holiday', [App\Http\Controllers\AcademicYearController::class, 'holiday']);
+    Route::get('/academic_year/halfday', [App\Http\Controllers\AcademicYearController::class, 'halfday']);
+    Route::get('/academic_year/calendar', [App\Http\Controllers\AcademicYearController::class, 'calendar']);
+
+    /* Academic Year API Calls */
+    Route::get('/academic_year/fetch/weekoff/{academic_year_id}/{grade_id}', [App\Http\Controllers\AcademicYearController::class, 'fetch_weekoff']);
+    Route::get('/academic_year/fetch/halfday/{academic_year_id}/{grade_id}', [App\Http\Controllers\AcademicYearController::class, 'fetch_halfday']);
+    Route::get('/academic_year/fetch/holiday/{academic_year_id}/{grade_id}', [App\Http\Controllers\AcademicYearController::class, 'fetch_holiday']);
+
+    Route::post('/academic_year/save_weekoff', [App\Http\Controllers\AcademicYearController::class, 'save_weekoff']);
+    Route::post('/academic_year/add_remove_weekoff', [App\Http\Controllers\AcademicYearController::class, 'add_remove_weekoff']);
+
+    Route::post('/academic_year/save_halfday', [App\Http\Controllers\AcademicYearController::class, 'save_halfday']);
+    Route::post('/academic_year/add_remove_halfday', [App\Http\Controllers\AcademicYearController::class, 'add_remove_halfday']);
+
+    Route::post('/academic_year/save_holiday', [App\Http\Controllers\AcademicYearController::class, 'save_holiday']);
+    Route::post('/academic_year/add_remove_holiday', [App\Http\Controllers\AcademicYearController::class, 'add_remove_holiday']);
+
 
 });
