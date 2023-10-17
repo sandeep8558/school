@@ -9,6 +9,8 @@ export default {
     props: {
         errors: Object,
         houses: Object,
+        grades: Object,
+        academic_years: Object,
     },
 
     data: function () {
@@ -42,7 +44,7 @@ export default {
                         type:'select',
                         value:'',
                         values: [],
-                        validation:'',
+                        validation:'required',
                         display:false,
                         isForm:true,
                         isSearch:false,
@@ -56,6 +58,32 @@ export default {
                         value:'',
                         values: this.houses,
                         validation:'',
+                        display:false,
+                        isForm:true,
+                        isSearch:false,
+                        colWidth:'w-20',
+                        fieldWidth:'w-full md:w-1/2'
+                    },
+                    {
+                        field:'academic_year_id',
+                        text:'Academice Year',
+                        type:'select',
+                        value:'',
+                        values: this.academic_years,
+                        validation:'required',
+                        display:false,
+                        isForm:true,
+                        isSearch:false,
+                        colWidth:'w-20',
+                        fieldWidth:'w-full md:w-1/2'
+                    },
+                    {
+                        field:'grade_id',
+                        text:'Grade',
+                        type:'select',
+                        value:'',
+                        values: this.grades,
+                        validation:'required',
                         display:false,
                         isForm:true,
                         isSearch:false,

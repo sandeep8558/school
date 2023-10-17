@@ -8,6 +8,8 @@ use Inertia\Inertia;
 use Auth;
 use App\Models\House;
 use App\Models\Branch;
+use App\Models\Grade;
+use App\Models\AcademicYear;
 
 class StudentManagerController extends Controller
 {
@@ -16,7 +18,11 @@ class StudentManagerController extends Controller
     public function students(){
         $branch_id = Auth::user()->branch_id;
         $houses = House::where('branch_id', $branch_id)->select('id', 'name as text')->get();
-        return Inertia::render('Administrator/StudentManager/Students', compact('houses'));
+        $academic_years = AcademicYear::where('branch_id', $branch_id)->select('id', 'name as text')->get();
+        $grades = Grade::whereHas('section', function($q) use($branch_id){
+            $q->where('branch_id', $branch_id);
+        })->select('id', 'name as text')->get();
+        return Inertia::render('Administrator/StudentManager/Students', compact('houses', 'academic_years', 'grades'));
     }
 
     /* Student Photo Page */
