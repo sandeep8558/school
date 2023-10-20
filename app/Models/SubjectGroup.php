@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class SubjectGroup extends Model
 {
+    
     use HasFactory;
     use \Znck\Eloquent\Traits\BelongsToThrough;
 
@@ -22,6 +23,10 @@ class SubjectGroup extends Model
 
     public function branch(){
         return $this->belongsToThrough(Branch::class, [Section::class, Grade::class]);
+    }
+
+    public function subject_in_groups(){
+        return $this->hasMany(SubjectInGroup::class);
     }
 
     

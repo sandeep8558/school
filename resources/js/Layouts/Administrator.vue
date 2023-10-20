@@ -1,6 +1,8 @@
 <script>
 import { Head, Link, useForm } from '@inertiajs/vue3';
 
+import {container} from "jenesius-vue-modal";
+
 
 export default {
     props: {
@@ -16,6 +18,7 @@ export default {
                 staffManager: false,
                 studentManager: false,
                 academicYear: false,
+                batchManager: false,
             },
             isBranchSelect: false,
             form: useForm({
@@ -43,6 +46,7 @@ export default {
                 case "staffManager" : this.ughadZap.staffManager = val; break;
                 case "studentManager" : this.ughadZap.studentManager = val; break;
                 case "academicYear" : this.ughadZap.academicYear = val; break;
+                case "batchManager" : this.ughadZap.batchManager = val; break;
             }
             
         },
@@ -61,7 +65,7 @@ export default {
         this.form.branch_id = this.$page.props.gbranch ? this.$page.props.gbranch.id : null;
     },
 
-    components: { Head, Link }
+    components: { Head, Link, WidgetContainerModal: container }
 }
 
 </script>
@@ -198,6 +202,35 @@ export default {
                             </li>
 
 
+                            <!-- Academic Year -->
+                            <li class="nav-li">
+                                <a href="#" class="nav-link" :class="ughadZap.academicYear || $page.url.startsWith('/academic_year') ? 'active' : ''" @click="ughadZapKar('academicYear', !ughadZap.academicYear)">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" class="w-6 h-6 inline-block mr-2">
+                                        <path strokeLinecap="round" strokeLinejoin="round" d="M4.26 10.147a60.436 60.436 0 00-.491 6.347A48.627 48.627 0 0112 20.904a48.627 48.627 0 018.232-4.41 60.46 60.46 0 00-.491-6.347m-15.482 0a50.57 50.57 0 00-2.658-.813A59.905 59.905 0 0112 3.493a59.902 59.902 0 0110.399 5.84c-.896.248-1.783.52-2.658.814m-15.482 0A50.697 50.697 0 0112 13.489a50.702 50.702 0 017.74-3.342M6.75 15a.75.75 0 100-1.5.75.75 0 000 1.5zm0 0v-3.675A55.378 55.378 0 0112 8.443m-7.007 11.55A5.981 5.981 0 006.75 15.75v-1.5" />
+                                    </svg>
+                                    <span class="">Academic Year</span>
+                                    <span class="float-right">&#128899;</span>
+                                </a>
+                                <ul class="nav-sec-ul" v-if="ughadZap.academicYear || $page.url.startsWith('/academic_year')">
+                                    <li>
+                                        <Link class="nav-sec-link" :class="{'active': $page.url.startsWith('/academic_year/year')}" href="/academic_year/year">Academic Year</Link>
+                                    </li>
+                                    <li>
+                                        <Link class="nav-sec-link" :class="{'active': $page.url.startsWith('/academic_year/weekoff')}" href="/academic_year/weekoff">Weekoff</Link>
+                                    </li>
+                                    <li>
+                                        <Link class="nav-sec-link" :class="{'active': $page.url.startsWith('/academic_year/halfday')}" href="/academic_year/halfday">Halfday</Link>
+                                    </li>
+                                    <li>
+                                        <Link class="nav-sec-link" :class="{'active': $page.url.startsWith('/academic_year/holiday')}" href="/academic_year/holiday">Holiday</Link>
+                                    </li>
+                                    <li>
+                                        <Link class="nav-sec-link" :class="{'active': $page.url.startsWith('/academic_year/calendar')}" href="/academic_year/calendar">Calendar</Link>
+                                    </li>
+                                </ul>
+                            </li>
+
+
                             <!-- Staff Manager -->
                             <li class="nav-li">
                                 <a href="#" class="nav-link" :class="ughadZap.staffManager || $page.url.startsWith('/staff_manager') ? 'active' : ''" @click="ughadZapKar('staffManager', !ughadZap.staffManager)">
@@ -277,33 +310,24 @@ export default {
                             </li>
 
 
-                            <!-- Academic Year -->
+                            <!-- Batch Manager -->
                             <li class="nav-li">
-                                <a href="#" class="nav-link" :class="ughadZap.academicYear || $page.url.startsWith('/academic_year') ? 'active' : ''" @click="ughadZapKar('academicYear', !ughadZap.academicYear)">
+                                <a href="#" class="nav-link" :class="ughadZap.batchManager || $page.url.startsWith('/batch_manager') ? 'active' : ''" @click="ughadZapKar('batchManager', !ughadZap.batchManager)">
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" class="w-6 h-6 inline-block mr-2">
                                         <path strokeLinecap="round" strokeLinejoin="round" d="M4.26 10.147a60.436 60.436 0 00-.491 6.347A48.627 48.627 0 0112 20.904a48.627 48.627 0 018.232-4.41 60.46 60.46 0 00-.491-6.347m-15.482 0a50.57 50.57 0 00-2.658-.813A59.905 59.905 0 0112 3.493a59.902 59.902 0 0110.399 5.84c-.896.248-1.783.52-2.658.814m-15.482 0A50.697 50.697 0 0112 13.489a50.702 50.702 0 017.74-3.342M6.75 15a.75.75 0 100-1.5.75.75 0 000 1.5zm0 0v-3.675A55.378 55.378 0 0112 8.443m-7.007 11.55A5.981 5.981 0 006.75 15.75v-1.5" />
                                     </svg>
-                                    <span class="">Academic Year</span>
+                                    <span class="">Batch Manager</span>
                                     <span class="float-right">&#128899;</span>
                                 </a>
-                                <ul class="nav-sec-ul" v-if="ughadZap.academicYear || $page.url.startsWith('/academic_year')">
+                                <ul class="nav-sec-ul" v-if="ughadZap.batchManager || $page.url.startsWith('/batch_manager')">
                                     <li>
-                                        <Link class="nav-sec-link" :class="{'active': $page.url.startsWith('/academic_year/year')}" href="/academic_year/year">Academic Year</Link>
-                                    </li>
-                                    <li>
-                                        <Link class="nav-sec-link" :class="{'active': $page.url.startsWith('/academic_year/weekoff')}" href="/academic_year/weekoff">Weekoff</Link>
-                                    </li>
-                                    <li>
-                                        <Link class="nav-sec-link" :class="{'active': $page.url.startsWith('/academic_year/halfday')}" href="/academic_year/halfday">Halfday</Link>
-                                    </li>
-                                    <li>
-                                        <Link class="nav-sec-link" :class="{'active': $page.url.startsWith('/academic_year/holiday')}" href="/academic_year/holiday">Holiday</Link>
-                                    </li>
-                                    <li>
-                                        <Link class="nav-sec-link" :class="{'active': $page.url.startsWith('/academic_year/calendar')}" href="/academic_year/calendar">Calendar</Link>
+                                        <Link class="nav-sec-link" :class="{'active': $page.url.startsWith('/batch_manager/batches')}" href="/batch_manager/batches">Batches</Link>
                                     </li>
                                 </ul>
                             </li>
+
+
+                            
 
                             
 
@@ -519,5 +543,7 @@ export default {
 
         </div>
     </main>
+
+    <widget-container-modal />
     
 </template>

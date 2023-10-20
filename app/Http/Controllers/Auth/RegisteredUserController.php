@@ -38,6 +38,8 @@ class RegisteredUserController extends Controller
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
         ]);
 
+        $role = User::count() == 0 ? 'Administrator' : 'Student';
+
         $user = User::create([
             'name' => $request->name,
             'mobile' => $request->mobile,
@@ -46,7 +48,7 @@ class RegisteredUserController extends Controller
         ]);
 
         $user->user_roles()->create([
-            "role" => "Student"
+            "role" => $role
         ]);
 
         event(new Registered($user));

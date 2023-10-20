@@ -108,12 +108,17 @@ Route::middleware(['auth','verified','administrator'])->group(function () {
 
     Route::post('/academic_year/save_weekoff', [App\Http\Controllers\AcademicYearController::class, 'save_weekoff']);
     Route::post('/academic_year/add_remove_weekoff', [App\Http\Controllers\AcademicYearController::class, 'add_remove_weekoff']);
-
     Route::post('/academic_year/save_halfday', [App\Http\Controllers\AcademicYearController::class, 'save_halfday']);
     Route::post('/academic_year/add_remove_halfday', [App\Http\Controllers\AcademicYearController::class, 'add_remove_halfday']);
-
     Route::post('/academic_year/save_holiday', [App\Http\Controllers\AcademicYearController::class, 'save_holiday']);
     Route::post('/academic_year/add_remove_holiday', [App\Http\Controllers\AcademicYearController::class, 'add_remove_holiday']);
+
+
+    /* Batch Manager Pages */
+    Route::get('/batch_manager/batches', [App\Http\Controllers\BatchManagerController::class, 'batches']);
+
+    /* Batch Manager API Calls */
+    Route::post('/batch_manager/create_batch', [App\Http\Controllers\BatchManagerController::class, 'create_batch']);
 
 
 });

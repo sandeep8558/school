@@ -13,6 +13,7 @@
         "laravel/tinker": "^2.7",
         "laravel/ui": "^4.2",
         "staudenmeir/belongs-to-through": "^2.5",
+        "staudenmeir/eloquent-has-many-deep": "^1.17",
         "symfony/http-client": "^6.0",
         "symfony/mailgun-mailer": "^6.0",
         "tightenco/ziggy": "^1.0"

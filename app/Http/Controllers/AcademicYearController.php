@@ -59,11 +59,6 @@ class AcademicYearController extends Controller
         return Inertia::render('Administrator/AcademicYear/Calendar', compact('academic_years'));
     }
 
-    /* Template */
-    public function temp(){
-        return Inertia::render('Administrator/AcademicYear/Temp');
-    }
-
 
     /* API Calls */
 
