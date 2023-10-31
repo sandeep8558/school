@@ -4,6 +4,8 @@ import { Head, Link, useForm } from '@inertiajs/vue3';
 
 import {openModal, closeModal} from "jenesius-vue-modal";
 import BatchForm from '@/Pages/Administrator/BatchManager/BatchForm.vue';
+import UpdateBatchForm from '@/Pages/Administrator/BatchManager/UpdateBatchForm.vue';
+import AssignTeacherForm from '@/Pages/Administrator/BatchManager/AssignTeacherForm.vue';
 
 export default {
     
@@ -91,6 +93,70 @@ export default {
 
         },
 
+        async updateBatch(batch, grade, division){
+
+            let frm = await openModal(UpdateBatchForm, {
+                title : grade.name + ' - ' + division.name,
+                classrooms: this.classrooms,
+                student_shifts: this.student_shifts,
+                ssid : batch.student_shift_id,
+                cid : batch.classroom_id,
+            });
+
+            frm.on('close', e => {
+                closeModal();
+            });
+
+            await frm.on('save', e => {
+                let a = new useForm({
+                    id: batch.id,
+                    classroom_id: e.classroom_id,
+                    student_shift_id: e.student_shift_id,
+                });
+
+                a.post('/batch_manager/update_batch');
+
+                closeModal();
+            });
+        },
+
+        async assignTeacher(batch, subject, title){
+
+            let t = await this.getSubjectTeacher(batch, subject.id);
+            
+            let frm = await openModal(AssignTeacherForm, {
+                title: title,
+                subject: subject,
+                teacher: t,
+            });
+            
+            frm.on('close', e => {
+                closeModal();
+            });
+            
+            await frm.on('save', e => {
+                let a = new useForm({
+                    batch_id: batch.id,
+                    subject_in_group_id: subject.id,
+                    role: e.role,
+                    staff_id: e.staff_id,
+                    assistant_id: e.assistant_id,
+                });
+                a.post('/batch_manager/assign_teacher');
+                closeModal();
+            });
+        },
+
+        getSubjectTeacher(batch, subject_in_group_id){
+            let t = null;
+            batch.batch_teachers.forEach(teacher => {
+                if(subject_in_group_id == teacher.subject_in_group_id){
+                    t = teacher
+                }
+            });
+            return t;
+        },
+
     },
 
     created: function() {
@@ -119,14 +185,6 @@ export default {
 <template>
 
     <Head title="Batches" />
-
-    <template id="hello">
-        <div>
-
-            Jesus loves you
-            
-        </div>
-    </template>
 
     <Administrator>
 
@@ -169,14 +227,19 @@ export default {
                                 <div v-if="isBatch(grade.id, division.id) != null" :set="batch = isBatch(grade.id, division.id)">
                                     <div class="p-6">
                                         <ul>
-                                            <li v-for="subject in batch.grade.subject_in_groups" :key="subject.id" class="border-b last:border-b-0 py-2 text-sm"><span class="inline-block w-7">{{ subject.lectures_per_week }}</span> {{ subject.subject.name }}</li>
+                                            <li v-for="subject in batch.grade.subject_in_groups" :key="subject.id" class="border-b last:border-b-0 py-2 text-sm" :set="bt = getSubjectTeacher(batch, subject.id)">
+                                                <span class="inline-block w-7">{{ subject.lectures_per_week }}</span>
+                                                <span class="mr-3">{{ subject.subject.name }}</span>
+                                                <span @dblclick="assignTeacher(isBatch(grade.id, division.id), subject, (grade.name + ' - ' +  division.name))" class="float-right cursor-pointer hover:underline">
+                                                    {{ bt == null ? 'Assign' : (bt.role == 'Subject teacher' ? '' : bt.role + ' - ' ) + (bt.staff.full_name + (bt.assistant_id != bt.staff_id ? ' | ' + bt.assistant.full_name : '')) }}
+                                                </span>
+                                                
+                                            </li>
                                         </ul>
                                     </div>
                                     <div class="px-6 py-3 bg-purple-100 rounded-b-lg text-gray-500">
-
-
-                                        <span :set="shift = batch.student_shift">{{ shift.name }}: {{ (shift.from).split(':')[0] + ':' + (shift.from).split(':')[1] }} - {{ (shift.to).split(':')[0] + ':' + (shift.to).split(':')[1] }}</span>
-                                        <span class="float-right">{{ batch.classroom.name }}</span>
+                                        <span @dblclick="updateBatch(isBatch(grade.id, division.id), grade, division)" class="cursor-pointer" :set="shift = batch.student_shift">{{ shift.name }}: {{ (shift.from).split(':')[0] + ':' + (shift.from).split(':')[1] }} - {{ (shift.to).split(':')[0] + ':' + (shift.to).split(':')[1] }}</span>
+                                        <span @dblclick="updateBatch(isBatch(grade.id, division.id), grade, division)" class="cursor-pointer float-right">{{ batch.classroom.name }}</span>
                                     </div>
                                 </div>
 

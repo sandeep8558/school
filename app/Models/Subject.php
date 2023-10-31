@@ -14,4 +14,8 @@ class Subject extends Model
     public function branch(){
         return $this->belongsTo(Branch::class);
     }
+
+    public function subject_teachers(){
+        return $this->hasMany(StaffSubject::class);
+    }
 }

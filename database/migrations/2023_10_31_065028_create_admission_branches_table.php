@@ -13,15 +13,8 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('batch_teachers', function (Blueprint $table) {
+        Schema::create('admission_branches', function (Blueprint $table) {
             $table->id();
-
-            $table->bigInteger('batch_id')->index();
-            $table->bigInteger('subject_in_group_id')->index();
-            $table->bigInteger('staff_id')->index();
-            $table->bigInteger('assistant_id')->index();
-            $table->set('role', ['Class teacher', 'Co-class teacher', 'Subject teacher']);
-
             $table->timestamps();
         });
     }
@@ -33,6 +26,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('batch_teachers');
+        Schema::dropIfExists('admission_branches');
     }
 };

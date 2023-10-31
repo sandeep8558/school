@@ -119,6 +119,8 @@ Route::middleware(['auth','verified','administrator'])->group(function () {
 
     /* Batch Manager API Calls */
     Route::post('/batch_manager/create_batch', [App\Http\Controllers\BatchManagerController::class, 'create_batch']);
+    Route::post('/batch_manager/update_batch', [App\Http\Controllers\BatchManagerController::class, 'update_batch']);
+    Route::post('/batch_manager/assign_teacher', [App\Http\Controllers\BatchManagerController::class, 'assign_teacher']);
 
 
 });

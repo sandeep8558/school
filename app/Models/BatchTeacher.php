@@ -13,6 +13,7 @@ class BatchTeacher extends Model
         'batch_id',
         'subject_in_group_id',
         'staff_id',
+        'assistant_id',
         'role',
     ];
 
@@ -26,6 +27,10 @@ class BatchTeacher extends Model
 
     public function staff(){
         return $this->belongsTo(Staff::class);
+    }
+
+    public function assistant(){
+        return $this->belongsTo(Staff::class, 'assistant_id');
     }
 
 }

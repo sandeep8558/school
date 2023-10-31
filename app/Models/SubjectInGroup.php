@@ -31,4 +31,5 @@ class SubjectInGroup extends Model
     public function branch(){
         return $this->belongsToThrough(Branch::class, [Section::class, Grade::class, SubjectGroup::class]);
     }
+    
 }
