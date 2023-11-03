@@ -24,6 +24,14 @@ class Branch extends Model
     ];
 
     public function accreditations(){
-        return $this->hasMany('App\Models\Accreditation');
+        return $this->hasMany(Accreditation::class);
+    }
+
+    public function academic_years(){
+        return $this->hasMany(AcademicYear::class);
+    }
+
+    public function open_academic_years(){
+        return $this->hasMany(AcademicYear::class)->where('is_admission_closed', 'No');
     }
 }

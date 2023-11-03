@@ -15,6 +15,11 @@ return new class extends Migration
     {
         Schema::create('admission_documents', function (Blueprint $table) {
             $table->id();
+
+            $table->bigInteger('admission_id')->index();
+            $table->string('document_name');
+            $table->text('document');
+            
             $table->timestamps();
         });
     }

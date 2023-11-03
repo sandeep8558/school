@@ -13,8 +13,13 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('admission_branches', function (Blueprint $table) {
+        Schema::create('academic_year_intakes', function (Blueprint $table) {
             $table->id();
+
+            $table->bigInteger('academic_year_id')->index();
+            $table->bigInteger('grade_id')->index();
+            $table->integer('intake');
+
             $table->timestamps();
         });
     }
@@ -26,6 +31,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('admission_branches');
+        Schema::dropIfExists('academic_year_intakes');
     }
 };

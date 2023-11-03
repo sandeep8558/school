@@ -18,4 +18,8 @@ class AcademicYear extends Model
     public function batches(){
         return $this->hasMany(Batch::class);
     }
+
+    public function academic_year_intakes(){
+        return $this->hasMany(AcademicYearIntake::class);
+    }
 }

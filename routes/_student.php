@@ -6,8 +6,8 @@ use Inertia\Inertia;
 
 Route::middleware(['auth','verified','student'])->group(function () {
 
-    Route::get('/dashboard_student', function(){
-        return Inertia::render('Dashboard');
-    });
+    Route::get('/dashboard_student', [App\Http\Controllers\StudentController::class, 'dashboard_student']);
+
+    Route::get('/admission', [App\Http\Controllers\StudentController::class, 'admission']);
 
 });

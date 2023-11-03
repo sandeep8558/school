@@ -8,4 +8,27 @@ use Illuminate\Database\Eloquent\Model;
 class AdmissionParent extends Model
 {
     use HasFactory;
+
+    protected $fillable = [
+        'admission_id',
+        'relation',
+        'first_name',
+        'middle_name',
+        'last_name',
+        'email',
+        'phone',
+        'dob',
+        'pan',
+        'aadhar',
+        'qualification',
+        'degree',
+        'occupation',
+        'annual_income',
+        'company_name',
+        'company_address',
+    ];
+
+    public function admission(){
+        return $this->belongsTo(Admission::class);
+    }
 }

@@ -114,6 +114,13 @@ Route::middleware(['auth','verified','administrator'])->group(function () {
     Route::post('/academic_year/add_remove_holiday', [App\Http\Controllers\AcademicYearController::class, 'add_remove_holiday']);
 
 
+    /* Admission Pool Pages */
+    Route::get('/admission_pool/intake', [App\Http\Controllers\AdmissionPoolController::class, 'intake']);
+
+    /* Admission Pool API Calls */
+    Route::post('/admission_pool/save_intake', [App\Http\Controllers\AdmissionPoolController::class, 'save_intake']);
+
+
     /* Batch Manager Pages */
     Route::get('/batch_manager/batches', [App\Http\Controllers\BatchManagerController::class, 'batches']);
 

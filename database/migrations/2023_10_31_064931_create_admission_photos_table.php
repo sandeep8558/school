@@ -15,6 +15,10 @@ return new class extends Migration
     {
         Schema::create('admission_photos', function (Blueprint $table) {
             $table->id();
+
+            $table->bigInteger('admission_id')->index();
+            $table->text('media');
+            
             $table->timestamps();
         });
     }

@@ -15,6 +15,14 @@ return new class extends Migration
     {
         Schema::create('admission_addresses', function (Blueprint $table) {
             $table->id();
+
+            $table->bigInteger('admission_id')->index();
+            $table->string('address');
+            $table->string('city', 65);
+            $table->string('pincode', 12);
+            $table->string('state', 65);
+            $table->string('country', 65);
+            
             $table->timestamps();
         });
     }
