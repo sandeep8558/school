@@ -28,7 +28,7 @@ class StudentController extends Controller
         $isAdmission = $admission ? $admission->val : 'No';
 
         /* Fetch branches with academic years and intake data */
-        $branches = Branch::with('open_academic_years.academic_year_intakes.grade')->get();
+        $branches = Branch::with('open_academic_years.academic_year_intakes.grade', 'first_languages', 'second_languages', 'third_languages')->get();
 
         $msg = session('msg');
 

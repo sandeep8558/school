@@ -24,6 +24,15 @@ export default {
             allAcademicYears: [],
             allGrades: [],
 
+            boards: [
+                {key: 'SSC', val: 'SSC'},
+                {key: 'CBSE', val: 'CBSE'},
+                {key: 'ICSE', val: 'ICSE'},
+                {key: 'IGCSE', val: 'IGCSE'},
+                {key: 'IB', val: 'IB'},
+                {key: 'NIOS', val: 'NIOS'},
+            ],
+
             genders: [
                 {key: 'Male', val: 'Male'},
                 {key: 'Female', val: 'Female'},
@@ -82,6 +91,11 @@ export default {
 
             formData: {
                 admissions: {
+                    previous_school: '',
+                    board: '',
+                    first_language_id: '',
+                    second_language_id: '',
+                    third_language_id: '',
                     academic_year_id: '',
                     branch_id: '',
                     grade_id: '',
@@ -177,7 +191,7 @@ export default {
         stepOne(){
             let is = false;
             let a = this.formData.admissions;
-            if(a.academic_year_id != '' && a.branch_id != '' && a.grade_id != ''){
+            if(a.academic_year_id != '' && a.branch_id != '' && a.grade_id != '' && a.first_language_id != '' && a.second_language_id != '' && a.third_language_id != ''){
                 is = true;
             }
             return is;
@@ -186,7 +200,7 @@ export default {
         stepTwo(){
             let is = true;
             for(let key in this.formData.admissions){
-                if(key != 'email' && key != 'phone'){
+                if(key != 'email' && key != 'phone' && key != 'previous_school' && key != 'board'){
                     if(this.formData.admissions[key] == null || this.formData.admissions[key] == ''){
                         is = false;
                     }
@@ -252,6 +266,79 @@ export default {
                 is = false;
             }
             return is;
+        },
+
+        first_languages(){
+            let first_languages = [];
+            let branch_id = this.formData.admissions.branch_id;
+            this.branches.forEach(branch => {
+                if(branch.id == branch_id){
+                    
+                    branch.first_languages.forEach(lan => {
+                        let opt = {
+                            key: lan.language,
+                            val: lan.id
+                        };
+                        first_languages.push(opt);
+                    });
+                    
+                }
+            });
+            return first_languages;
+        },
+
+        second_languages(){
+            let second_languages = [];
+            let branch_id = this.formData.admissions.branch_id;
+            this.branches.forEach(branch => {
+                if(branch.id == branch_id){
+                    
+                    branch.second_languages.forEach(lan => {
+                        let opt = {
+                            key: lan.language,
+                            val: lan.id
+                        };
+                        second_languages.push(opt);
+                    });
+                    
+                }
+            });
+            return second_languages;
+        },
+
+        second_language(){
+            let sl = '';
+            this.branches.forEach(br => {
+                if(this.formData.admissions.branch_id == br.id){
+                    br.second_languages.forEach(lan => {
+                        if(lan.id == this.formData.admissions.second_language_id){
+                            sl = lan.language;
+                        }
+                    });
+                }
+            });
+            return sl;
+        },
+        
+        third_languages(){
+            let third_languages = [];
+            let branch_id = this.formData.admissions.branch_id;
+            this.branches.forEach(branch => {
+                if(branch.id == branch_id){
+                    if(this.second_language != ''){
+                        branch.third_languages.forEach(lan => {
+                            if(this.second_language != lan.language){
+                                let opt = {
+                                    key: lan.language,
+                                    val: lan.id
+                                };
+                                third_languages.push(opt);
+                            }
+                        });
+                    }
+                }
+            });
+            return third_languages;
         },
 
         academic_years(){
@@ -334,18 +421,24 @@ export default {
         resetForm(){
             this.steps.current = 1;
         },
+
+        init(){
+            let branches = [];
+            this.branches.forEach(branch => {
+                let br = {
+                    key : branch.name,
+                    val: branch.id,
+                }
+                branches.push(br);
+            });
+            this.allBranches = branches;
+
+            
+        },
     },
 
     created: function() {
-        let branches = [];
-        this.branches.forEach(branch => {
-            let br = {
-                key : branch.name,
-                val: branch.id,
-            }
-            branches.push(br);
-        });
-        this.allBranches = branches;
+        this.init();
     },
 
     mounted: function() {
@@ -431,6 +524,16 @@ export default {
                         <Select v-model="formData.admissions.academic_year_id" label="Academic Year" error="" width="" :options="academic_years"></Select>
 
                         <Select v-model="formData.admissions.grade_id" label="Grade" error="" width="" :options="grades"></Select>
+
+                        <Select v-model="formData.admissions.first_language_id" label="First Language" error="" width="" :options="first_languages"></Select>
+
+                        <Select v-model="formData.admissions.second_language_id" label="Second Language" error="" width="" :options="second_languages"></Select>
+
+                        <Select v-model="formData.admissions.third_language_id" label="Third Language" error="" width="" :options="third_languages"></Select>
+
+                        <Text v-model="formData.admissions.previous_school" label="Previous School" error="" width=""></Text>
+
+                        <Select v-model="formData.admissions.board" label="Board" error="" width="" :options="boards"></Select>
 
                     </div>
 

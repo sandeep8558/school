@@ -10,6 +10,12 @@ class Admission extends Model
     use HasFactory;
 
     protected $fillable = [
+        'first_language_id',
+        'second_language_id',
+        'third_language_id',
+        'previous_school',
+        'board',
+
         'academic_year_id',
         'grade_id',
         'branch_id',

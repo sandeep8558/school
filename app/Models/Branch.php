@@ -34,4 +34,16 @@ class Branch extends Model
     public function open_academic_years(){
         return $this->hasMany(AcademicYear::class)->where('is_admission_closed', 'No');
     }
+
+    public function first_languages(){
+        return $this->hasMany(Language::class)->where('which', 'First Language');
+    }
+
+    public function second_languages(){
+        return $this->hasMany(Language::class)->where('which', 'Second Language');
+    }
+
+    public function third_languages(){
+        return $this->hasMany(Language::class)->where('which', 'Third Language');
+    }
 }

@@ -16,6 +16,13 @@ return new class extends Migration
         Schema::create('admissions', function (Blueprint $table) {
             $table->id();
 
+            $table->bigInteger('first_language_id')->index();
+            $table->bigInteger('second_language_id')->index();
+            $table->bigInteger('third_language_id')->index();
+
+            $table->string('previous_school')->nullable();
+            $table->set('board', ['SSC', 'CBSE', 'ICSE', 'IGCSE', 'IB', 'NIOS'])->nullable();
+
             $table->bigInteger('academic_year_id')->index();
             $table->bigInteger('grade_id')->index();
             $table->bigInteger('branch_id')->index();
