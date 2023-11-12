@@ -9,5 +9,5 @@ class Language extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['branch_id','language','which','is_available'];
+    protected $fillable = ['branch_id','language','acronym','which','is_available'];
 }

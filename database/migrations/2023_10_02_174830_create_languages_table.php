@@ -18,6 +18,7 @@ return new class extends Migration
 
             $table->bigInteger('branch_id')->index();
             $table->string('language');
+            $table->string('acronym', 35)->nullable();
             $table->set('which', ['First Language', 'Second Language', 'Third Language']);
             $table->set('is_available', ['Yes', 'No']);
 

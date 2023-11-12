@@ -61,6 +61,18 @@ export default {
                         fieldWidth:'w-full'
                     },
                     {
+                        field:'acronym',
+                        text:'Acronym',
+                        type:'text',
+                        value:null,
+                        validation:'required',
+                        display:true,
+                        isForm:true,
+                        isSearch:true,
+                        colWidth:'w-auto',
+                        fieldWidth:'w-full'
+                    },
+                    {
                         field:'which',
                         text:'Which Language',
                         type:'select',

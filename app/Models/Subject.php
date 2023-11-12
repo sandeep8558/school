@@ -9,7 +9,7 @@ class Subject extends Model
 {
     use HasFactory;
 
-    protected $fillable = [ 'branch_id', 'name', 'note'];
+    protected $fillable = [ 'branch_id', 'acronym', 'name', 'note'];
 
     public function branch(){
         return $this->belongsTo(Branch::class);

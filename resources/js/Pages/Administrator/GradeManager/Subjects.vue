@@ -57,6 +57,18 @@ export default {
                         fieldWidth:'w-full'
                     },
                     {
+                        field:'acronym',
+                        text:'Acronym',
+                        type:'text',
+                        value:null,
+                        validation:'required',
+                        display:true,
+                        isForm:true,
+                        isSearch:true,
+                        colWidth:'w-auto',
+                        fieldWidth:'w-full'
+                    },
+                    {
                         field:'note',
                         text:'Note',
                         type:'text',
