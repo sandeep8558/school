@@ -17,6 +17,18 @@ class AdmissionPoolController extends Controller
         return Inertia::render('Administrator/AdmissionPool/Intake', compact('academic_years', 'grades'));
     }
 
+    public function applications(){
+        return Inertia::render('Administrator/AdmissionPool/Applications');
+    }
+
+    public function rating(){
+        return Inertia::render('Administrator/AdmissionPool/Rating');
+    }
+
+    public function merit_list(){
+        return Inertia::render('Administrator/AdmissionPool/MeritList');
+    }
+
     public function save_intake(Request $request){
         $ayi = AcademicYearIntake::where('academic_year_id', $request->academic_year_id)->where('grade_id', $request->grade_id);
         if($ayi->exists()){

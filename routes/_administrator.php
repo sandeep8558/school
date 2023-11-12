@@ -117,6 +117,9 @@ Route::middleware(['auth','verified','administrator'])->group(function () {
 
     /* Admission Pool Pages */
     Route::get('/admission_pool/intake', [App\Http\Controllers\AdmissionPoolController::class, 'intake']);
+    Route::get('/admission_pool/applications', [App\Http\Controllers\AdmissionPoolController::class, 'applications']);
+    Route::get('/admission_pool/rating', [App\Http\Controllers\AdmissionPoolController::class, 'rating']);
+    Route::get('/admission_pool/merit_list', [App\Http\Controllers\AdmissionPoolController::class, 'merit_list']);
 
     /* Admission Pool API Calls */
     Route::post('/admission_pool/save_intake', [App\Http\Controllers\AdmissionPoolController::class, 'save_intake']);

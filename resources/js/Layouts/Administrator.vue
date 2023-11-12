@@ -249,6 +249,15 @@ export default {
                                     <li>
                                         <Link class="nav-sec-link" :class="{'active': $page.url === '/admission_pool/intake'}" href="/admission_pool/intake">Intake</Link>
                                     </li>
+                                    <li>
+                                        <Link class="nav-sec-link" :class="{'active': $page.url === '/admission_pool/applications'}" href="/admission_pool/applications">Applications</Link>
+                                    </li>
+                                    <li>
+                                        <Link class="nav-sec-link" :class="{'active': $page.url === '/admission_pool/rating'}" href="/admission_pool/rating">Rating</Link>
+                                    </li>
+                                    <li>
+                                        <Link class="nav-sec-link" :class="{'active': $page.url === '/admission_pool/merit_list'}" href="/admission_pool/merit_list">Merit List</Link>
+                                    </li>
                                 </ul>
                             </li>
 
