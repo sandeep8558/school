@@ -1,12 +1,26 @@
-<script setup>
+<script>
 import Student from '@/Layouts/Student.vue';
 import { Head, Link } from '@inertiajs/vue3';
 
-defineProps({
-    isAdmission: String,
-});
+export default {
+    
+    props: {
+        isAdmission: String,
+    },
 
+    data: function () {
+        return {
+        };
+    },
 
+    methods: {
+    },
+
+    mounted: function() {
+    },
+
+    components: { Student, Head, Link }
+}
 </script>
 
 <template>

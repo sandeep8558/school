@@ -17,6 +17,8 @@ use App\Models\StaffShift;
 use App\Models\StudentShift;
 use App\Models\StudentShiftPlan;
 
+use App\Models\Branch;
+
 
 use Auth;
 
@@ -46,6 +48,12 @@ class BranchBootstrapController extends Controller
         $branch_id = Auth::user()->branch_id;
         $student_shifts = StudentShift::where('branch_id', $branch_id)->orderBy('name', 'asc')->with('student_shift_plans')->get();
         return Inertia::render('Administrator/BranchBootstrap/StudentShift', compact('student_shifts'));
+    }
+
+    public function languages(){
+        $branch_id = Auth::user()->branch_id;
+        $branches = Branch::where('id', $branch_id)->get();
+        return Inertia::render('Administrator/BranchBootstrap/Language', compact('branches'));
     }
 
     /* API Calls */

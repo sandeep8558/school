@@ -152,6 +152,9 @@ export default {
                                     <li>
                                         <Link class="nav-sec-link" :class="{'active': $page.url === '/branch_bootstrap/student_shift'}" href="/branch_bootstrap/student_shift">Student Shift</Link>
                                     </li>
+                                    <li>
+                                        <Link class="nav-sec-link" :class="{'active': $page.url === '/branch_bootstrap/languages'}" href="/branch_bootstrap/languages">Languages</Link>
+                                    </li>
                                 </ul>
                             </li>
 

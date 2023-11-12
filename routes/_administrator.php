@@ -34,6 +34,7 @@ Route::middleware(['auth','verified','administrator'])->group(function () {
     Route::get('/branch_bootstrap/house', [App\Http\Controllers\BranchBootstrapController::class, 'house']);
     Route::get('/branch_bootstrap/staff_shift', [App\Http\Controllers\BranchBootstrapController::class, 'staff_shift']);
     Route::get('/branch_bootstrap/student_shift', [App\Http\Controllers\BranchBootstrapController::class, 'student_shift']);
+    Route::get('/branch_bootstrap/languages', [App\Http\Controllers\BranchBootstrapController::class, 'languages']);
 
 
     /* Branch Bootstrap API Calls */

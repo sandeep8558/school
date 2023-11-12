@@ -51,4 +51,20 @@ class Admission extends Model
         return $this->belongsTo(House::class);
     }
 
+    public function admission_addresses(){
+        return $this->hasMany(AdmissionAddress::class);
+    }
+
+    public function admission_documents(){
+        return $this->hasMany(AdmissionDocument::class);
+    }
+
+    public function admission_parents(){
+        return $this->hasMany(AdmissionParent::class);
+    }
+
+    public function admission_photos(){
+        return $this->hasMany(AdmissionPhoto::class);
+    }
+
 }

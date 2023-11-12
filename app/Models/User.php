@@ -60,6 +60,10 @@ class User extends Authenticatable
         return $this->belongsTo(Branch::class);
     }
 
+    public function my_applications(){
+        return $this->hasMany(Admission::class, 'email', 'email');
+    }
+
     protected $appends = ['roles'];
 
     public function getRolesAttribute(){

@@ -10,4 +10,8 @@ Route::middleware(['auth','verified','student'])->group(function () {
 
     Route::get('/admission', [App\Http\Controllers\StudentController::class, 'admission']);
 
+    Route::get('/admission/my_applications', [App\Http\Controllers\StudentController::class, 'admission_my_applications']);
+
+    Route::post('/admission/save_application', [App\Http\Controllers\StudentController::class, 'save_application']);
+
 });
