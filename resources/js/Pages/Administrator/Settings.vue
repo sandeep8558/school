@@ -48,6 +48,19 @@ export default {
                 isAdmissionOpen: false,
                 logo:false,
                 favicon:false,
+
+                rating_1: false,
+                rating_2: false,
+                rating_3: false,
+                rating_4: false,
+                rating_5: false,
+                rating_6: false,
+                rating_7: false,
+                rating_8: false,
+                rating_9: false,
+                rating_10: false,
+                rating_11: false,
+                rating_12: false,
             },
             
             settings: {
@@ -75,6 +88,19 @@ export default {
                 isAdmissionOpen: '',
                 logo: null,
                 favicon: null,
+
+                rating_1: '',
+                rating_2: '',
+                rating_3: '',
+                rating_4: '',
+                rating_5: '',
+                rating_6: '',
+                rating_7: '',
+                rating_8: '',
+                rating_9: '',
+                rating_10: '',
+                rating_11: '',
+                rating_12: '',
             },
 
             form : useForm({
@@ -118,6 +144,19 @@ export default {
                 case 'Is Admission Open': this.settings.isAdmissionOpen = val; break;
                 case 'Logo': this.settings.logo = val; break;
                 case 'Favicon': this.settings.favicon = val; break;
+
+                case 'Rating 1': this.settings.rating_1 = val; break;
+                case 'Rating 2': this.settings.rating_2 = val; break;
+                case 'Rating 3': this.settings.rating_3 = val; break;
+                case 'Rating 4': this.settings.rating_4 = val; break;
+                case 'Rating 5': this.settings.rating_5 = val; break;
+                case 'Rating 6': this.settings.rating_6 = val; break;
+                case 'Rating 7': this.settings.rating_7 = val; break;
+                case 'Rating 8': this.settings.rating_8 = val; break;
+                case 'Rating 9': this.settings.rating_9 = val; break;
+                case 'Rating 10': this.settings.rating_10 = val; break;
+                case 'Rating 11': this.settings.rating_11 = val; break;
+                case 'Rating 12': this.settings.rating_12 = val; break;
             }
         },
 
@@ -769,6 +808,261 @@ export default {
                             </button>
 
 
+                        </div>
+                    </div>
+                </li>
+
+            </ul>
+
+        </div>
+
+
+        <div class="mb-3 mt-10 px-6">
+            <h2 class="text-3xl font-bold">Admission Rating Setting</h2>
+            <p>Change rating names according to your evalution method and choice.</p>
+        </div>
+        
+
+        <div class="box">
+            
+            <ul class="w-full">
+                
+                <!-- Rating 1 Filed -->
+                <li class="w-full py-4 flex items-center">
+                    <div class="w-full">Rating 1</div>
+                    <div class="w-auto pr-3" v-if="isSaved.rating_1">
+                        <span class="duration-['150'] transition-opacity" :class="form.processing ? 'text-red-500' : 'text-green-800'">{{ form.processing ? 'Saving' : 'Saved' }}</span>
+                    </div>
+                    <div class="w-auto">
+                        <div class="w-80">
+                        <input
+                            @input="changing('Rating 1', settings.rating_1)"
+                            @change="isSaved.rating_1 = true;updateField('Rating 1', settings.rating_1);"
+                            v-model="settings.rating_1"
+                            type="text"
+                            class="inp"
+                            id="exampleSearch"
+                            placeholder="Enter Rating 1" />
+                        </div>
+                    </div>
+                </li>
+
+                <!-- Rating 2 Filed -->
+                <li class="w-full py-4 flex items-center">
+                    <div class="w-full">Rating 2</div>
+                    <div class="w-auto pr-3" v-if="isSaved.rating_2">
+                        <span class="duration-['150'] transition-opacity" :class="form.processing ? 'text-red-500' : 'text-green-800'">{{ form.processing ? 'Saving' : 'Saved' }}</span>
+                    </div>
+                    <div class="w-auto">
+                        <div class="w-80">
+                        <input
+                            @input="changing('Rating 2', settings.rating_2)"
+                            @change="isSaved.rating_2 = true;updateField('Rating 2', settings.rating_2);"
+                            v-model="settings.rating_2"
+                            type="text"
+                            class="inp"
+                            id="exampleSearch"
+                            placeholder="Enter Rating 2" />
+                        </div>
+                    </div>
+                </li>
+
+                <!-- Rating 3 Filed -->
+                <li class="w-full py-4 flex items-center">
+                    <div class="w-full">Rating 3</div>
+                    <div class="w-auto pr-3" v-if="isSaved.rating_3">
+                        <span class="duration-['150'] transition-opacity" :class="form.processing ? 'text-red-500' : 'text-green-800'">{{ form.processing ? 'Saving' : 'Saved' }}</span>
+                    </div>
+                    <div class="w-auto">
+                        <div class="w-80">
+                        <input
+                            @input="changing('Rating 3', settings.rating_3)"
+                            @change="isSaved.rating_3 = true;updateField('Rating 3', settings.rating_3);"
+                            v-model="settings.rating_3"
+                            type="text"
+                            class="inp"
+                            id="exampleSearch"
+                            placeholder="Enter Rating 3" />
+                        </div>
+                    </div>
+                </li>
+
+                <!-- Rating 4 Filed -->
+                <li class="w-full py-4 flex items-center">
+                    <div class="w-full">Rating 4</div>
+                    <div class="w-auto pr-3" v-if="isSaved.rating_4">
+                        <span class="duration-['150'] transition-opacity" :class="form.processing ? 'text-red-500' : 'text-green-800'">{{ form.processing ? 'Saving' : 'Saved' }}</span>
+                    </div>
+                    <div class="w-auto">
+                        <div class="w-80">
+                        <input
+                            @input="changing('Rating 4', settings.rating_4)"
+                            @change="isSaved.rating_4 = true;updateField('Rating 4', settings.rating_4);"
+                            v-model="settings.rating_4"
+                            type="text"
+                            class="inp"
+                            id="exampleSearch"
+                            placeholder="Enter Rating 4" />
+                        </div>
+                    </div>
+                </li>
+
+                <!-- Rating 5 Filed -->
+                <li class="w-full py-4 flex items-center">
+                    <div class="w-full">Rating 5</div>
+                    <div class="w-auto pr-3" v-if="isSaved.rating_5">
+                        <span class="duration-['150'] transition-opacity" :class="form.processing ? 'text-red-500' : 'text-green-800'">{{ form.processing ? 'Saving' : 'Saved' }}</span>
+                    </div>
+                    <div class="w-auto">
+                        <div class="w-80">
+                        <input
+                            @input="changing('Rating 5', settings.rating_5)"
+                            @change="isSaved.rating_5 = true;updateField('Rating 5', settings.rating_5);"
+                            v-model="settings.rating_5"
+                            type="text"
+                            class="inp"
+                            id="exampleSearch"
+                            placeholder="Enter Rating 5" />
+                        </div>
+                    </div>
+                </li>
+
+                <!-- Rating 6 Filed -->
+                <li class="w-full py-4 flex items-center">
+                    <div class="w-full">Rating 6</div>
+                    <div class="w-auto pr-3" v-if="isSaved.rating_6">
+                        <span class="duration-['150'] transition-opacity" :class="form.processing ? 'text-red-500' : 'text-green-800'">{{ form.processing ? 'Saving' : 'Saved' }}</span>
+                    </div>
+                    <div class="w-auto">
+                        <div class="w-80">
+                        <input
+                            @input="changing('Rating 6', settings.rating_6)"
+                            @change="isSaved.rating_6 = true;updateField('Rating 6', settings.rating_6);"
+                            v-model="settings.rating_6"
+                            type="text"
+                            class="inp"
+                            id="exampleSearch"
+                            placeholder="Enter Rating 6" />
+                        </div>
+                    </div>
+                </li>
+
+                <!-- Rating 7 Filed -->
+                <li class="w-full py-4 flex items-center">
+                    <div class="w-full">Rating 7</div>
+                    <div class="w-auto pr-3" v-if="isSaved.rating_7">
+                        <span class="duration-['150'] transition-opacity" :class="form.processing ? 'text-red-500' : 'text-green-800'">{{ form.processing ? 'Saving' : 'Saved' }}</span>
+                    </div>
+                    <div class="w-auto">
+                        <div class="w-80">
+                        <input
+                            @input="changing('Rating 7', settings.rating_7)"
+                            @change="isSaved.rating_7 = true;updateField('Rating 7', settings.rating_7);"
+                            v-model="settings.rating_7"
+                            type="text"
+                            class="inp"
+                            id="exampleSearch"
+                            placeholder="Enter Rating 7" />
+                        </div>
+                    </div>
+                </li>
+
+                <!-- Rating 8 Filed -->
+                <li class="w-full py-4 flex items-center">
+                    <div class="w-full">Rating 8</div>
+                    <div class="w-auto pr-3" v-if="isSaved.rating_8">
+                        <span class="duration-['150'] transition-opacity" :class="form.processing ? 'text-red-500' : 'text-green-800'">{{ form.processing ? 'Saving' : 'Saved' }}</span>
+                    </div>
+                    <div class="w-auto">
+                        <div class="w-80">
+                        <input
+                            @input="changing('Rating 8', settings.rating_8)"
+                            @change="isSaved.rating_8 = true;updateField('Rating 8', settings.rating_8);"
+                            v-model="settings.rating_8"
+                            type="text"
+                            class="inp"
+                            id="exampleSearch"
+                            placeholder="Enter Rating 8" />
+                        </div>
+                    </div>
+                </li>
+
+                <!-- Rating 9 Filed -->
+                <li class="w-full py-4 flex items-center">
+                    <div class="w-full">Rating 9</div>
+                    <div class="w-auto pr-3" v-if="isSaved.rating_9">
+                        <span class="duration-['150'] transition-opacity" :class="form.processing ? 'text-red-500' : 'text-green-800'">{{ form.processing ? 'Saving' : 'Saved' }}</span>
+                    </div>
+                    <div class="w-auto">
+                        <div class="w-80">
+                        <input
+                            @input="changing('Rating 9', settings.rating_9)"
+                            @change="isSaved.rating_9 = true;updateField('Rating 9', settings.rating_9);"
+                            v-model="settings.rating_9"
+                            type="text"
+                            class="inp"
+                            id="exampleSearch"
+                            placeholder="Enter Rating 9" />
+                        </div>
+                    </div>
+                </li>
+
+                <!-- Rating 10 Filed -->
+                <li class="w-full py-4 flex items-center">
+                    <div class="w-full">Rating 10</div>
+                    <div class="w-auto pr-3" v-if="isSaved.rating_10">
+                        <span class="duration-['150'] transition-opacity" :class="form.processing ? 'text-red-500' : 'text-green-800'">{{ form.processing ? 'Saving' : 'Saved' }}</span>
+                    </div>
+                    <div class="w-auto">
+                        <div class="w-80">
+                        <input
+                            @input="changing('Rating 10', settings.rating_10)"
+                            @change="isSaved.rating_10 = true;updateField('Rating 10', settings.rating_10);"
+                            v-model="settings.rating_10"
+                            type="text"
+                            class="inp"
+                            id="exampleSearch"
+                            placeholder="Enter Rating 10" />
+                        </div>
+                    </div>
+                </li>
+
+                <!-- Rating 11 Filed -->
+                <li class="w-full py-4 flex items-center">
+                    <div class="w-full">Rating 11</div>
+                    <div class="w-auto pr-3" v-if="isSaved.rating_11">
+                        <span class="duration-['150'] transition-opacity" :class="form.processing ? 'text-red-500' : 'text-green-800'">{{ form.processing ? 'Saving' : 'Saved' }}</span>
+                    </div>
+                    <div class="w-auto">
+                        <div class="w-80">
+                        <input
+                            @input="changing('Rating 11', settings.rating_11)"
+                            @change="isSaved.rating_11 = true;updateField('Rating 11', settings.rating_11);"
+                            v-model="settings.rating_11"
+                            type="text"
+                            class="inp"
+                            id="exampleSearch"
+                            placeholder="Enter Rating 11" />
+                        </div>
+                    </div>
+                </li>
+
+                <!-- Rating 12 Filed -->
+                <li class="w-full py-4 flex items-center">
+                    <div class="w-full">Rating 12</div>
+                    <div class="w-auto pr-3" v-if="isSaved.rating_12">
+                        <span class="duration-['150'] transition-opacity" :class="form.processing ? 'text-red-500' : 'text-green-800'">{{ form.processing ? 'Saving' : 'Saved' }}</span>
+                    </div>
+                    <div class="w-auto">
+                        <div class="w-80">
+                        <input
+                            @input="changing('Rating 12', settings.rating_12)"
+                            @change="isSaved.rating_12 = true;updateField('Rating 12', settings.rating_12);"
+                            v-model="settings.rating_12"
+                            type="text"
+                            class="inp"
+                            id="exampleSearch"
+                            placeholder="Enter Rating 12" />
                         </div>
                     </div>
                 </li>

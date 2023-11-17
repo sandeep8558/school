@@ -39,7 +39,34 @@ class Admission extends Model
         'nationality',
         'aadhar',
         'gr_number',
+
+        'rating_1',
+        'rating_2',
+        'rating_3',
+        'rating_4',
+        'rating_5',
+        'rating_6',
+        'rating_7',
+        'rating_8',
+        'rating_9',
+        'rating_10',
+        'rating_11',
+        'rating_12',
+        'total_rating',
+        'status',
     ];
+
+    public function first_language(){
+        return $this->belongsTo(Language::class)->where('which', 'First Language');
+    }
+
+    public function second_language(){
+        return $this->belongsTo(Language::class)->where('which', 'Second Language');
+    }
+
+    public function third_language(){
+        return $this->belongsTo(Language::class)->where('which', 'Third Language');
+    }
 
     public function academic_year(){
         return $this->belongsTo(AcademicYear::class);

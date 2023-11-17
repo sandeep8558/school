@@ -22,4 +22,8 @@ class AcademicYear extends Model
     public function academic_year_intakes(){
         return $this->hasMany(AcademicYearIntake::class);
     }
+
+    public function applications(){
+        return $this->hasMany(Admission::class);
+    }
 }

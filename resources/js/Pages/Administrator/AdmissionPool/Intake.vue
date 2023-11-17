@@ -68,7 +68,7 @@ export default {
 
 <template>
 
-    <Head title="Template" />
+    <Head title="Intake" />
 
     <Administrator>
 
@@ -86,6 +86,7 @@ export default {
                     <span class="inline-block w-32">{{ grade.name }}</span> - <span class="cursor-pointer" @dblclick="editIntake(academic_year.id, grade.id)">
                         <input @keyup.enter="saveIntake()" v-if="edit.academic_year_id == academic_year.id && edit.grade_id == grade.id" type="text" v-model="edit.intake">
                         <span v-if="edit.academic_year_id != academic_year.id || edit.grade_id != grade.id">{{ checkIntake(academic_year.id, grade.id) }}</span>
+                        <span v-if="edit.academic_year_id == academic_year.id && edit.grade_id == grade.id" class="inline-block ml-5">Press Enter to update value</span>
                     </span>
                 </div>
 

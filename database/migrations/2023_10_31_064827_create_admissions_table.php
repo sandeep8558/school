@@ -47,6 +47,21 @@ return new class extends Migration
             $table->string('aadhar', 16);
             $table->string('gr_number', 65)->index()->nullable();
 
+            $table->integer('rating_1')->default(0);
+            $table->integer('rating_2')->default(0);
+            $table->integer('rating_3')->default(0);
+            $table->integer('rating_4')->default(0);
+            $table->integer('rating_5')->default(0);
+            $table->integer('rating_6')->default(0);
+            $table->integer('rating_7')->default(0);
+            $table->integer('rating_8')->default(0);
+            $table->integer('rating_9')->default(0);
+            $table->integer('rating_10')->default(0);
+            $table->integer('rating_11')->default(0);
+            $table->integer('rating_12')->default(0);
+            $table->integer('total_rating')->default(0);
+            $table->set('status', ['Accepted', 'Rejected', 'Hold', 'Cancelled', 'Confirmed', 'Pending'])->default('Pending');
+
             $table->timestamps();
         });
     }

@@ -118,11 +118,18 @@ Route::middleware(['auth','verified','administrator'])->group(function () {
     /* Admission Pool Pages */
     Route::get('/admission_pool/intake', [App\Http\Controllers\AdmissionPoolController::class, 'intake']);
     Route::get('/admission_pool/applications', [App\Http\Controllers\AdmissionPoolController::class, 'applications']);
+    Route::get('/admission_pool/applications/{admission_id}', [App\Http\Controllers\AdmissionPoolController::class, 'applications_admission']);
     Route::get('/admission_pool/rating', [App\Http\Controllers\AdmissionPoolController::class, 'rating']);
     Route::get('/admission_pool/merit_list', [App\Http\Controllers\AdmissionPoolController::class, 'merit_list']);
 
+    /* PDF Pages */
+    Route::get('/pdf/demo', [App\Http\Controllers\PDFController::class, 'demo']);
+
     /* Admission Pool API Calls */
     Route::post('/admission_pool/save_intake', [App\Http\Controllers\AdmissionPoolController::class, 'save_intake']);
+    Route::post('/admission_pool/update_ratings', [App\Http\Controllers\AdmissionPoolController::class, 'update_ratings']);
+    Route::post('/admission_pool/update_admission', [App\Http\Controllers\AdmissionPoolController::class, 'update_admission']);
+    Route::get('/admission_pool/fetch_applications/{academic_year_id}', [App\Http\Controllers\AdmissionPoolController::class, 'fetch_applications']);
 
 
     /* Batch Manager Pages */

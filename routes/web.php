@@ -10,6 +10,8 @@ use App\Models\Setting;
 
 use App\Http\Controllers\CrudController;
 
+use Carbon\Carbon;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -29,6 +31,11 @@ use App\Http\Controllers\CrudController;
         'phpVersion' => PHP_VERSION,
     ]);
 }); */
+
+Route::get('/demo', function () {
+    return Carbon::create('2023-10-27')->toFormattedDayDateString();
+    return "Praise the Lord";
+});
 
 Route::get('/', function () {
     // return Inertia::render('Sandeep');
