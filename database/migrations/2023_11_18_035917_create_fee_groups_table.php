@@ -15,6 +15,13 @@ return new class extends Migration
     {
         Schema::create('fee_groups', function (Blueprint $table) {
             $table->id();
+
+            $table->bigInteger('academic_year_id')->index();
+            $table->string('name');
+            $table->double('application_fee');
+            $table->double('admission_fee');
+            $table->double('deposit');
+
             $table->timestamps();
         });
     }

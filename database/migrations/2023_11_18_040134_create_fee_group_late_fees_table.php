@@ -15,6 +15,11 @@ return new class extends Migration
     {
         Schema::create('fee_group_late_fees', function (Blueprint $table) {
             $table->id();
+
+            $table->bigInteger('fee_group_id')->index();
+            $table->double('amount');
+            $table->set('per', ['Day', 'Week', 'Month']);
+
             $table->timestamps();
         });
     }

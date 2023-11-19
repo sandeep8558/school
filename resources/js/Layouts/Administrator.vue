@@ -20,6 +20,7 @@ export default {
                 academicYear: false,
                 batchManager: false,
                 admissionPool: false,
+                feeAndServices: false,
             },
             isBranchSelect: false,
             form: useForm({
@@ -49,6 +50,7 @@ export default {
                 case "academicYear" : this.ughadZap.academicYear = val; break;
                 case "batchManager" : this.ughadZap.batchManager = val; break;
                 case "admissionPool" : this.ughadZap.admissionPool = val; break;
+                case "feeAndServices" : this.ughadZap.feeAndServices = val; break;
             }
             
         },
@@ -231,6 +233,26 @@ export default {
                                     </li>
                                     <li>
                                         <Link class="nav-sec-link" :class="{'active': $page.url.startsWith('/academic_year/calendar')}" href="/academic_year/calendar">Calendar</Link>
+                                    </li>
+                                </ul>
+                            </li>
+
+
+                            <!-- Fee and Services Menu -->
+                            <li class="nav-li">
+                                <a href="#" class="nav-link" :class="ughadZap.feeAndServices || $page.url.startsWith('/fee_and_services') ? 'active' : ''" @click="ughadZapKar('feeAndServices', !ughadZap.feeAndServices)">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" class="w-6 h-6 inline-block mr-2">
+                                        <path strokeLinecap="round" strokeLinejoin="round" d="M4.26 10.147a60.436 60.436 0 00-.491 6.347A48.627 48.627 0 0112 20.904a48.627 48.627 0 018.232-4.41 60.46 60.46 0 00-.491-6.347m-15.482 0a50.57 50.57 0 00-2.658-.813A59.905 59.905 0 0112 3.493a59.902 59.902 0 0110.399 5.84c-.896.248-1.783.52-2.658.814m-15.482 0A50.697 50.697 0 0112 13.489a50.702 50.702 0 017.74-3.342M6.75 15a.75.75 0 100-1.5.75.75 0 000 1.5zm0 0v-3.675A55.378 55.378 0 0112 8.443m-7.007 11.55A5.981 5.981 0 006.75 15.75v-1.5" />
+                                    </svg>
+                                    <span class="">Fee and Services</span>
+                                    <span class="float-right">&#128899;</span>
+                                </a>
+                                <ul class="nav-sec-ul" v-if="ughadZap.feeAndServices || $page.url.startsWith('/fee_and_services')">
+                                    <li>
+                                        <Link class="nav-sec-link" :class="{'active': $page.url === '/fee_and_services/fee'}" href="/fee_and_services/fee">Fee Bootstrap</Link>
+                                    </li>
+                                    <li>
+                                        <Link class="nav-sec-link" :class="{'active': $page.url === '/fee_and_services/services'}" href="/fee_and_services/services">Services</Link>
                                     </li>
                                 </ul>
                             </li>

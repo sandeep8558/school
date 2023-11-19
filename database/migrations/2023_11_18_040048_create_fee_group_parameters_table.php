@@ -15,6 +15,12 @@ return new class extends Migration
     {
         Schema::create('fee_group_parameters', function (Blueprint $table) {
             $table->id();
+
+            $table->bigInteger('fee_group_id')->index();
+            $table->string('param');
+            $table->double('per_year_fee');
+            $table->double('per_month_fee');
+
             $table->timestamps();
         });
     }

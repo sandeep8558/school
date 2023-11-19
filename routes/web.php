@@ -79,6 +79,8 @@ require __DIR__.'/_teacher.php';
 
 require __DIR__.'/_api.php';
 
+require __DIR__.'/_pdf.php';
+
 
 
 
@@ -137,7 +139,28 @@ Route::get('/role_splitter', function(){
 View::composer(['*'], function($view){
 
         $favicon = Setting::where('key', 'Favicon')->exists() ? Setting::where('key', 'Favicon')->first()->val : null;
+        $logo = Setting::where('key', 'Logo')->exists() ? Setting::where('key', 'Logo')->first()->val : null;
+        $school_name = Setting::where('key', 'School Name')->exists() ? Setting::where('key', 'School Name')->first()->val : null;
+        $tag_line = Setting::where('key', 'Tag Line')->exists() ? Setting::where('key', 'Tag Line')->first()->val : null;
 
-        $view->with('favicon', $favicon);
+        $address = Setting::where('key', 'Address')->exists() ? Setting::where('key', 'Address')->first()->val : null;
+        $city = Setting::where('key', 'City')->exists() ? Setting::where('key', 'City')->first()->val : null;
+        $pincode = Setting::where('key', 'Pincode')->exists() ? Setting::where('key', 'Pincode')->first()->val : null;
+        $state = Setting::where('key', 'State')->exists() ? Setting::where('key', 'State')->first()->val : null;
+        $country = Setting::where('key', 'Country')->exists() ? Setting::where('key', 'Country')->first()->val : null;
+        $email_address = Setting::where('key', 'Email Address')->exists() ? Setting::where('key', 'Email Address')->first()->val : null;
+        $phone_number = Setting::where('key', 'Phone Number')->exists() ? Setting::where('key', 'Phone Number')->first()->val : null;
+
+        $view->with('favicon', $favicon)
+        ->with('logo', $logo)
+        ->with('school_name', $school_name)
+        ->with('tag_line', $tag_line)
+        ->with('address', $address)
+        ->with('city', $city)
+        ->with('pincode', $pincode)
+        ->with('state', $state)
+        ->with('country', $country)
+        ->with('email_address', $email_address)
+        ->with('phone_number', $phone_number);
 
 });

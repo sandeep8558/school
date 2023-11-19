@@ -15,6 +15,14 @@ return new class extends Migration
     {
         Schema::create('fee_group_installments', function (Blueprint $table) {
             $table->id();
+
+            $table->bigInteger('fee_group_id')->index();
+            $table->integer('ind');
+            $table->string('name');
+            $table->double('amount');
+            $table->date('due_date');
+            $table->set('payable_at_admission', ['Yes', 'No']);
+
             $table->timestamps();
         });
     }

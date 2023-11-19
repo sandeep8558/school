@@ -122,9 +122,6 @@ Route::middleware(['auth','verified','administrator'])->group(function () {
     Route::get('/admission_pool/rating', [App\Http\Controllers\AdmissionPoolController::class, 'rating']);
     Route::get('/admission_pool/merit_list', [App\Http\Controllers\AdmissionPoolController::class, 'merit_list']);
 
-    /* PDF Pages */
-    Route::get('/pdf/demo', [App\Http\Controllers\PDFController::class, 'demo']);
-
     /* Admission Pool API Calls */
     Route::post('/admission_pool/save_intake', [App\Http\Controllers\AdmissionPoolController::class, 'save_intake']);
     Route::post('/admission_pool/update_ratings', [App\Http\Controllers\AdmissionPoolController::class, 'update_ratings']);
@@ -139,6 +136,16 @@ Route::middleware(['auth','verified','administrator'])->group(function () {
     Route::post('/batch_manager/create_batch', [App\Http\Controllers\BatchManagerController::class, 'create_batch']);
     Route::post('/batch_manager/update_batch', [App\Http\Controllers\BatchManagerController::class, 'update_batch']);
     Route::post('/batch_manager/assign_teacher', [App\Http\Controllers\BatchManagerController::class, 'assign_teacher']);
+
+
+
+    /* Fee and Services Pages */
+    Route::get('/fee_and_services/fee', [App\Http\Controllers\FeeAndServicesController::class, 'fee']);
+    Route::get('/fee_and_services/services', [App\Http\Controllers\FeeAndServicesController::class, 'services']);
+
+    /* Fee and Services API Calls */
+    Route::post('/fee_and_services/save_fee', [App\Http\Controllers\FeeAndServicesController::class, 'save_fee']);
+    Route::post('/fee_and_services/delete_fee', [App\Http\Controllers\FeeAndServicesController::class, 'delete_fee']);
 
 
 });

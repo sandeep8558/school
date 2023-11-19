@@ -13,12 +13,8 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('fee_group_grades', function (Blueprint $table) {
+        Schema::create('services', function (Blueprint $table) {
             $table->id();
-
-            $table->bigInteger('grade_id')->index();
-            $table->bigInteger('fee_group_id')->index();
-
             $table->timestamps();
         });
     }
@@ -30,6 +26,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('fee_group_grades');
+        Schema::dropIfExists('services');
     }
 };
