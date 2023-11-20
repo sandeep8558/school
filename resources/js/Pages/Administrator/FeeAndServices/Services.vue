@@ -12,6 +12,7 @@ export default {
         errors: Object,
         academic_years: Object,
         grades: Object,
+        services: Object,
     },
 
     data: function () {
@@ -49,6 +50,39 @@ export default {
     },
 
     methods: {
+
+        deleteClicked(obj){
+            this.$swal.fire({
+                title: "Warning",
+                text: "Do you want to delete this Service?",
+                showCancelButton: true,
+                showConfirmButton: true,
+                cancelButtonText: 'No',
+                confirmButtonText: 'Yes',
+            }).then((e) => {
+                if(e.isConfirmed){
+                    let frm = useForm({id:obj.id});
+                    frm.post('/fee_and_services/delete_service', {
+                        onFinish: data => {
+                        }
+                    });
+                }
+            });
+        },
+
+        editClicked(obj){
+            this.isForm = true;
+            this.service.id = obj.id;
+            this.service.academic_year_id = obj.academic_year_id;
+            this.service.name = obj.name;
+            this.service.is_compulsory = obj.is_compulsory;
+
+            obj.service_items.forEach(item => {
+                this.service.service_items.push(item);
+            });
+
+            
+        },
 
         saveService(){
             let frm = new useForm(this.service);
@@ -131,6 +165,10 @@ export default {
                 }
             });
             return g;
+        },
+
+        removeServiceItem(ind){
+            this.service.service_items.splice(ind, 1);
         },
 
         removeInstallment(ind){
@@ -302,7 +340,11 @@ export default {
                 </div>
 
 
-                <div v-for="item in service.service_items" :key="item" class="flex flex-wrap mb-6">
+                <div v-for="(item, ind) in service.service_items" :key="item" class="flex flex-wrap mb-6 group relative">
+                    <div class="w-full text-center absolute">
+                        <button class="btn btn-red hidden group-hover:inline-block" @click="removeServiceItem(ind)">Remove Service</button>
+                    </div>
+                    
                     <table class="w-full">
                         <tbody>
                             <tr>
@@ -325,6 +367,45 @@ export default {
 
                 <div v-if="isSaveService" class="w-full">
                     <button @click="saveService()" :disabled="!isSaveService" class="btn" :class="isSaveService ? 'btn-red' : 'btn-disabled'">Save Service</button>
+                </div>
+
+            </div>
+        </div>
+
+        <div v-for="srv in services" :key="srv.id" class="box">
+            <div class="w-full">
+
+                <div class="w-full text-center font-bold text-lg mb-5">{{ srv.name }} - {{ srv.academic_year.name }} ({{ srv.is_compulsory == 'Yes' ? 'Compulsory' : 'Optional' }})</div>
+
+                <table class="w-full mb-6" v-for="si in srv.service_items" :key="si.id">
+                    <thead>
+                        <tr>
+                            <th class="border border-gray-400 p-1 text-left">{{ si.name }} - {{ si.code }}</th>
+                            <th class="border border-gray-400 p-1 w-48 text-right">Rs. {{ si.amount }}/-</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                        <tr>
+                            <td class="border border-gray-400 p-1" colspan="2">Grades: <span  v-for="(grade, ind) in si.service_item_grades" :key="grade">{{ getGradeById(grade.grade_id).name }}{{ si.service_item_grades.length ==  (ind + 1) ? '' : ', '}}</span></td>
+                        </tr>
+
+                        <tr v-for="(emi) in si.service_item_installments" :key="emi">
+                            <td class="border border-gray-400 p-1">{{ emi.name }} payable on or before {{ emi.due_date }}</td>
+                            <td class="border border-gray-400 p-1 w-48 text-right">Rs. {{ emi.amount }}/-</td>
+                        </tr>
+
+                        <tr>
+                            <td class="border border-gray-400 p-1" colspan="2">{{ si.description }}</td>
+                        </tr>
+
+                    </tbody>
+                </table>
+
+                <div class="w-full text-center">
+                    <a class="btn btn-purple p-2 leading-5 mx-1" :href="'/pdf/service/'+srv.id" target="_blank">Download</a>
+                    <button class="btn btn-orange p-2 leading-5 mx-1" @click="editClicked(srv)">Edit</button>
+                    <button class="btn btn-red p-2 leading-5 mx-1" @click="deleteClicked(srv)">Delete</button>
                 </div>
 
             </div>

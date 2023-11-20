@@ -10,4 +10,7 @@ Route::middleware(['auth','verified','administrator'])->group(function () {
     /* Fee Group PDF */
     Route::get('/pdf/fee_group/{id}', [App\Http\Controllers\PDFController::class, 'fee_group']);
 
+    /* Service PDF */
+    Route::get('/pdf/service/{id}', [App\Http\Controllers\PDFController::class, 'service']);
+
 });

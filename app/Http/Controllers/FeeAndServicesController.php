@@ -40,11 +40,18 @@ class FeeAndServicesController extends Controller
 
         $academic_years = AcademicYear::where('branch_id', $branch_id)->where('is_admission_closed', 'No')->orderBy('id', 'desc')->get();
 
+        $services = Service::whereHas('branch', function($q) use($branch_id){
+            $q->where('branches.id', $branch_id);
+        })
+        ->with('service_items.service_item_grades','service_items.service_item_installments', 'academic_year')
+        ->orderBy('id', 'desc')
+        ->get();
+
         $grades = Grade::whereHas('branch', function($q) use($branch_id){
             $q->where('branches.id', $branch_id);
         })->orderBy('grade_index', 'asc')->get();
 
-        return Inertia::render('Administrator/FeeAndServices/Services', compact('academic_years', 'grades'));
+        return Inertia::render('Administrator/FeeAndServices/Services', compact('academic_years', 'grades', 'services'));
     }
 
     public function save_fee(Request $request){
@@ -152,46 +159,71 @@ class FeeAndServicesController extends Controller
 
     public function save_service(Request $request){
 
-        if($request->id == null){
+        $s = [
+            "academic_year_id" => $request->academic_year_id,
+            "name" => $request->name,
+            "is_compulsory" => $request->is_compulsory,
+        ];
 
-            $s = [
-                "academic_year_id" => $request->academic_year_id,
-                "name" => $request->name,
-                "is_compulsory" => $request->is_compulsory,
-            ];
+        if($request->id == null){
             
             $service = Service::create($s);
 
-            foreach($request->service_items as $item){
-                $si = [
-                    'name' => $item['name'],
-                    'code' => $item['code'],
-                    'description' => $item['description'],
-                    'amount' => $item['amount'],
-                ];
-                $ss = $service->service_items()->create($si);
-                
-                /* Grade Insert */
-                foreach($item['service_item_grades'] as $grade){
-                    $ss->service_item_grades()->create([
-                        'grade_id' => $grade['grade_id']
-                    ]);
-                }
+        } else {
+            $service = Service::find($request->id);
+            $service->update($s);
 
-                /* EMI Insert */
-                foreach($item['service_item_installments'] as $emi){
-                    $ss->service_item_installments()->create([
-                        'name' => $emi['name'],
-                        'amount' => $emi['amount'],
-                        'due_date' => $emi['due_date']
-                    ]);
-                }
+            foreach($service->service_items()->get() as $item){
+                $item->service_item_installments()->delete();
+                $item->service_item_grades()->delete();
+            }
+            $service->service_items()->delete();
+        }
+
+        foreach($request->service_items as $item){
+            $si = [
+                'name' => $item['name'],
+                'code' => $item['code'],
+                'description' => $item['description'],
+                'amount' => $item['amount'],
+            ];
+            $ss = $service->service_items()->create($si);
+            
+            /* Grade Insert */
+            foreach($item['service_item_grades'] as $grade){
+                $ss->service_item_grades()->create([
+                    'grade_id' => $grade['grade_id']
+                ]);
             }
 
-        } else {
+            /* EMI Insert */
+            foreach($item['service_item_installments'] as $emi){
+                $ss->service_item_installments()->create([
+                    'name' => $emi['name'],
+                    'amount' => $emi['amount'],
+                    'due_date' => $emi['due_date']
+                ]);
+            }
         }
 
         return back();
+    }
+
+    public function delete_service(Request $request){
+        
+        $service = Service::find($request->id);
+
+        foreach($service->service_items()->get() as $item){
+            $item->service_item_installments()->delete();
+            $item->service_item_grades()->delete();
+        }
+        
+        $service->service_items()->delete();
+
+        $service->delete();
+
+        return back();
+
     }
 
 }
