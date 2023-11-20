@@ -13,8 +13,14 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('service_groups', function (Blueprint $table) {
+        Schema::create('service_item_installments', function (Blueprint $table) {
             $table->id();
+
+            $table->bigInteger('service_item_id')->index();
+            $table->string('name');
+            $table->double('amount');
+            $table->date('due_date');
+
             $table->timestamps();
         });
     }
@@ -26,6 +32,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('service_groups');
+        Schema::dropIfExists('service_item_installments');
     }
 };

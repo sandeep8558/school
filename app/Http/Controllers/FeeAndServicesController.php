@@ -9,6 +9,7 @@ use Auth;
 use App\Models\AcademicYear;
 use App\Models\Grade;
 use App\Models\FeeGroup;
+use App\Models\Service;
 
 class FeeAndServicesController extends Controller
 {
@@ -34,7 +35,16 @@ class FeeAndServicesController extends Controller
     }
 
     public function services(){
-        return Inertia::render('Administrator/FeeAndServices/Services');
+
+        $branch_id = Auth::user()->branch_id;
+
+        $academic_years = AcademicYear::where('branch_id', $branch_id)->where('is_admission_closed', 'No')->orderBy('id', 'desc')->get();
+
+        $grades = Grade::whereHas('branch', function($q) use($branch_id){
+            $q->where('branches.id', $branch_id);
+        })->orderBy('grade_index', 'asc')->get();
+
+        return Inertia::render('Administrator/FeeAndServices/Services', compact('academic_years', 'grades'));
     }
 
     public function save_fee(Request $request){
@@ -138,6 +148,50 @@ class FeeAndServicesController extends Controller
 
         return back();
 
+    }
+
+    public function save_service(Request $request){
+
+        if($request->id == null){
+
+            $s = [
+                "academic_year_id" => $request->academic_year_id,
+                "name" => $request->name,
+                "is_compulsory" => $request->is_compulsory,
+            ];
+            
+            $service = Service::create($s);
+
+            foreach($request->service_items as $item){
+                $si = [
+                    'name' => $item['name'],
+                    'code' => $item['code'],
+                    'description' => $item['description'],
+                    'amount' => $item['amount'],
+                ];
+                $ss = $service->service_items()->create($si);
+                
+                /* Grade Insert */
+                foreach($item['service_item_grades'] as $grade){
+                    $ss->service_item_grades()->create([
+                        'grade_id' => $grade['grade_id']
+                    ]);
+                }
+
+                /* EMI Insert */
+                foreach($item['service_item_installments'] as $emi){
+                    $ss->service_item_installments()->create([
+                        'name' => $emi['name'],
+                        'amount' => $emi['amount'],
+                        'due_date' => $emi['due_date']
+                    ]);
+                }
+            }
+
+        } else {
+        }
+
+        return back();
     }
 
 }

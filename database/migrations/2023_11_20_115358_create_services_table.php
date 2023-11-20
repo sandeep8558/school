@@ -15,6 +15,11 @@ return new class extends Migration
     {
         Schema::create('services', function (Blueprint $table) {
             $table->id();
+
+            $table->bigInteger('academic_year_id')->index();
+            $table->string('name');
+            $table->set('is_compulsory', ['Yes', 'No']);
+
             $table->timestamps();
         });
     }

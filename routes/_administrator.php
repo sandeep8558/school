@@ -146,6 +146,7 @@ Route::middleware(['auth','verified','administrator'])->group(function () {
     /* Fee and Services API Calls */
     Route::post('/fee_and_services/save_fee', [App\Http\Controllers\FeeAndServicesController::class, 'save_fee']);
     Route::post('/fee_and_services/delete_fee', [App\Http\Controllers\FeeAndServicesController::class, 'delete_fee']);
+    Route::post('/fee_and_services/save_service', [App\Http\Controllers\FeeAndServicesController::class, 'save_service']);
 
 
 });
