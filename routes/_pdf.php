@@ -2,7 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 
-Route::middleware(['auth','verified','administrator'])->group(function () {
+Route::middleware(['auth','verified'])->group(function () {
 
     /* Demo PDF */
     Route::get('/pdf/demo', [App\Http\Controllers\PDFController::class, 'demo']);

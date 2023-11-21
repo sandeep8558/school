@@ -2,6 +2,8 @@
 import Student from '@/Layouts/Student.vue';
 import { Head, Link } from '@inertiajs/vue3';
 
+import Razorpay from '@/Components/Razorpay.vue';
+
 export default {
     
     props: {
@@ -14,12 +16,15 @@ export default {
     },
 
     methods: {
+        payment(e){
+            console.log(e);
+        },
     },
 
-    mounted: function() {
+    created: function() {
     },
 
-    components: { Student, Head, Link }
+    components: { Student, Head, Link, Razorpay }
 }
 </script>
 

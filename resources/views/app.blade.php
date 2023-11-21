@@ -19,6 +19,8 @@
         @inertiaHead
 
         <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.8.1/flowbite.min.js"></script>
+
+        <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
         
     </head>
     <body class="font-sans antialiased">

@@ -26,4 +26,8 @@ class AcademicYear extends Model
     public function applications(){
         return $this->hasMany(Admission::class);
     }
+
+    public function fee_groups(){
+        return $this->hasMany(FeeGroup::class);
+    }
 }

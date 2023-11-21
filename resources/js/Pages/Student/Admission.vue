@@ -6,16 +6,20 @@ import Text from '@/Components/Form/Text.vue';
 import Select from '@/Components/Form/Select.vue';
 import Date from '@/Components/Form/Date.vue';
 import Image from '@/Components/Form/Image.vue';
+import Radio from '@/Components/Form/Radio.vue';
+
+import Razorpay from '@/Components/Razorpay.vue';
 
 
 export default {
 
-    components: { Head, Student, Text, Select, Date, Image },
+    components: { Head, Student, Text, Select, Date, Image, Radio, Razorpay },
 
     props: {
         isAdmission: String,
         branches: Object,
         msg: String,
+        fee: Object,
     },
 
     data: function () {
@@ -89,6 +93,22 @@ export default {
                 {key: '10 Lac and above', val: '10 Lac and above'},
             ],
 
+            yn: [
+                {key: 'Yes', val: 'Yes'},
+                {key: 'No', val: 'No'},
+            ],
+
+            ynn: [
+                {key: 'Yes', val: 'Yes'},
+                {key: 'No', val: 'No'},
+                {key: 'Not Sure', val: 'Not Sure'},
+            ],
+
+            mf: [
+                {key: 'Mother', val: 'Mother'},
+                {key: 'Father', val: 'Father'},
+            ],
+
             formData: {
                 admissions: {
                     previous_school: '',
@@ -115,6 +135,12 @@ export default {
                     mothertongue: '',
                     nationality: '',
                     aadhar: '',
+
+                    is_alumnus: 'No',
+                    special_need: 'No',
+                    speaking_hearing: 'No',
+                    is_single_parent: '',
+                    single_what: null,
                 },
                 addresses: {
                     address: '',
@@ -175,9 +201,21 @@ export default {
                     company_name: '',
                     company_address: '',
                 },
+                siblings: [],
                 photo: null,
                 aadhar: null,
                 birth_certificate: null,
+                razorpay: {
+                    user_id: this.$page.props.auth.user.id,
+                    razorpay_payment_id: '',
+                    razorpay_order_id: '',
+                    razorpay_signature: '',
+                    verified: '',
+                },
+            },
+
+            sibling: {
+                gr_number: '',
             },
 
             steps: {
@@ -188,10 +226,24 @@ export default {
 
     computed: {
 
+        admissionFee(){
+            let fee = 0;
+            this.fee.forEach(f => {
+                if(f.branch_id == this.formData.admissions.branch_id && f.academic_year_id == this.formData.admissions.academic_year_id && f.grade_id == this.formData.admissions.grade_id){
+                    fee = f.application_fee;
+                }
+            });
+            return fee;
+        },
+
+        isSingleParent(){
+            return this.formData.admissions.is_single_parent == 'Yes' ? true : false;
+        },
+
         stepOne(){
             let is = false;
             let a = this.formData.admissions;
-            if(a.academic_year_id != '' && a.branch_id != '' && a.grade_id != '' && a.first_language_id != '' && a.second_language_id != '' && a.third_language_id != ''){
+            if(a.academic_year_id != '' && a.branch_id != '' && a.grade_id != '' && a.first_language_id != '' && a.second_language_id != '' && a.third_language_id != '' && a.is_alumnus != '' && a.special_need != '' && a.speaking_hearing != ''){
                 is = true;
             }
             return is;
@@ -200,7 +252,7 @@ export default {
         stepTwo(){
             let is = true;
             for(let key in this.formData.admissions){
-                if(key != 'email' && key != 'phone' && key != 'previous_school' && key != 'board'){
+                if(key != 'email' && key != 'phone' && key != 'previous_school' && key != 'board' && key != 'is_single_parent' && key != 'single_what'){
                     if(this.formData.admissions[key] == null || this.formData.admissions[key] == ''){
                         is = false;
                     }
@@ -229,22 +281,34 @@ export default {
         },
 
         stepFour(){
+            /* Father Step */
             let is = true;
-            for(let key in this.formData.father){
-                if(this.formData.father[key] == null || this.formData.father[key] == ''){
-                    is = false;
+
+            if((this.formData.admissions.is_single_parent == 'No') || (this.formData.admissions.is_single_parent == 'Yes' && this.formData.admissions.single_what == 'Father')){
+                for(let key in this.formData.father){
+                    if(this.formData.father[key] == null || this.formData.father[key] == ''){
+                        is = false;
+                    }
                 }
+            } else if((this.formData.admissions.is_single_parent == '' || this.formData.admissions.is_single_parent == null) || (this.formData.admissions.single_what == '' || this.formData.admissions.single_what == null)){
+                is = false;
             }
+
             return is;
         },
 
         stepFive(){
+            /* Mother Step */
             let is = true;
-            for(let key in this.formData.mother){
-                if(this.formData.mother[key] == null || this.formData.mother[key] == ''){
-                    is = false;
+
+            if((this.formData.admissions.is_single_parent == 'No') || (this.formData.admissions.is_single_parent == 'Yes' && this.formData.admissions.single_what == 'Mother')){
+                for(let key in this.formData.mother){
+                    if(this.formData.mother[key] == null || this.formData.mother[key] == ''){
+                        is = false;
+                    }
                 }
             }
+
             return is;
         },
 
@@ -408,6 +472,7 @@ export default {
     },
 
     methods: {
+
         submitApplication(){
             let frm = useForm(this.formData);
             frm.post('/admission/save_application', {
@@ -422,6 +487,94 @@ export default {
             this.steps.current = 1;
         },
 
+        addGRN(){
+            if(this.sibling.gr_number != '' && this.sibling.gr_number != null){
+                let sib = {
+                    gr_number : this.sibling.gr_number
+                };
+                this.formData.siblings.push(sib)
+                this.sibling.gr_number = '';
+            }
+        },
+
+        demoData(){
+            this.formData.admissions.branch_id = 1;
+            this.formData.admissions.academic_year_id = 2;
+            this.formData.admissions.grade_id = 2;
+            this.formData.admissions.first_language_id = 1;
+            this.formData.admissions.second_language_id = 2;
+            this.formData.admissions.third_language_id = 5;
+            this.formData.admissions.previous_school = 'Carmel School';
+            this.formData.admissions.board = 'SSC';
+
+            this.formData.admissions.first_name = 'Royce';
+            this.formData.admissions.middle_name = 'Sandeep';
+            this.formData.admissions.last_name = 'Rathod';
+            this.formData.admissions.dob = '2017-04-07';
+            this.formData.admissions.birth_place = 'Ambernath';
+            this.formData.admissions.gender = 'Male';
+            this.formData.admissions.blood_group = 'O +ve';
+            this.formData.admissions.cast_category = 'General Category';
+            this.formData.admissions.religion = 'Christian';
+            this.formData.admissions.cast = 'NA';
+            this.formData.admissions.subcast = 'NA';
+            this.formData.admissions.mothertongue = 'English';
+            this.formData.admissions.nationality = 'Indian';
+            this.formData.admissions.aadhar = '1234567';
+            this.formData.admissions.phone = '9664588677';
+
+            this.formData.addresses.address = 'Plot No 65, Shree Satyam CHS B101, Sai Section';
+            this.formData.addresses.city = 'Ambernath';
+            this.formData.addresses.pincode = '421501';
+            this.formData.addresses.state = 'Maharashtra';
+            this.formData.addresses.country = 'India';
+
+            this.formData.father.first_name = 'Sandeep';
+            this.formData.father.middle_name = 'Vilas';
+            this.formData.father.last_name = 'Rathod';
+            this.formData.father.email = 'sandeep198558@yahoo.com';
+            this.formData.father.phone = '9664588677';
+            this.formData.father.dob = '1985-10-27';
+            this.formData.father.pan = 'AKTPR2313Q';
+            this.formData.father.aadhar = '123412341234';
+            this.formData.father.qualification = 'Graduate';
+            this.formData.father.degree = 'BCom';
+            this.formData.father.occupation = 'Developer';
+            this.formData.father.annual_income = '10 Lac and above';
+            this.formData.father.company_name = 'Leena IT Solutions';
+
+            this.formData.mother.first_name = 'Leena';
+            this.formData.mother.middle_name = 'Sandeep';
+            this.formData.mother.last_name = 'Rathod';
+            this.formData.mother.email = 'leenaadam28@gmail.com';
+            this.formData.mother.phone = '9769409405';
+            this.formData.mother.dob = '1990-03-28';
+            this.formData.mother.pan = 'AKTPR2313Q';
+            this.formData.mother.aadhar = '123412341234';
+            this.formData.mother.qualification = 'Graduate';
+            this.formData.mother.degree = 'BSc';
+            this.formData.mother.occupation = 'Developer';
+            this.formData.mother.annual_income = '10 Lac and above';
+            this.formData.mother.company_name = 'Leena IT Solutions';
+
+            /* this.steps.current = 4; */
+        },
+
+        payment(e){
+
+            this.formData.razorpay.user_id = this.$page.props.auth.user.id;
+            this.formData.razorpay.razorpay_payment_id = e.razorpay_payment_id;
+            this.formData.razorpay.razorpay_order_id = e.razorpay_order_id;
+            this.formData.razorpay.razorpay_signature = e.razorpay_signature;
+            this.formData.razorpay.verified = e.verified;
+
+            this.submitApplication();
+        },
+
+        deleteSibline(ind){
+            this.formData.siblings.splice(ind, 1);
+        },
+
         init(){
             let branches = [];
             this.branches.forEach(branch => {
@@ -432,8 +585,7 @@ export default {
                 branches.push(br);
             });
             this.allBranches = branches;
-
-            
+            this.demoData();
         },
     },
 
@@ -519,21 +671,39 @@ export default {
 
                     <div class="flex flex-wrap">
                         
-                        <Select v-model="formData.admissions.branch_id" label="Branch" error="" width="" :options="allBranches"></Select>
+                        <Select v-model="formData.admissions.branch_id" label="Branch" error="" width="w-full lg:w-1/3" :options="allBranches"></Select>
 
-                        <Select v-model="formData.admissions.academic_year_id" label="Academic Year" error="" width="" :options="academic_years"></Select>
+                        <Select v-model="formData.admissions.academic_year_id" label="Academic Year" error="" width="w-full lg:w-1/3" :options="academic_years"></Select>
 
-                        <Select v-model="formData.admissions.grade_id" label="Grade" error="" width="" :options="grades"></Select>
+                        <Select v-model="formData.admissions.grade_id" label="Grade" error="" width="w-full lg:w-1/3" :options="grades"></Select>
 
-                        <Select v-model="formData.admissions.first_language_id" label="First Language" error="" width="" :options="first_languages"></Select>
+                        <Select v-model="formData.admissions.first_language_id" label="First Language" error="" width="w-full lg:w-1/3" :options="first_languages"></Select>
 
-                        <Select v-model="formData.admissions.second_language_id" label="Second Language" error="" width="" :options="second_languages"></Select>
+                        <Select v-model="formData.admissions.second_language_id" label="Second Language" error="" width="w-full lg:w-1/3" :options="second_languages"></Select>
 
-                        <Select v-model="formData.admissions.third_language_id" label="Third Language" error="" width="" :options="third_languages"></Select>
+                        <Select v-model="formData.admissions.third_language_id" label="Third Language" error="" width="w-full lg:w-1/3" :options="third_languages"></Select>
 
-                        <Text v-model="formData.admissions.previous_school" label="Previous School" error="" width=""></Text>
+                        <Text v-model="formData.admissions.previous_school" label="Previous School" error="" width="w-full lg:w-2/3"></Text>
 
-                        <Select v-model="formData.admissions.board" label="Board" error="" width="" :options="boards"></Select>
+                        <Select v-model="formData.admissions.board" label="Previous School Board" error="" width="w-full lg:w-1/3" :options="boards"></Select>
+
+                        <Select v-model="formData.admissions.is_alumnus" label="Is alumnus" error="" width="w-full lg:w-1/3" :options="yn"></Select>
+
+                        <Select v-model="formData.admissions.speaking_hearing" label="Any speaking hearing problem" error="" width="w-full lg:w-1/3" :options="yn"></Select>
+
+                        <Select v-model="formData.admissions.special_need" label="Any special care needed?" error="" width="w-full lg:w-1/3" :options="ynn"></Select>
+
+                        <div class="w-full mb-6">
+                            <span v-if="formData.siblings.length <= 0">Siblings GR Numbers are not added</span> <span v-for="(sib,ind) in formData.siblings" :key="sib" class="inline-block btn bg-black text-gray-200 mx-1 relative group">
+                                {{ sib.gr_number }} 
+                                <button @click="deleteSibline(ind)" class="btn btn-red absolute z-10 -top-4 py-1 px-3 hidden group-hover:inline-block">X</button>
+                            </span>
+                        </div>
+
+                        <Text v-model="sibling.gr_number" label="Sibling GR Number" error="" width="w-full lg:w-1/3"></Text>
+                        <div class="w-full lg:w-2/3 p-1">
+                            <button @click="addGRN()" class="inline-block btn btn-orange mx-1">Add GR Number</button>
+                        </div>
 
                     </div>
 
@@ -617,9 +787,20 @@ export default {
                 <!-- Father Step -->
                 <div v-if="steps.current == 4">
 
-                    <h2 class="text-2xl mt-4 mb-10">Father Details</h2>
-
                     <div class="flex flex-wrap">
+
+                        <Radio @change="formData.admissions.single_what = ''" v-model="formData.admissions.is_single_parent" label="Are you a single parent?" error="" width="w-full" :options="yn"></Radio>
+
+                        <Radio v-if="isSingleParent" v-model="formData.admissions.single_what" label="I am a single" error="" width="w-full" :options="mf"></Radio>
+
+                    </div>
+
+
+                    <h2 v-if="formData.admissions.is_single_parent == 'No' || formData.admissions.single_what == 'Father'" class="text-2xl mt-4 mb-10">Father Details</h2>
+
+                    
+
+                    <div v-if="formData.admissions.is_single_parent == 'No' || formData.admissions.single_what == 'Father'" class="flex flex-wrap">
 
                         <Text v-model="formData.father.first_name" label="First Name" error="" width="w-full lg:w-1/3"></Text>
 
@@ -652,7 +833,8 @@ export default {
                     </div>
 
                     <button @click="steps.current = 3" :disabled="!stepThree" class="btn mr-4" :class="stepThree ? 'btn-purple' : 'btn-disabled'">Back</button>
-                    <button @click="steps.current = 5" :disabled="!stepFour" class="btn mr-4" :class="stepFour ? 'btn-purple' : 'btn-disabled'">Next</button>
+                    <button v-if="formData.admissions.is_single_parent == 'No' || (formData.admissions.is_single_parent == 'Yes' && formData.admissions.single_what == 'Mother')" @click="steps.current = 5" :disabled="!stepFour" class="btn mr-4" :class="stepFour ? 'btn-purple' : 'btn-disabled'">Next</button>
+                    <button v-if="formData.admissions.is_single_parent == 'Yes' && formData.admissions.single_what == 'Father'" @click="steps.current = 6" :disabled="!stepFour" class="btn mr-4" :class="stepFour ? 'btn-purple' : 'btn-disabled'">Next</button>
 
                 </div>
 
@@ -742,7 +924,8 @@ export default {
 
                     </div>
 
-                    <button @click="steps.current = 5" :disabled="!stepFive" class="btn mr-4" :class="stepFive ? 'btn-purple' : 'btn-disabled'">Back</button>
+                    <button v-if="formData.admissions.is_single_parent == 'Yes' && formData.admissions.single_what == 'Father'" @click="steps.current = 4" :disabled="!stepFive" class="btn mr-4" :class="stepFive ? 'btn-purple' : 'btn-disabled'">Back</button>
+                    <button v-if="formData.admissions.is_single_parent == 'No' || (formData.admissions.is_single_parent == 'Yes' && formData.admissions.single_what == 'Mother')" @click="steps.current = 5" :disabled="!stepFive" class="btn mr-4" :class="stepFive ? 'btn-purple' : 'btn-disabled'">Back</button>
                     <button @click="steps.current = 7" :disabled="!stepSix" class="btn mr-4" :class="stepSix ? 'btn-purple' : 'btn-disabled'">Next</button>
 
                 </div>
@@ -919,7 +1102,10 @@ export default {
                     </div>
 
                     <button @click="steps.current = 7" :disabled="!stepSix" class="btn mr-4" :class="stepSix ? 'btn-purple' : 'btn-disabled'">Back</button>
-                    <button @click="submitApplication()" class="btn mr-4" :class="stepSeven ? 'btn-purple' : 'btn-disabled'">Submit Application</button>
+
+                    <!-- <button @click="submitApplication()" class="btn mr-4" :class="stepSeven ? 'btn-purple' : 'btn-disabled'">Submit Application</button> -->
+
+                    <Razorpay @payment="payment($event)" :amount="admissionFee * 100" description="" reason="" :class="stepSeven ? 'btn-orange' : 'btn-disabled'">Pay & Proceed</Razorpay>
 
                 </div>
 

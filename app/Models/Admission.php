@@ -40,6 +40,12 @@ class Admission extends Model
         'aadhar',
         'gr_number',
 
+        'is_single_parent',
+        'single_what',
+        'is_alumnus',
+        'special_need',
+        'speaking_hearing',
+
         'rating_1',
         'rating_2',
         'rating_3',
@@ -98,6 +104,15 @@ class Admission extends Model
 
     public function admission_photos(){
         return $this->hasMany(AdmissionPhoto::class);
+    }
+
+    public function admission_siblings(){
+        return $this->hasMany(AdmissionSibling::class);
+    }
+
+    public function razorpay()
+    {
+        return $this->morphOne(Razorpay::class, 'razorpayable');
     }
 
 }

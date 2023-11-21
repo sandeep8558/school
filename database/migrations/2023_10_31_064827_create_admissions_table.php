@@ -47,6 +47,12 @@ return new class extends Migration
             $table->string('aadhar', 16);
             $table->string('gr_number', 65)->index()->nullable();
 
+            $table->set('is_single_parent', ['Yes', 'No']);
+            $table->set('single_what', ['Mother', 'Father'])->nullable();
+            $table->set('is_alumnus', ['Yes', 'No']);
+            $table->set('special_need', ['Yes', 'No', 'Not Sure']);
+            $table->set('speaking_hearing', ['Yes', 'No']);
+
             $table->integer('rating_1')->default(0);
             $table->integer('rating_2')->default(0);
             $table->integer('rating_3')->default(0);

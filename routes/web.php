@@ -81,6 +81,8 @@ require __DIR__.'/_api.php';
 
 require __DIR__.'/_pdf.php';
 
+require __DIR__.'/_razorpay.php';
+
 
 
 
