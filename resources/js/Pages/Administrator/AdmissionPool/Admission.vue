@@ -314,6 +314,25 @@ export default {
                 </tr>
             </table>
 
+            <table class="w-full mb-6" v-if="admission.user.successful_applications.length > 0">
+                <tr>
+                    <td class="border-gray-400 border p-2 w-40 font-bold" colspan="4">Other Applications</td>
+                </tr>
+                <template v-for="app in admission.user.successful_applications" :key="app.id">
+                    <tr v-if="admission.id != app.id">
+                        <td class="border-gray-400 border p-2 w-1/2 align-top">
+                            <Link :href="'/admission_pool/applications/'+app.id">
+                                <p class="font-bold">Application ID: {{ app.id }}</p>
+                                <p class="">{{ app.first_name }} {{ app.middle_name }} {{ app.last_name }} - {{ app.gender }}</p>
+                                <p class="">Date of Birth: {{ app.dob }}</p>
+                                <p class="">{{ app.phone }} - {{ app.email }}</p>
+                            </Link>
+                        </td>
+                    </tr>
+                </template>
+                
+            </table>
+
             
         </div>
 

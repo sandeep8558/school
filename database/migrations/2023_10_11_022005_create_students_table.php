@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('students', function (Blueprint $table) {
             $table->id();
-
+            
             $table->bigInteger('academic_year_id')->index();
             $table->bigInteger('grade_id')->index();
             $table->bigInteger('branch_id')->index();
@@ -38,7 +38,20 @@ return new class extends Migration
             $table->string('mothertongue', 100);
             $table->string('nationality', 100);
             $table->string('aadhar', 16);
-            $table->string('gr_number', 65)->index();
+            $table->string('gr_number', 65)->index()->nullable();
+
+            $table->bigInteger('first_language_id')->index();
+            $table->bigInteger('second_language_id')->index();
+            $table->bigInteger('third_language_id')->index();
+
+            $table->set('is_single_parent', ['Yes', 'No']);
+            $table->set('single_what', ['Mother', 'Father'])->nullable();
+            $table->set('is_alumnus', ['Yes', 'No']);
+            $table->set('special_need', ['Yes', 'No', 'Not Sure']);
+            $table->set('speaking_hearing', ['Yes', 'No']);
+
+            $table->string('previous_school')->nullable();
+            $table->set('board', ['SSC', 'CBSE', 'ICSE', 'IGCSE', 'IB', 'NIOS'])->nullable();
 
             $table->timestamps();
         });

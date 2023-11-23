@@ -10,6 +10,8 @@ class Admission extends Model
     use HasFactory;
 
     protected $fillable = [
+
+        'student_id',
         'first_language_id',
         'second_language_id',
         'third_language_id',
@@ -60,7 +62,13 @@ class Admission extends Model
         'rating_12',
         'total_rating',
         'status',
+
+        'payment_at',
     ];
+
+    public function user(){
+        return $this->belongsTo(User::class, 'email', 'email');
+    }
 
     public function first_language(){
         return $this->belongsTo(Language::class)->where('which', 'First Language');
@@ -112,7 +120,7 @@ class Admission extends Model
 
     public function razorpay()
     {
-        return $this->morphOne(Razorpay::class, 'razorpayable');
+        return $this->morphMany(Razorpay::class, 'razorpayable');
     }
 
 }

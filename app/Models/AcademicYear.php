@@ -27,6 +27,10 @@ class AcademicYear extends Model
         return $this->hasMany(Admission::class);
     }
 
+    public function successful_applications(){
+        return $this->hasMany(Admission::class)->has('razorpay')->with('razorpay');
+    }
+
     public function fee_groups(){
         return $this->hasMany(FeeGroup::class);
     }

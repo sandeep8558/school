@@ -140,6 +140,7 @@ export default {
             <thead class="bg-gray-200">
                 <tr>
                     <th class="p-3">ID</th>
+                    <th class="p-3 whitespace-nowrap">Rating</th>
                     <th class="p-3 whitespace-nowrap text-left">Student</th>
                     <th v-if="isCol(1)" class="p-3 whitespace-nowrap">{{ getSetting('Rating 1') }}</th>
                     <th v-if="isCol(2)" class="p-3 whitespace-nowrap">{{ getSetting('Rating 2') }}</th>
@@ -153,7 +154,7 @@ export default {
                     <th v-if="isCol(10)" class="p-3 whitespace-nowrap">{{ getSetting('Rating 10') }}</th>
                     <th v-if="isCol(11)" class="p-3 whitespace-nowrap">{{ getSetting('Rating 11') }}</th>
                     <th v-if="isCol(12)" class="p-3 whitespace-nowrap">{{ getSetting('Rating 12') }}</th>
-                    <th class="p-3 whitespace-nowrap">Total</th>
+                    
                 </tr>
             </thead>
 
@@ -161,6 +162,7 @@ export default {
 
                 <tr v-for="app in applications" :key="app.id" class="even:bg-gray-200">
                     <td class="border p-2 w-20 text-center">{{ app.id }}</td>
+                    <td class="border p-2 w-20 text-center">{{ getTotalRating(app) }}</td>
                     <td class="border p-2 whitespace-nowrap">
                         <a :href="'/admission_pool/applications/'+app.id" target="_blank">
                             {{ app.first_name }} {{ app.middle_name }} {{ app.last_name }}
@@ -178,7 +180,7 @@ export default {
                     <td v-if="isCol(10)" class="border p-2 w-16"><input type="text" :value="app.rating_10" @focus="setFocusValue(app.rating_10)" @change="updateRating($event, app.id, 'rating_10', app)" class="w-full text-center bg-transparent border-none p-1"></td>
                     <td v-if="isCol(11)" class="border p-2 w-16"><input type="text" :value="app.rating_11" @focus="setFocusValue(app.rating_11)" @change="updateRating($event, app.id, 'rating_11', app)" class="w-full text-center bg-transparent border-none p-1"></td>
                     <td v-if="isCol(12)" class="border p-2 w-16"><input type="text" :value="app.rating_12" @focus="setFocusValue(app.rating_12)" @change="updateRating($event, app.id, 'rating_12', app)" class="w-full text-center bg-transparent border-none p-1"></td>
-                    <td class="border p-2 w-20 text-center">{{ getTotalRating(app) }}</td>
+                    
                 </tr>
 
             </tbody>

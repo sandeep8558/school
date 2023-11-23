@@ -33,7 +33,42 @@ class Student extends Model
         'nationality',
         'aadhar',
         'gr_number',
+
+        'first_language_id',
+        'second_language_id',
+        'third_language_id',
+        'is_single_parent',
+        'single_what',
+        'is_alumnus',
+        'special_need',
+        'speaking_hearing',
+        'previous_school',
+        'board',
     ];
+
+    public function user(){
+        return $this->belongsTo(User::class, 'email', 'email');
+    }
+
+    public function first_language(){
+        return $this->belongsTo(Language::class)->where('which', 'First Language');
+    }
+
+    public function second_language(){
+        return $this->belongsTo(Language::class)->where('which', 'Second Language');
+    }
+
+    public function third_language(){
+        return $this->belongsTo(Language::class)->where('which', 'Third Language');
+    }
+
+    public function academic_year(){
+        return $this->belongsTo(AcademicYear::class);
+    }
+
+    public function grade(){
+        return $this->belongsTo(Grade::class);
+    }
 
     public function house(){
         return $this->belongsTo(House::class);
@@ -41,6 +76,26 @@ class Student extends Model
 
     public function branch(){
         return $this->belongsTo(Branch::class);
+    }
+
+    public function student_addresses(){
+        return $this->hasMany(StudentAddress::class);
+    }
+
+    public function student_documents(){
+        return $this->hasMany(StudentDocument::class);
+    }
+
+    public function student_parents(){
+        return $this->hasMany(StudentParent::class);
+    }
+
+    public function student_photos(){
+        return $this->hasMany(StudentPhoto::class);
+    }
+
+    public function student_siblings(){
+        return $this->hasMany(StudentSibling::class);
     }
 
     protected $appends = ['full_name'];

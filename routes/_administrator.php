@@ -127,6 +127,7 @@ Route::middleware(['auth','verified','administrator'])->group(function () {
     Route::post('/admission_pool/update_ratings', [App\Http\Controllers\AdmissionPoolController::class, 'update_ratings']);
     Route::post('/admission_pool/update_admission', [App\Http\Controllers\AdmissionPoolController::class, 'update_admission']);
     Route::get('/admission_pool/fetch_applications/{academic_year_id}', [App\Http\Controllers\AdmissionPoolController::class, 'fetch_applications']);
+    Route::post('/admission_pool/migrate_to_students', [App\Http\Controllers\AdmissionPoolController::class, 'migrate_to_students']);
 
 
     /* Batch Manager Pages */

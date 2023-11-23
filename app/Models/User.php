@@ -64,6 +64,10 @@ class User extends Authenticatable
         return $this->hasMany(Admission::class, 'email', 'email');
     }
 
+    public function successful_applications(){
+        return $this->hasMany(Admission::class, 'email', 'email')->has('razorpay')->with('razorpay');
+    }
+
     protected $appends = ['roles'];
 
     public function getRolesAttribute(){

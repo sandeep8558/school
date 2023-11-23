@@ -16,6 +16,8 @@ return new class extends Migration
         Schema::create('admissions', function (Blueprint $table) {
             $table->id();
 
+            $table->bigInteger('student_id')->index()->nullable();
+
             $table->bigInteger('first_language_id')->index();
             $table->bigInteger('second_language_id')->index();
             $table->bigInteger('third_language_id')->index();
@@ -67,6 +69,8 @@ return new class extends Migration
             $table->integer('rating_12')->default(0);
             $table->integer('total_rating')->default(0);
             $table->set('status', ['Accepted', 'Rejected', 'Hold', 'Cancelled', 'Confirmed', 'Pending'])->default('Pending');
+
+            $table->timestamp('payment_at')->nullable();
 
             $table->timestamps();
         });

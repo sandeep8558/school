@@ -12,9 +12,11 @@ use App\Models\Setting;
 use Auth;
 
 use App\Models\Admission;
+use App\Models\Student;
 
 class AdmissionPoolController extends Controller
 {
+
     public function intake(){
         $branch_id = Auth::user()->branch_id;
         $academic_years = AcademicYear::with('academic_year_intakes')->where('branch_id', $branch_id)->orderBy('id', 'desc')->get();
@@ -26,7 +28,9 @@ class AdmissionPoolController extends Controller
 
     public function applications(){
         $branch_id = Auth::user()->branch_id;
+
         $academic_years = AcademicYear::with('academic_year_intakes')->where('branch_id', $branch_id)->where('is_admission_closed', 'No')->orderBy('id', 'desc')->get();
+
         $grades = Grade::whereHas('branch', function($q) use($branch_id){
             $q->where('branches.id', $branch_id);
         })->orderBy('grade_index', 'asc')->get();
@@ -35,7 +39,7 @@ class AdmissionPoolController extends Controller
     }
 
     public function applications_admission($admission_id){
-        $admission = Admission::with('admission_photos', 'admission_addresses', 'admission_parents', 'admission_documents', 'first_language', 'second_language', 'third_language')->find($admission_id);
+        $admission = Admission::with('admission_photos', 'admission_addresses', 'admission_parents', 'admission_documents', 'first_language', 'second_language', 'third_language', 'user.successful_applications')->find($admission_id);
         $rating_names = Setting::where('key', 'Like', 'Rating %')->get();
         return Inertia::render('Administrator/AdmissionPool/Admission', compact('admission', 'rating_names'));
     }
@@ -75,10 +79,12 @@ class AdmissionPoolController extends Controller
     }
 
     public function fetch_applications(Request $request, $academic_year_id){
+
         $search = $request->search;
         $grade_id = $request->grade_id;
         $ay = AcademicYear::find($academic_year_id);
-        $ay = $ay->applications();
+
+        $ay = $ay->successful_applications();
 
         if($search != ''){
             $ay = $ay->where(function($q) use($search) {
@@ -98,6 +104,8 @@ class AdmissionPoolController extends Controller
             $ay = $ay->orderBy($request->order_by, $request->order);
         }
 
+        $ay = $ay->join('grades', 'admissions.grade_id', 'grades.id')->select('admissions.*', 'grades.name as grade');
+
         return $ay->with('admission_photos')->get();
     }
 
@@ -112,6 +120,37 @@ class AdmissionPoolController extends Controller
         } else {
             AcademicYearIntake::create($request->all());
         }
+        return back();
+    }
+
+    public function migrate_to_students(Request $request){
+        $admission = Admission::find($request->id);
+        $student = Student::create($admission->toArray());
+
+        $admission->update([
+            'student_id' => $student->id
+        ]);
+
+        foreach(($admission->admission_addresses()->get()) as $address){
+            $student->student_addresses()->create($address->toArray());
+        }
+
+        foreach(($admission->admission_documents()->get()) as $doc){
+            $student->student_documents()->create($doc->toArray());
+        }
+
+        foreach(($admission->admission_parents()->get()) as $parent){
+            $student->student_parents()->create($parent->toArray());
+        }
+
+        foreach(($admission->admission_photos()->get()) as $photo){
+            $student->student_photos()->create($photo->toArray());
+        }
+
+        foreach(($admission->admission_siblings()->get()) as $sibling){
+            $student->student_siblings()->create($sibling->toArray());
+        }
+        
         return back();
     }
 }

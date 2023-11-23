@@ -21,6 +21,16 @@ export default {
     },
 
     methods: {
+
+        migrateToStudent(id){
+            let frm = new useForm({id:id});
+            frm.post('/admission_pool/migrate_to_students', {
+                onFinish: res => {
+                    console.log(res);
+                },
+            });
+        },
+
         async getApplications(){
             let applications = [];
             if(this.academic_year_id != null){
@@ -83,7 +93,13 @@ export default {
             .then(res => {
                 let a = res.json();
             });
-        }
+        },
+
+        dobs(dt){
+            let dte = '';
+            dte = dt.split('-');
+            return dte[2] + '-' + dte[1] + '-' + dte[0];
+        },
     },
 
     created: function() {
@@ -144,12 +160,17 @@ export default {
                 </a>
             </div>
             <div class="w-full">
-                <p>{{ app.first_name }} {{ app.middle_name }} {{ app.last_name }}</p>
-                <p>{{ app.gender }}</p>
-                <p>{{ app.phone }}</p>
-                <p><strong>Rating: {{ app.total_rating }}</strong></p>
+                <p>Application ID: {{ app.id }}</p>
+                <p>{{ app.first_name }} {{ app.middle_name }} {{ app.last_name }} - {{ app.gender }}</p>
+                <p>Grade - {{ app.grade }} | Date of Birth - {{ dobs(app.dob) }}</p>
+                <p>{{ app.phone }} - {{ app.email }}</p>
+                <p v-if="app.status == 'Accepted'" >
+                    <button v-if="app.student_id == null" @click="migrateToStudent(app.id)" class="btn btn-orange py-1 px-2">Migrate</button>
+                    <span v-if="app.student_id != null" @click="migrateToStudent(app.id)" class="">Migrated to Student ID {{ app.student_id }}</span>
+                </p>
             </div>
             <div>
+                <span class="block mb-1">Rating: {{ app.total_rating }}</span>
                 <select @change="updateStatus($event, app)" :value="app.status" class="">
                     <option value="Accepted">Accepted</option>
                     <option value="Rejected">Rejected</option>
@@ -158,6 +179,7 @@ export default {
                     <option value="Confirmed">Confirmed</option>
                     <option value="Pending">Pending</option>
                 </select>
+                <span class="inline-block text-xl mt-2 text-gray-500">{{ app.payment_at == null ? 'Unpaid' : '&#9989; Paid' }}</span>
             </div>
         </div>
 

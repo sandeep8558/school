@@ -14,4 +14,6 @@ Route::middleware(['auth','verified','student'])->group(function () {
 
     Route::post('/admission/save_application', [App\Http\Controllers\StudentController::class, 'save_application']);
 
+    Route::post('/admission/save_admission_payment', [App\Http\Controllers\StudentController::class, 'save_admission_payment']);
+
 });

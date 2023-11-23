@@ -211,6 +211,7 @@ export default {
                     razorpay_order_id: '',
                     razorpay_signature: '',
                     verified: '',
+                    amount: 0,
                 },
             },
 
@@ -567,6 +568,7 @@ export default {
             this.formData.razorpay.razorpay_order_id = e.razorpay_order_id;
             this.formData.razorpay.razorpay_signature = e.razorpay_signature;
             this.formData.razorpay.verified = e.verified;
+            this.formData.razorpay.amount = e.amount;
 
             this.submitApplication();
         },

@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class AdmissionParent extends Model
 {
     use HasFactory;
+    use \Znck\Eloquent\Traits\BelongsToThrough;
 
     protected $fillable = [
         'admission_id',
@@ -30,5 +31,9 @@ class AdmissionParent extends Model
 
     public function admission(){
         return $this->belongsTo(Admission::class);
+    }
+
+    public function branch(){
+        return $this->belongsToThrough(Branch::class, Student::class);
     }
 }

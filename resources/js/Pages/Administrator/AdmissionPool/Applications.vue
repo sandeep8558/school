@@ -29,6 +29,12 @@ export default {
             }
             this.applications = await applications;
         },
+
+        dobs(dt){
+            let dte = '';
+            dte = dt.split('-');
+            return dte[2] + '-' + dte[1] + '-' + dte[0];
+        },
     },
 
     computed: {
@@ -78,10 +84,10 @@ export default {
             <img :src="app.admission_photos[0].media" class="w-full">
         </div>
         <div class="w-full">
-            <p>{{ app.first_name }} {{ app.middle_name }} {{ app.last_name }}</p>
-            <p>{{ app.gender }}</p>
-            <p>{{ app.phone }}</p>
-            <p><strong>Rating: {{ app.total_rating }}</strong></p>
+            <p>Application ID: {{ app.id }} <span class="inline-block float-right">Rating: {{ app.total_rating }}</span></p>
+            <p>{{ app.first_name }} {{ app.middle_name }} {{ app.last_name }} - {{ app.gender }}</p>
+            <p>Grade - {{ app.grade }} | Date of Birth - {{ dobs(app.dob) }}</p>
+            <p>{{ app.phone }} - {{ app.email }}</p>
         </div>
     </Link>
 

@@ -57,6 +57,7 @@ export default {
         async emitPayment(res){
             let a = await this.verify_sign(res);
             res.verified = a.res;
+            res.amount = this.amount/100;
             this.$emit('payment', res);
         },
 

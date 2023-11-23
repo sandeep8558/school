@@ -38,4 +38,9 @@ class RazorpayController extends Controller
         return json_encode(['res' => $response]);
     }
 
+    public function fetch($pid){
+        $api = new Api($this->api_key, $this->api_secret);
+        return $api->payment->fetch($pid);
+    }
+
 }

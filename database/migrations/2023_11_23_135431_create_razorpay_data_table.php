@@ -13,20 +13,12 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('razorpays', function (Blueprint $table) {
+        Schema::create('razorpay_data', function (Blueprint $table) {
             $table->id();
 
-            $table->string('user_id');
-
-            $table->string('razorpay_payment_id');
-            $table->string('razorpay_order_id');
-            $table->string('razorpay_signature');
-            $table->integer('verified');
-
+            $table->string('razorpay_id');
+            $table->string('obligation');
             $table->double('amount');
-
-            $table->bigInteger('razorpayable_id')->index();
-            $table->string('razorpayable_type');
 
             $table->timestamps();
         });
@@ -39,6 +31,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('razorpays');
+        Schema::dropIfExists('razorpay_data');
     }
 };

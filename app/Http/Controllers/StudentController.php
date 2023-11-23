@@ -13,13 +13,16 @@ use App\Models\AcademicYear;
 use App\Models\Admission;
 use App\Models\FeeGroup;
 use App\Models\FeeGroupGrade;
+use App\Models\FeeGroupInstallment;
+
+
+use App\Http\Controllers\RazorpayController;
 
 class StudentController extends Controller
 {
     public function dashboard_student(){
        $admission = Setting::where('key', 'Is Admission Open')->first();
        $isAdmission = $admission ? $admission->val : 'No';
-
         return Inertia::render('Student/Dashboard', compact('isAdmission'));
     }
 
@@ -54,8 +57,64 @@ class StudentController extends Controller
     }
 
     public function admission_my_applications(){
-        $my_applications = Auth::user()->my_applications()->with('admission_addresses', 'admission_documents', 'admission_parents', 'admission_photos', 'academic_year', 'grade', 'branch')->get();
-        return Inertia::render('Student/MyApplications', compact('my_applications'));
+
+        $fee = FeeGroupGrade::
+        where('ay.is_admission_closed', 'No')
+        ->join('fee_groups as fg', 'fg.id', 'fee_group_grades.fee_group_id')
+        ->join('academic_years as ay', 'ay.id', 'fg.academic_year_id')
+        ->join('branches as bra', 'bra.id', 'ay.branch_id')
+
+        ->select(
+            'fee_group_grades.id',
+            'fee_group_grades.grade_id',
+            'fee_group_grades.fee_group_id',
+            'ay.id as academic_year_id',
+            'ay.branch_id',
+            'fg.admission_fee',
+            'fg.deposit',
+        )
+        ->get();
+
+        $emis = FeeGroupInstallment::
+        where('ay.is_admission_closed', 'No')
+        ->where('fee_group_installments.payable_at_admission', 'Yes')
+        ->join('fee_groups as fg', 'fg.id', 'fee_group_installments.fee_group_id')
+        ->join('fee_group_grades as fgg', 'fgg.fee_group_id', 'fg.id')
+        ->join('academic_years as ay', 'ay.id', 'fg.academic_year_id')
+        ->join('branches as bra', 'bra.id', 'ay.branch_id')
+        ->select(
+            'fee_group_installments.*',
+            'ay.id as academic_year_id',
+            'ay.branch_id',
+            'fgg.grade_id',
+        )
+        ->get();
+
+        $my_applications = Auth::user()->successful_applications()->with('admission_addresses', 'admission_documents', 'admission_parents', 'admission_photos', 'academic_year', 'grade', 'branch')->get();
+        return Inertia::render('Student/MyApplications', compact('my_applications', 'fee', 'emis'));
+    }
+
+    public function save_admission_payment(Request $request){
+        $admission = Admission::find($request->admission_id);
+        $timestamp = date('Y-m-d H:i:s');
+        $admission->update([
+            'payment_at' => $timestamp
+        ]);
+        $r = $admission->razorpay()->create([
+            'amount' => $request->amount,
+            'razorpay_order_id' => $request->razorpay_order_id,
+            'razorpay_payment_id' => $request->razorpay_payment_id,
+            'razorpay_signature' => $request->razorpay_signature,
+            'verified' => $request->verified,
+            'user_id' => $request->user_id,
+        ]);
+        foreach($request->rdata as $rdata){
+            $r->razorpay_data()->create([
+                'obligation' => $rdata['key'],
+                'amount' => $rdata['val']
+            ]);
+        }
+        return back();
     }
 
     public function save_application(Request $request){
@@ -103,9 +162,13 @@ class StudentController extends Controller
                 $admission->admission_siblings()->create($sib);
             }
         }
-        
 
-        $admission->razorpay()->create($request->razorpay);
+        $razorpay = $admission->razorpay()->create($request->razorpay);
+
+        $razorpay->razorpay_data()->create([
+            "obligation" => "Application Fee",
+            "amount" => $request->razorpay['amount']
+        ]);
 
         return back()->with('msg', 'Application submitted successfully');
     }

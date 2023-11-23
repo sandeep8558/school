@@ -10,4 +10,6 @@ Route::middleware(['auth','verified'])->group(function () {
 
     Route::post('/razorpay/verify_sign', [App\Http\Controllers\RazorpayController::class, 'verify_sign']);
 
+    Route::post('/razorpay/fetch', [App\Http\Controllers\RazorpayController::class, 'fetch']);
+
 });
