@@ -12,6 +12,8 @@ Route::middleware(['auth','verified','student'])->group(function () {
 
     Route::get('/admission/my_applications', [App\Http\Controllers\StudentController::class, 'admission_my_applications']);
 
+    Route::get('/admission/my_applications/application/{id}', [App\Http\Controllers\StudentController::class, 'application']);
+
     Route::post('/admission/save_application', [App\Http\Controllers\StudentController::class, 'save_application']);
 
     Route::post('/admission/save_admission_payment', [App\Http\Controllers\StudentController::class, 'save_admission_payment']);

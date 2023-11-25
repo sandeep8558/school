@@ -16,6 +16,37 @@ export default {
             academic_year_id: null,
             search: '',
             applications: [],
+            isDownload : false,
+            cols: ['ID','Name','Remark'],
+            columns: [
+                { key: 'id', text: 'ID' },
+                { key: 'name', text: 'Name' },
+                { key: 'grade', text: 'Grade' },
+                { key: 'email', text: 'Email' },
+                { key: 'phone', text: 'Mobile' },
+                { key: 'dob', text: 'DOB' },
+                { key: 'gender', text: 'Gender' },
+                { key: 'blood_group', text: 'Blood Group' },
+                { key: 'religion', text: 'Religion' },
+                { key: 'cast', text: 'Cast' },
+                { key: 'subcast', text: 'Sub-cast' },
+                { key: 'cast_category', text: 'Cast Category' },
+                { key: 'mothertongue', text: 'Mother Tongue' },
+                { key: 'nationality', text: 'Nationality' },
+                { key: 'aadhar', text: 'Aadhar' },
+                { key: 'is_single_parent', text: 'Single Parent' },
+                { key: 'single_what', text: 'Single' },
+                { key: 'is_alumnus', text: 'Alumnus' },
+                { key: 'special_need', text: 'Special Need' },
+                { key: 'speaking_hearing', text: 'Speaking And Hearing' },
+                { key: 'total_rating', text: 'Rating' },
+                { key: 'status', text: 'Status' },
+                { key: 'first_language', text: 'First Language' },
+                { key: 'second_language', text: 'Second Language' },
+                { key: 'third_language', text: 'Third Language' },
+                { key: 'previous_school', text: 'Previous School' },
+                { key: 'remark', text: 'Remark' },
+            ],
         };
     },
 
@@ -35,6 +66,14 @@ export default {
             dte = dt.split('-');
             return dte[2] + '-' + dte[1] + '-' + dte[0];
         },
+
+        remarkKeelLast(){
+            let ind = this.cols.indexOf('Remark');
+            if(ind >= 0){
+                this.cols.splice(ind, 1);
+                this.cols.push('Remark');
+            }
+        }
     },
 
     computed: {
@@ -77,7 +116,32 @@ export default {
         </div>
     </div>
 
-    <div class="my-6 px-6 text-xl"><strong>{{ applications.length }}</strong> Applications Received</div>
+    <div class="box">
+        <div class="w-full">
+
+            <div class="">
+                <button @click="isDownload = !isDownload" class="btn btn-orange">Download Applications</button>
+            </div>
+
+            <div v-if="isDownload" class="mt-5">
+                <div class="w-full flex flex-wrap">
+                    <div v-for="col in columns" :key="col" class="w-full md:w-1/2 lg:w-1/3 xl:w-1/4 p-1">
+                        <input @change="remarkKeelLast()" type="checkbox" :id="col.key" :value="col.text" class="mr-3" name="cols" v-model="cols">
+                        <label :for="col.key">{{ col.text }}</label>
+                    </div>
+                </div>
+
+                <div class="mt-5">
+                    <a :href="'/pdf/applications/'+academic_year_id+'/' + grade_id + '?cols='+cols.toString()" target="_blank" class="btn btn-purple">Applications</a>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="my-6 px-6 text-xl">
+        <strong>{{ applications.length }}</strong> Applications Received
+    </div>
 
     <Link v-for="app in applications" :key="app.id" class="box" target="_blank" :href="'/admission_pool/applications/'+app.id">
         <div class="w-28">

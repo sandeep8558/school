@@ -20,6 +20,12 @@
             border-collapse: collapse;
         }
         .border { border: 1px solid #666666; }
+        .border-l { border-left: 1px solid #666666; }
+        .border-r { border-right: 1px solid #666666; }
+        .border-t { border-top: 1px solid #666666; }
+        .border-b { border-bottom: 1px solid #666666; }
+
+
         .w-1 { width: 1%; }
         .w-2 { width: 2%; }
         .w-3 { width: 3%; }
@@ -678,8 +684,11 @@
         .text-right { text-align: right; }
         .text-justify { text-align: justify; }
 
+        .font-bold { font-weight: bold; }
+
         .text-10 { font-size: 10px; }
         .text-12 { font-size: 12px; }
+        .text-13 { font-size: 13px; }
         .text-16 { font-size: 16px; }
         .text-18 { font-size: 18px; }
         .text-20 { font-size: 20px; }

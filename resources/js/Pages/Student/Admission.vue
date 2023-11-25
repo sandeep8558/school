@@ -222,6 +222,8 @@ export default {
             steps: {
                 current: 1, /* 1 to 6 */
             },
+
+            isCertified: false,
         };
     },
 
@@ -371,6 +373,20 @@ export default {
             return second_languages;
         },
 
+        first_language(){
+            let fl = '';
+            this.branches.forEach(br => {
+                if(this.formData.admissions.branch_id == br.id){
+                    br.first_languages.forEach(lan => {
+                        if(lan.id == this.formData.admissions.first_language_id){
+                            fl = lan.language;
+                        }
+                    });
+                }
+            });
+            return fl;
+        },
+
         second_language(){
             let sl = '';
             this.branches.forEach(br => {
@@ -383,6 +399,20 @@ export default {
                 }
             });
             return sl;
+        },
+
+        third_language(){
+            let tl = '';
+            this.branches.forEach(br => {
+                if(this.formData.admissions.branch_id == br.id){
+                    br.third_languages.forEach(lan => {
+                        if(lan.id == this.formData.admissions.third_language_id){
+                            tl = lan.language;
+                        }
+                    });
+                }
+            });
+            return tl;
         },
         
         third_languages(){
@@ -444,6 +474,40 @@ export default {
                 grades.push(obj);
             });
             return grades;
+        },
+
+        branch(){
+            let bran = '';
+            this.branches.forEach(br => {
+                if(br.id == this.formData.admissions.branch_id){
+                    bran = br.name;
+                }
+            });
+            return bran;
+        },
+
+        academic_year(){
+            let ay = '';
+            this.branches.forEach(br => {
+                if(br.id == this.formData.admissions.branch_id){
+                    br.open_academic_years.forEach(oay => {
+                        if(oay.id == this.formData.admissions.academic_year_id){
+                            ay = oay.name;
+                        }
+                    });
+                }
+            });
+            return ay;
+        },
+
+        grade(){
+            let grd = '';
+            this.grades.forEach(gr => {
+                if(gr.val == this.formData.admissions.grade_id){
+                    grd = gr.key;
+                }
+            });
+            return grd;
         },
 
         photo_url (){
@@ -543,6 +607,7 @@ export default {
             this.formData.father.occupation = 'Developer';
             this.formData.father.annual_income = '10 Lac and above';
             this.formData.father.company_name = 'Leena IT Solutions';
+            this.formData.father.company_address = 'Ambernath';
 
             this.formData.mother.first_name = 'Leena';
             this.formData.mother.middle_name = 'Sandeep';
@@ -557,6 +622,11 @@ export default {
             this.formData.mother.occupation = 'Developer';
             this.formData.mother.annual_income = '10 Lac and above';
             this.formData.mother.company_name = 'Leena IT Solutions';
+            this.formData.mother.company_address = 'Ambernath';
+
+            this.formData.admissions.is_single_parent = 'No';
+
+            this.formData.guardian.isGuardian = false;
 
             /* this.steps.current = 4; */
         },
@@ -569,8 +639,15 @@ export default {
             this.formData.razorpay.razorpay_signature = e.razorpay_signature;
             this.formData.razorpay.verified = e.verified;
             this.formData.razorpay.amount = e.amount;
-
             this.submitApplication();
+            
+        },
+
+        showMessage(){
+            this.$swal.fire({
+                title: "Warning",
+                text: "Please accept the consent by checking the checkbox",
+            });
         },
 
         deleteSibline(ind){
@@ -959,137 +1036,304 @@ export default {
 
                     <h2 class="text-2xl mt-4 mb-5">Review</h2>
 
+                    <table class="w-full">
+                        <tbody>
+
+                            <tr>
+                                <td class="border border-gray-400 p-1 w-40">Name</td>
+                                <td class="border border-gray-400 p-1" colspan="2">{{ formData.admissions.first_name }} {{ formData.admissions.middle_name }} {{ formData.admissions.last_name }}</td>
+                                <td class="border border-gray-400 p-1 w-32" rowspan="4"><img v-if="formData.photo" class="w-full" :src="photo_url"></td>
+                            </tr>
+
+                            <tr>
+                                <td class="border border-gray-400 p-1 w-40">Contact</td>
+                                <td class="border border-gray-400 p-1" colspan="2">{{ formData.admissions.phone }}</td>
+                            </tr>
+
+                            <tr>
+                                <td class="border border-gray-400 p-1 w-40">Email</td>
+                                <td class="border border-gray-400 p-1" colspan="2">{{ formData.admissions.email }}</td>
+                            </tr>
+
+                            <tr>
+                                <td class="border border-gray-400 p-1 w-40">Gender</td>
+                                <td class="border border-gray-400 p-1" colspan="2">{{ formData.admissions.gender }}</td>
+                            </tr>
+
+                        </tbody>
+                    </table>
+
+                    <table class="w-full">
+
+                        <tbody>
+
+                            <tr>
+                                <td class="border border-gray-400 p-1" colspan="2">Seeking Admission For - {{ branch }}</td>
+                                <td class="border border-gray-400 p-1 w-40">For Academic Year</td>
+                                <td class="border border-gray-400 p-1">{{ academic_year }}</td>
+                            </tr>
+
+                            <tr>
+                                <td class="border border-gray-400 p-1 w-40">Grade</td>
+                                <td class="border border-gray-400 p-1">{{ grade }}</td>
+                                <td class="border border-gray-400 p-1 w-40">First Language</td>
+                                <td class="border border-gray-400 p-1">{{ first_language }}</td>
+                            </tr>
+
+                            <tr>
+                                <td class="border border-gray-400 p-1 w-40">Second Language</td>
+                                <td class="border border-gray-400 p-1">{{ second_language }}</td>
+                                <td class="border border-gray-400 p-1 w-40">Third Language</td>
+                                <td class="border border-gray-400 p-1">{{ third_language }}</td>
+                            </tr>
+
+                            <tr>
+                                <td class="border border-gray-400 p-1 w-40">Address</td>
+                                <td class="border border-gray-400 p-1" colspan="3">{{ formData.addresses.address }} {{ formData.addresses.city }} {{ formData.addresses.pincode }} {{ formData.addresses.state }} {{ formData.addresses.country }}</td>
+                            </tr>
+
+                            <tr>
+                                <td class="border border-gray-400 p-1 w-40">Date of Birth</td>
+                                <td class="border border-gray-400 p-1">{{ formData.admissions.dob }}</td>
+                                <td class="border border-gray-400 p-1 w-40">Birth Place</td>
+                                <td class="border border-gray-400 p-1">{{ formData.admissions.birth_place }}</td>
+                            </tr>
+
+                            <tr>
+                                <td class="border border-gray-400 p-1 w-40">Blood Group</td>
+                                <td class="border border-gray-400 p-1">{{ formData.admissions.blood_group }}</td>
+                                <td class="border border-gray-400 p-1 w-40">Mother Tongue</td>
+                                <td class="border border-gray-400 p-1">{{ formData.admissions.mothertongue }}</td>
+                            </tr>
+
+                            <tr>
+                                <td class="border border-gray-400 p-1 w-40">Nationality</td>
+                                <td class="border border-gray-400 p-1">{{ formData.admissions.nationality }}</td>
+                                <td class="border border-gray-400 p-1 w-40">Aadhar Number</td>
+                                <td class="border border-gray-400 p-1">{{ formData.admissions.aadhar }}</td>
+                            </tr>
+
+                            <tr>
+                                <td class="border border-gray-400 p-1 w-40">Religion</td>
+                                <td class="border border-gray-400 p-1">{{ formData.admissions.religion }}</td>
+                                <td class="border border-gray-400 p-1 w-40">Cast Category</td>
+                                <td class="border border-gray-400 p-1">{{ formData.admissions.cast_category }}</td>
+                            </tr>
+
+                            <tr>
+                                <td class="border border-gray-400 p-1 w-40">Cast</td>
+                                <td class="border border-gray-400 p-1">{{ formData.admissions.cast }}</td>
+                                <td class="border border-gray-400 p-1 w-40">Sub-cast</td>
+                                <td class="border border-gray-400 p-1">{{ formData.admissions.subcast }}</td>
+                            </tr>
+
+                            <tr>
+                                <td class="border border-gray-400 p-1" colspan="4">Has your child ever had trouble speaking or listening? - <strong>{{ formData.admissions.speaking_hearing }}</strong></td>
+                            </tr>
+
+                            <tr>
+                                <td class="border border-gray-400 p-1" colspan="4">Does your child have special education needs? - <strong>{{ formData.admissions.special_need }}</strong></td>
+                            </tr>
+
+                            <tr>
+                                <td class="border border-gray-400 p-1 w-40">Alumnus</td>
+                                <td class="border border-gray-400 p-1">{{ formData.admissions.is_alumnus }}</td>
+                                <td class="border border-gray-400 p-1 w-40">Single Parent</td>
+                                <td class="border border-gray-400 p-1">{{ formData.admissions.is_single_parent }} {{ formData.admissions.is_single_parent == 'Yes' ? ' - ' + formData.admissions.single_what : '' }}</td>
+                            </tr>
+
+                        </tbody>
+
+
+                        <tbody v-if="(formData.admissions.is_single_parent == 'No') || ( formData.admissions.is_single_parent == 'Yes' && formData.admissions.single_what == 'Father')">
+
+                            <tr>
+                                <td class="border border-gray-400 p-1 w-40 font-bold" colspan="4">Father's Details</td>
+                            </tr>
+
+                            <tr>
+                                <td class="border border-gray-400 p-1 w-40">Father's Name</td>
+                                <td class="border border-gray-400 p-1">{{ formData.father.first_name }} {{ formData.father.middle_name }} {{ formData.father.last_name }}</td>
+                                <td class="border border-gray-400 p-1 w-40">Email</td>
+                                <td class="border border-gray-400 p-1">{{ formData.father.email }}</td>
+                            </tr>
+
+                            <tr>
+                                <td class="border border-gray-400 p-1 w-40">Mobile Number</td>
+                                <td class="border border-gray-400 p-1">{{ formData.father.phone }}</td>
+                                <td class="border border-gray-400 p-1 w-40">Date of Birth</td>
+                                <td class="border border-gray-400 p-1">{{ formData.father.dob }}</td>
+                            </tr>
+
+                            <tr>
+                                <td class="border border-gray-400 p-1 w-40">Aadhar Number</td>
+                                <td class="border border-gray-400 p-1">{{ formData.father.aadhar }}</td>
+                                <td class="border border-gray-400 p-1 w-40">PAN</td>
+                                <td class="border border-gray-400 p-1">{{ formData.father.pan }}</td>
+                            </tr>
+
+                            <tr>
+                                <td class="border border-gray-400 p-1 w-40">Qualification</td>
+                                <td class="border border-gray-400 p-1">{{ formData.father.qualification }}</td>
+                                <td class="border border-gray-400 p-1 w-40">Degree</td>
+                                <td class="border border-gray-400 p-1">{{ formData.father.degree }}</td>
+                            </tr>
+
+                            <tr>
+                                <td class="border border-gray-400 p-1 w-40">Occupation</td>
+                                <td class="border border-gray-400 p-1">{{ formData.father.occupation }}</td>
+                                <td class="border border-gray-400 p-1 w-40">Annual Income</td>
+                                <td class="border border-gray-400 p-1">{{ formData.father.annual_income }}</td>
+                            </tr>
+
+                            <tr>
+                                <td class="border border-gray-400 p-1 w-40">Company Name</td>
+                                <td class="border border-gray-400 p-1">{{ formData.father.company_name }}</td>
+                                <td class="border border-gray-400 p-1 w-40">Company Address</td>
+                                <td class="border border-gray-400 p-1">{{ formData.father.company_address }}</td>
+                            </tr>
+
+                        </tbody>
+                        
+
+                        <tbody v-if="(formData.admissions.is_single_parent == 'No') || ( formData.admissions.is_single_parent == 'Yes' && formData.admissions.single_what == 'Mother')">
+
+                            <tr>
+                                <td class="border border-gray-400 p-1 w-40 font-bold" colspan="4">Mother's Details</td>
+                            </tr>
+
+                            <tr>
+                                <td class="border border-gray-400 p-1 w-40">Mother's Name</td>
+                                <td class="border border-gray-400 p-1">{{ formData.mother.first_name }} {{ formData.mother.middle_name }} {{ formData.mother.last_name }}</td>
+                                <td class="border border-gray-400 p-1 w-40">Email</td>
+                                <td class="border border-gray-400 p-1">{{ formData.mother.email }}</td>
+                            </tr>
+
+                            <tr>
+                                <td class="border border-gray-400 p-1 w-40">Mobile Number</td>
+                                <td class="border border-gray-400 p-1">{{ formData.mother.phone }}</td>
+                                <td class="border border-gray-400 p-1 w-40">Date of Birth</td>
+                                <td class="border border-gray-400 p-1">{{ formData.mother.dob }}</td>
+                            </tr>
+
+                            <tr>
+                                <td class="border border-gray-400 p-1 w-40">Aadhar Number</td>
+                                <td class="border border-gray-400 p-1">{{ formData.mother.aadhar }}</td>
+                                <td class="border border-gray-400 p-1 w-40">PAN</td>
+                                <td class="border border-gray-400 p-1">{{ formData.mother.pan }}</td>
+                            </tr>
+
+                            <tr>
+                                <td class="border border-gray-400 p-1 w-40">Qualification</td>
+                                <td class="border border-gray-400 p-1">{{ formData.mother.qualification }}</td>
+                                <td class="border border-gray-400 p-1 w-40">Degree</td>
+                                <td class="border border-gray-400 p-1">{{ formData.mother.degree }}</td>
+                            </tr>
+
+                            <tr>
+                                <td class="border border-gray-400 p-1 w-40">Occupation</td>
+                                <td class="border border-gray-400 p-1">{{ formData.mother.occupation }}</td>
+                                <td class="border border-gray-400 p-1 w-40">Annual Income</td>
+                                <td class="border border-gray-400 p-1">{{ formData.mother.annual_income }}</td>
+                            </tr>
+                            
+                            <tr>
+                                <td class="border border-gray-400 p-1 w-40">Company Name</td>
+                                <td class="border border-gray-400 p-1">{{ formData.mother.company_name }}</td>
+                                <td class="border border-gray-400 p-1 w-40">Company Address</td>
+                                <td class="border border-gray-400 p-1">{{ formData.mother.company_address }}</td>
+                            </tr>
+
+                        </tbody>
+
+                        
+
+                        <tbody v-if="formData.guardian.isGuardian">
+
+                            <tr>
+                                <td class="border border-gray-400 p-1 w-40 font-bold" colspan="4">Guardian's Details</td>
+                            </tr>
+
+                            <tr>
+                                <td class="border border-gray-400 p-1 w-40">Guardian's Name</td>
+                                <td class="border border-gray-400 p-1">{{ formData.guardian.first_name }} {{ formData.guardian.middle_name }} {{ formData.guardian.last_name }}</td>
+                                <td class="border border-gray-400 p-1 w-40">Email</td>
+                                <td class="border border-gray-400 p-1">{{ formData.guardian.email }}</td>
+                            </tr>
+
+                            <tr>
+                                <td class="border border-gray-400 p-1 w-40">Mobile Number</td>
+                                <td class="border border-gray-400 p-1">{{ formData.guardian.phone }}</td>
+                                <td class="border border-gray-400 p-1 w-40">Date of Birth</td>
+                                <td class="border border-gray-400 p-1">{{ formData.guardian.dob }}</td>
+                            </tr>
+
+                            <tr>
+                                <td class="border border-gray-400 p-1 w-40">Aadhar Number</td>
+                                <td class="border border-gray-400 p-1">{{ formData.guardian.aadhar }}</td>
+                                <td class="border border-gray-400 p-1 w-40">PAN</td>
+                                <td class="border border-gray-400 p-1">{{ formData.guardian.pan }}</td>
+                            </tr>
+
+                            <tr>
+                                <td class="border border-gray-400 p-1 w-40">Qualification</td>
+                                <td class="border border-gray-400 p-1">{{ formData.guardian.qualification }}</td>
+                                <td class="border border-gray-400 p-1 w-40">Degree</td>
+                                <td class="border border-gray-400 p-1">{{ formData.guardian.degree }}</td>
+                            </tr>
+
+                            <tr>
+                                <td class="border border-gray-400 p-1 w-40">Occupation</td>
+                                <td class="border border-gray-400 p-1">{{ formData.guardian.occupation }}</td>
+                                <td class="border border-gray-400 p-1 w-40">Annual Income</td>
+                                <td class="border border-gray-400 p-1">{{ formData.guardian.annual_income }}</td>
+                            </tr>
+                            
+                            <tr>
+                                <td class="border border-gray-400 p-1 w-40">Company Name</td>
+                                <td class="border border-gray-400 p-1">{{ formData.guardian.company_name }}</td>
+                                <td class="border border-gray-400 p-1 w-40">Company Address</td>
+                                <td class="border border-gray-400 p-1">{{ formData.guardian.company_address }}</td>
+                            </tr>
+
+                        </tbody>
+
+                        <tbody>
+
+                            <tr>
+                                <td class="border border-gray-400 p-1 w-40 font-bold" colspan="4">Previous School</td>
+                            </tr>
+
+                            <tr v-if="formData.admissions.previous_school != '' || formData.admissions.previous_school != null">
+                                <td class="border border-gray-400 p-1" colspan="4">Name of previous school is <strong>{{ formData.admissions.previous_school }}</strong> and board is  <strong>{{ formData.admissions.board }}</strong></td>
+                            </tr>
+
+                            <tr>
+                                <td class="border border-gray-400 p-1" colspan="4">Siblings GR: <span v-for="(sib, ind) in formData.siblings" :key="sib">{{ sib.gr_number }}{{ ind+1 == formData.siblings.length ? '' : ', ' }}</span></td>
+                            </tr>
+
+                        </tbody>
+                    </table>
+
+
+                    <table class="w-full">
+                        <tbody>
+
+                            
+
+                        </tbody>
+                    </table>
+
                     <div class="flex flex-wrap mb-5">
-
-                        <div class="w-full">Name : {{ formData.admissions.first_name }} {{ formData.admissions.middle_name }} {{ formData.admissions.last_name }}</div>
-
-                        <div class="w-full">Date of Birth : {{ formData.admissions.dob }}</div>
-
-                        <div class="w-full">Birth Place : {{ formData.admissions.birth_place }}</div>
-
-                        <div class="w-full">Gender : {{ formData.admissions.gender }}</div>
-
-                        <div class="w-full">Blood Group : {{ formData.admissions.blood_group }}</div>
-
-                        <div class="w-full">Religion : {{ formData.admissions.religion }}</div>
-
-                        <div class="w-full">Cast : {{ formData.admissions.cast }}</div>
-
-                        <div class="w-full">Sub-cast : {{ formData.admissions.subcast }}</div>
-
-                        <div class="w-full">Cast Category : {{ formData.admissions.cast_category }}</div>
-
-                        <div class="w-full">Mother Tongue : {{ formData.admissions.mothertongue }}</div>
-
-                        <div class="w-full">Nationality : {{ formData.admissions.nationality }}</div>
-
-                        <div class="w-full">Aadhar Number : {{ formData.admissions.aadhar }}</div>
-
-                        <hr class="w-full my-5">
-
-                        <div class="w-full">Email : {{ formData.admissions.email }}</div>
-
-                        <div class="w-full">Mobile Number : {{ formData.admissions.phone }}</div>
-
-                        <div class="w-full">Address : {{ formData.addresses.address }} {{ formData.addresses.city }} {{ formData.addresses.pincode }} {{ formData.addresses.state }} {{ formData.addresses.country }}</div>
-
-                        <hr class="w-full my-5">
-
-                        <div class="w-full">Father's Name : {{ formData.father.first_name }} {{ formData.father.middle_name }} {{ formData.father.last_name }}</div>
-
-                        <div class="w-full">Email : {{ formData.father.email }}</div>
-
-                        <div class="w-full">Mobile Number : {{ formData.father.phone }}</div>
-
-                        <div class="w-full">Date of Birth : {{ formData.father.dob }}</div>
-
-                        <div class="w-full">Aadhar Number : {{ formData.father.aadhar }}</div>
-
-                        <div class="w-full">PAN : {{ formData.father.pan }}</div>
-
-                        <div class="w-full">Qualification : {{ formData.father.qualification }}</div>
-
-                        <div class="w-full">Degree : {{ formData.father.degree }}</div>
-
-                        <div class="w-full">Occupation : {{ formData.father.occupation }}</div>
-
-                        <div class="w-full">Annual Income : {{ formData.father.annual_income }}</div>
-
-                        <div class="w-full">Company Name : {{ formData.father.company_name }}</div>
-
-                        <div class="w-full">Company Address : {{ formData.father.company_address }}</div>
-
-                        <hr class="w-full my-5">
-
-                        <div class="w-full">Mother's Name : {{ formData.mother.first_name }} {{ formData.mother.middle_name }} {{ formData.mother.last_name }}</div>
-
-                        <div class="w-full">Email : {{ formData.mother.email }}</div>
-
-                        <div class="w-full">Mobile Number : {{ formData.mother.phone }}</div>
-
-                        <div class="w-full">Date of Birth : {{ formData.mother.dob }}</div>
-
-                        <div class="w-full">Aadhar Number : {{ formData.mother.aadhar }}</div>
-
-                        <div class="w-full">PAN : {{ formData.mother.pan }}</div>
-
-                        <div class="w-full">Qualification : {{ formData.mother.qualification }}</div>
-
-                        <div class="w-full">Degree : {{ formData.mother.degree }}</div>
-
-                        <div class="w-full">Occupation : {{ formData.mother.occupation }}</div>
-
-                        <div class="w-full">Annual Income : {{ formData.mother.annual_income }}</div>
-
-                        <div class="w-full">Company Name : {{ formData.mother.company_name }}</div>
-
-                        <div class="w-full">Company Address : {{ formData.mother.company_address }}</div>
-
-                        <hr class="w-full my-5">
-
-                        <div class="w-full" v-if="formData.guardian.isGuardian">
-
-                            <div class="w-full">Guardian's Name : {{ formData.guardian.first_name }} {{ formData.guardian.middle_name }} {{ formData.guardian.last_name }}</div>
-
-                            <div class="w-full">Email : {{ formData.guardian.email }}</div>
-
-                            <div class="w-full">Mobile Number : {{ formData.guardian.phone }}</div>
-
-                            <div class="w-full">Date of Birth : {{ formData.guardian.dob }}</div>
-
-                            <div class="w-full">Aadhar Number : {{ formData.guardian.aadhar }}</div>
-
-                            <div class="w-full">PAN : {{ formData.guardian.pan }}</div>
-
-                            <div class="w-full">Qualification : {{ formData.guardian.qualification }}</div>
-
-                            <div class="w-full">Degree : {{ formData.guardian.degree }}</div>
-
-                            <div class="w-full">Occupation : {{ formData.guardian.occupation }}</div>
-
-                            <div class="w-full">Annual Income : {{ formData.guardian.annual_income }}</div>
-
-                            <div class="w-full">Company Name : {{ formData.guardian.company_name }}</div>
-
-                            <div class="w-full">Company Address : {{ formData.guardian.company_address }}</div>
-
-                            <hr class="w-full my-5">
-
-                        </div>
 
                         <div class="w-full flex space-x-5">
 
-                            <div class="w-1/3 text-center">
-                                <p class="py-3">Photo</p>
-                                <img v-if="formData.photo" class="w-full" :src="photo_url">
-                            </div>
-
-                            <div class="w-1/3 text-center">
+                            <div v-if="formData.birth_certificate != null" class="w-48 text-center">
                                 <p class="py-3">Birth Certificate</p>
                                 <img v-if="formData.birth_certificate" class="w-full" :src="birth_certificate_url">
                             </div>
 
-                            <div class="w-1/3 text-center">
+                            <div v-if="formData.aadhar != null" class="w-48 text-center">
                                 <p class="py-3">Aadhar Card</p>
                                 <img v-if="formData.aadhar" class="w-full" :src="aadhar_url">
                             </div>
@@ -1103,11 +1347,17 @@ export default {
 
                     </div>
 
+                    <div class="w-full mb-6">
+                        <input type="checkbox" class="mr-2" id="isCertified" v-model="isCertified">
+                        <label for="isCertified">I/ we certify that the above mentioned information is true to the best of my/our knowledge.</label>
+                    </div>
+
                     <button @click="steps.current = 7" :disabled="!stepSix" class="btn mr-4" :class="stepSix ? 'btn-purple' : 'btn-disabled'">Back</button>
 
                     <!-- <button @click="submitApplication()" class="btn mr-4" :class="stepSeven ? 'btn-purple' : 'btn-disabled'">Submit Application</button> -->
 
-                    <Razorpay @payment="payment($event)" :amount="admissionFee * 100" description="" reason="" :class="stepSeven ? 'btn-orange' : 'btn-disabled'">Pay & Proceed</Razorpay>
+                    <button @click="showMessage()" v-if="!isCertified" class="btn btn-purple">Pay & Proceed</button>
+                    <Razorpay v-if="isCertified" @payment="payment($event)" :amount="admissionFee * 100" description="" reason="" >Pay & Proceed</Razorpay>
 
                 </div>
 

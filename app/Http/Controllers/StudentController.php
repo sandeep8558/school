@@ -94,6 +94,13 @@ class StudentController extends Controller
         return Inertia::render('Student/MyApplications', compact('my_applications', 'fee', 'emis'));
     }
 
+    public function application($id){
+        $application = Admission::with('admission_photos', 'admission_addresses', 'admission_parents', 'admission_siblings', 'branch', 'grade', 'academic_year', 'first_language', 'second_language', 'third_language')
+        ->with('razorpay.razorpay_data')
+        ->find($id);
+        return Inertia::render('Student/Application', compact('application'));
+    }
+
     public function save_admission_payment(Request $request){
         $admission = Admission::find($request->admission_id);
         $timestamp = date('Y-m-d H:i:s');

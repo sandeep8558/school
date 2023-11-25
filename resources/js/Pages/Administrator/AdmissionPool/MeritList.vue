@@ -95,6 +95,10 @@ export default {
             });
         },
 
+        getStatus(status){
+            return (status == '' || status == null) ? 'All' : status;
+        },
+
         dobs(dt){
             let dte = '';
             dte = dt.split('-');
@@ -151,7 +155,10 @@ export default {
             </div>
         </div>
 
-        <div class="my-6 px-6 text-xl"><strong>{{ applications.length }}</strong> Applications Received</div>
+        <div class="my-6 px-6 text-xl">
+            <strong>{{ applications.length }}</strong> Applications Received
+            <a :href="'/pdf/merit_list/'+academic_year_id+'/'+grade_id+'/'+ getStatus(status)" class="btn btn-purple float-right text-sm" target="_blank">Download Merit List</a>
+        </div>
 
         <div v-for="app in applications" :key="app.id" class="box" :class="getStatus(app.status)">
             <div class="w-28">
@@ -166,7 +173,7 @@ export default {
                 <p>{{ app.phone }} - {{ app.email }}</p>
                 <p v-if="app.status == 'Accepted'" >
                     <button v-if="app.student_id == null" @click="migrateToStudent(app.id)" class="btn btn-orange py-1 px-2">Migrate</button>
-                    <span v-if="app.student_id != null" @click="migrateToStudent(app.id)" class="">Migrated to Student ID {{ app.student_id }}</span>
+                    <span v-if="app.student_id != null" class="">Migrated to Student ID {{ app.student_id }}</span>
                 </p>
             </div>
             <div>

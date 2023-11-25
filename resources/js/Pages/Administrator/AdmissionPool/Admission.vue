@@ -156,7 +156,7 @@ export default {
             </div>
             
 
-            <table class="w-full mb-6">
+            <!-- <table class="w-full mb-6">
                 <tr>
                     <td class="border-gray-400 border p-2 w-20">
                         <img :src="$page.props.settings.logo">
@@ -167,7 +167,6 @@ export default {
                     </td>
                 </tr>
             </table>
-
 
             <table class="w-full mb-6">
                 <tr>
@@ -301,7 +300,6 @@ export default {
                 </tr>
             </table>
 
-
             <table class="w-full mb-6">
                 <tr>
                     <td class="border-gray-400 border p-2 w-40 font-bold" colspan="4">Documents</td>
@@ -312,26 +310,202 @@ export default {
                         <img :src="doc.document" class="w-full">
                     </td>
                 </tr>
-            </table>
+            </table> -->
 
-            <table class="w-full mb-6" v-if="admission.user.successful_applications.length > 0">
-                <tr>
-                    <td class="border-gray-400 border p-2 w-40 font-bold" colspan="4">Other Applications</td>
-                </tr>
-                <template v-for="app in admission.user.successful_applications" :key="app.id">
-                    <tr v-if="admission.id != app.id">
-                        <td class="border-gray-400 border p-2 w-1/2 align-top">
-                            <Link :href="'/admission_pool/applications/'+app.id">
-                                <p class="font-bold">Application ID: {{ app.id }}</p>
-                                <p class="">{{ app.first_name }} {{ app.middle_name }} {{ app.last_name }} - {{ app.gender }}</p>
-                                <p class="">Date of Birth: {{ app.dob }}</p>
-                                <p class="">{{ app.phone }} - {{ app.email }}</p>
-                            </Link>
-                        </td>
+            <div class="box">
+                <div class="w-full">
+
+                    <div class="mb-5 font-bold text-center text-xl">Application ID {{ admission.id }}</div>
+
+                    <table class="w-full">
+                        <tbody>
+                            <tr>
+                                <td class="border border-gray-400 p-1 w-48">Name</td>
+                                <td class="border border-gray-400 p-1">{{ admission.first_name }} {{ admission.middle_name }} {{ admission.last_name }}</td>
+                                <td class="border border-gray-400 p-1 w-32" rowspan="4"><img class="w-full" :src="admission.admission_photos[0].media"></td>
+                            </tr>
+                            <tr>
+                                <td class="border border-gray-400 p-1 w-48">Contact</td>
+                                <td class="border border-gray-400 p-1">{{ admission.phone }}</td>
+                            </tr>
+                            <tr>
+                                <td class="border border-gray-400 p-1 w-48">Email Address</td>
+                                <td class="border border-gray-400 p-1">{{ admission.email }}</td>
+                            </tr>
+                            <tr>
+                                <td class="border border-gray-400 p-1 w-48">Address</td>
+                                <td class="border border-gray-400 p-1">{{ admission.admission_addresses[0].address }} {{ admission.admission_addresses[0].city }} {{ admission.admission_addresses[0].pincode }} {{ admission.admission_addresses[0].state }} {{ admission.admission_addresses[0].country }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <table class="w-full">
+                        <tbody>
+                            
+                            <tr>
+                                <td class="border border-gray-400 p-1 w-48">Branch</td>
+                                <td class="border border-gray-400 p-1" colspan="3">Seeking Admission For - {{ admission.branch.name }}</td>
+                            </tr>
+
+                            <tr>
+                                <td class="border border-gray-400 p-1 w-48">Grade</td>
+                                <td class="border border-gray-400 p-1">{{ admission.grade.name }}</td>
+                                <td class="border border-gray-400 p-1 w-48">Academic Year</td>
+                                <td class="border border-gray-400 p-1">{{ admission.academic_year.name }}</td>
+                            </tr>
+
+                            <tr>
+                                <td class="border border-gray-400 p-1 w-48">Gender</td>
+                                <td class="border border-gray-400 p-1">{{ admission.gender }}</td>
+                                <td class="border border-gray-400 p-1 w-48">First Language</td>
+                                <td class="border border-gray-400 p-1">{{ admission.first_language.language }}</td>
+                            </tr>
+
+                            <tr>
+                                <td class="border border-gray-400 p-1 w-48">Second Language</td>
+                                <td class="border border-gray-400 p-1">{{ admission.second_language.language }}</td>
+                                <td class="border border-gray-400 p-1 w-48">Third Language</td>
+                                <td class="border border-gray-400 p-1">{{ admission.third_language.language }}</td>
+                            </tr>
+
+                            <tr>
+                                <td class="border border-gray-400 p-1 w-48">Date of Birth</td>
+                                <td class="border border-gray-400 p-1">{{ admission.dob }}</td>
+                                <td class="border border-gray-400 p-1 w-48">Birth Place</td>
+                                <td class="border border-gray-400 p-1">{{ admission.birth_place }}</td>
+                            </tr>
+
+                            <tr>
+                                <td class="border border-gray-400 p-1 w-48">Blood Group</td>
+                                <td class="border border-gray-400 p-1">{{ admission.blood_group }}</td>
+                                <td class="border border-gray-400 p-1 w-48">Mother Tongue</td>
+                                <td class="border border-gray-400 p-1">{{ admission.mothertongue }}</td>
+                            </tr>
+
+                            <tr>
+                                <td class="border border-gray-400 p-1 w-48">Nationality</td>
+                                <td class="border border-gray-400 p-1">{{ admission.nationality }}</td>
+                                <td class="border border-gray-400 p-1 w-48">Aadhar Number</td>
+                                <td class="border border-gray-400 p-1">{{ admission.aadhar }}</td>
+                            </tr>
+
+                            <tr>
+                                <td class="border border-gray-400 p-1 w-48">Religion</td>
+                                <td class="border border-gray-400 p-1">{{ admission.religion }}</td>
+                                <td class="border border-gray-400 p-1 w-48">Cast Category</td>
+                                <td class="border border-gray-400 p-1">{{ admission.cast_category }}</td>
+                            </tr>
+
+                            <tr>
+                                <td class="border border-gray-400 p-1 w-48">Cast</td>
+                                <td class="border border-gray-400 p-1">{{ admission.cast }}</td>
+                                <td class="border border-gray-400 p-1 w-48">Sub-cast</td>
+                                <td class="border border-gray-400 p-1">{{ admission.subcast }}</td>
+                            </tr>
+
+                            <tr>
+                                <td class="border border-gray-400 p-1" colspan="4">Has you child ever had trouble speaking or listning? - <strong>{{ admission.speaking_hearing }}</strong></td>
+                            </tr>
+
+                            <tr>
+                                <td class="border border-gray-400 p-1" colspan="4">Does your child have special education needs? - <strong>{{ admission.special_need }}</strong></td>
+                            </tr>
+
+                            <tr>
+                                <td class="border border-gray-400 p-1 w-48">Alumnus</td>
+                                <td class="border border-gray-400 p-1">{{ admission.is_alumnus }}</td>
+                                <td class="border border-gray-400 p-1 w-48">Single Parent</td>
+                                <td class="border border-gray-400 p-1">{{ admission.is_single_parent }} {{ admission.is_single_parent == 'Yes' ? ' - ' + admission.single_what : '' }}</td>
+                            </tr>
+
+                            <template v-for="parent in admission.admission_parents" :key="parent.id">
+                                
+                                <tr>
+                                    <td class="border border-gray-400 p-1 font-bold" colspan="4">{{ parent.relation }}'s Details</td>
+                                </tr>
+
+                                <tr>
+                                    <td class="border border-gray-400 p-1 w-48">{{ parent.relation }}'s Name</td>
+                                    <td class="border border-gray-400 p-1"> {{ parent.first_name }} {{ parent.middle_name }} {{ parent.last_name }}</td>
+                                    <td class="border border-gray-400 p-1 w-48">Email</td>
+                                    <td class="border border-gray-400 p-1">{{ parent.email }}</td>
+                                </tr>
+
+                                <tr>
+                                    <td class="border border-gray-400 p-1 w-48">Mobile</td>
+                                    <td class="border border-gray-400 p-1"> {{ parent.phone }}</td>
+                                    <td class="border border-gray-400 p-1 w-48">Date of Birth</td>
+                                    <td class="border border-gray-400 p-1">{{ parent.dob }}</td>
+                                </tr>
+
+                                <tr>
+                                    <td class="border border-gray-400 p-1 w-48">Aadhar Number</td>
+                                    <td class="border border-gray-400 p-1"> {{ parent.aadhar }}</td>
+                                    <td class="border border-gray-400 p-1 w-48">PAN</td>
+                                    <td class="border border-gray-400 p-1">{{ parent.pan }}</td>
+                                </tr>
+
+                                <tr>
+                                    <td class="border border-gray-400 p-1 w-48">Qualification</td>
+                                    <td class="border border-gray-400 p-1"> {{ parent.qualification }}</td>
+                                    <td class="border border-gray-400 p-1 w-48">Degree</td>
+                                    <td class="border border-gray-400 p-1">{{ parent.degree }}</td>
+                                </tr>
+
+                                <tr>
+                                    <td class="border border-gray-400 p-1 w-48">Occupation</td>
+                                    <td class="border border-gray-400 p-1"> {{ parent.occupation }}</td>
+                                    <td class="border border-gray-400 p-1 w-48">Annual Income</td>
+                                    <td class="border border-gray-400 p-1">{{ parent.annual_income }}</td>
+                                </tr>
+
+                                <tr>
+                                    <td class="border border-gray-400 p-1 w-48">Company Name</td>
+                                    <td class="border border-gray-400 p-1"> {{ parent.company_name }}</td>
+                                    <td class="border border-gray-400 p-1 w-48">Company Address</td>
+                                    <td class="border border-gray-400 p-1">{{ parent.company_address }}</td>
+                                </tr>
+
+                            </template>
+
+                            <tr>
+                                <td class="border border-gray-400 p-1" colspan="4">Name of previous school is <strong>{{ admission.previous_school }}</strong> and board is <strong>{{ admission.board }}</strong></td>
+                            </tr>
+
+                            <tr>
+                                <td class="border border-gray-400 p-1" colspan="4">Siblings GR: <span v-for="sib in admission.admission_siblings" :key="sib.id">{{ sib.gr_number }}</span></td>
+                            </tr>
+                            
+
+                        </tbody>
+                    </table>
+
+                    <div class="mt-5 text-center">
+                        <a class="btn btn-purple" :href="'/pdf/application/' + admission.id" target="_blank">Download</a>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="box">
+                <table class="w-full" v-if="admission.user.successful_applications.length > 0">
+                    <tr>
+                        <td class="border-gray-400 border p-2 w-40 font-bold" colspan="4">Other Applications</td>
                     </tr>
-                </template>
-                
-            </table>
+                    <template v-for="app in admission.user.successful_applications" :key="app.id">
+                        <tr v-if="admission.id != app.id">
+                            <td class="border-gray-400 border p-2 w-1/2 align-top">
+                                <Link :href="'/admission_pool/applications/'+app.id">
+                                    <p class="font-bold">Application ID: {{ app.id }}</p>
+                                    <p class="">{{ app.first_name }} {{ app.middle_name }} {{ app.last_name }} - {{ app.gender }}</p>
+                                    <p class="">Date of Birth: {{ app.dob }}</p>
+                                    <p class="">{{ app.phone }} - {{ app.email }}</p>
+                                </Link>
+                            </td>
+                        </tr>
+                    </template>
+                </table>
+            </div>
 
             
         </div>

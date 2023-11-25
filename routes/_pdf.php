@@ -13,4 +13,16 @@ Route::middleware(['auth','verified'])->group(function () {
     /* Service PDF */
     Route::get('/pdf/service/{id}', [App\Http\Controllers\PDFController::class, 'service']);
 
+    /* Application Form PDF */
+    Route::get('/pdf/application/{id}', [App\Http\Controllers\PDFController::class, 'application']);
+
+    /* Recipt PDF */
+    Route::get('/pdf/receipt/{id}', [App\Http\Controllers\PDFController::class, 'receipt']);
+
+    /* Applications PDF */
+    Route::get('/pdf/applications/{id}/{gid}', [App\Http\Controllers\PDFController::class, 'applications']);
+
+    /* Merit List PDF */
+    Route::get('/pdf/merit_list/{id}/{gid}/{status}', [App\Http\Controllers\PDFController::class, 'merit_list']);
+
 });

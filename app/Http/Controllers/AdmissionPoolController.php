@@ -39,7 +39,7 @@ class AdmissionPoolController extends Controller
     }
 
     public function applications_admission($admission_id){
-        $admission = Admission::with('admission_photos', 'admission_addresses', 'admission_parents', 'admission_documents', 'first_language', 'second_language', 'third_language', 'user.successful_applications')->find($admission_id);
+        $admission = Admission::with('admission_photos', 'admission_addresses', 'admission_siblings', 'admission_parents', 'admission_documents', 'first_language', 'second_language', 'third_language', 'user.successful_applications', 'branch', 'grade', 'academic_year')->find($admission_id);
         $rating_names = Setting::where('key', 'Like', 'Rating %')->get();
         return Inertia::render('Administrator/AdmissionPool/Admission', compact('admission', 'rating_names'));
     }

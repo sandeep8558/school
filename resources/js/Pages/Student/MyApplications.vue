@@ -110,7 +110,9 @@ export default {
         <div v-for="app in my_applications" :key="app.id" class="box">
 
             <div class="w-40">
-                <img class="w-full" :src="app.admission_photos[0].media">
+                <Link :href="'/admission/my_applications/application/' + app.id">
+                    <img class="w-full" :src="app.admission_photos[0].media">
+                </Link>
             </div>
 
             <div class="w-full">
