@@ -93,6 +93,8 @@ Route::middleware(['auth','verified','administrator'])->group(function () {
     Route::get('/student_manager/student_document', [App\Http\Controllers\StudentManagerController::class, 'student_document']);
     Route::get('/student_manager/student_branch', [App\Http\Controllers\StudentManagerController::class, 'student_branch']);
     Route::get('/student_manager/student_parent', [App\Http\Controllers\StudentManagerController::class, 'student_parent']);
+    Route::get('/student_manager/student_sibling', [App\Http\Controllers\StudentManagerController::class, 'student_sibling']);
+    Route::get('/student_manager/student_houses', [App\Http\Controllers\StudentManagerController::class, 'student_houses']);
 
 
     /* Academic Year Pages */

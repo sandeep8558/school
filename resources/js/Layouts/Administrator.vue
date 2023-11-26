@@ -359,6 +359,12 @@ export default {
                                     <li>
                                         <Link class="nav-sec-link" :class="{'active': $page.url.startsWith('/student_manager/student_parent')}" href="/student_manager/student_parent">Student Parents</Link>
                                     </li>
+                                    <li>
+                                        <Link class="nav-sec-link" :class="{'active': $page.url.startsWith('/student_manager/student_sibling')}" href="/student_manager/student_sibling">Student Sibling</Link>
+                                    </li>
+                                    <li>
+                                        <Link class="nav-sec-link" :class="{'active': $page.url.startsWith('/student_manager/student_houses')}" href="/student_manager/student_houses">Student Houses</Link>
+                                    </li>
                                 </ul>
                             </li>
 
