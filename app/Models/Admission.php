@@ -18,6 +18,9 @@ class Admission extends Model
         'previous_school',
         'board',
 
+        'admission_academic_year_id',
+        'admission_grade_id',
+        
         'academic_year_id',
         'grade_id',
         'branch_id',

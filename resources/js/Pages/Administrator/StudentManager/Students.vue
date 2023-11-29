@@ -52,12 +52,37 @@ export default {
                         isForm:true,
                         isSearch:false,
                         colWidth:'w-20',
+                        fieldWidth:'w-full md:w-2/3'
+                    },
+                    {
+                        field:'admission_academic_year_id',
+                        text:'Admission Academic Year',
+                        type:'select',
+                        value:'',
+                        values: this.academic_years,
+                        validation:'required',
+                        display:false,
+                        isForm:true,
+                        isSearch:false,
+                        colWidth:'w-20',
                         fieldWidth:'w-full md:w-1/3'
                     },
-                    
+                    {
+                        field:'admission_grade_id',
+                        text:'Admission Grade',
+                        type:'select',
+                        value:'',
+                        values: this.grades,
+                        validation:'required',
+                        display:false,
+                        isForm:true,
+                        isSearch:false,
+                        colWidth:'w-20',
+                        fieldWidth:'w-full md:w-1/3'
+                    },
                     {
                         field:'academic_year_id',
-                        text:'Academice Year',
+                        text:'Current Academice Year',
                         type:'select',
                         value:'',
                         values: this.academic_years,
@@ -70,7 +95,7 @@ export default {
                     },
                     {
                         field:'grade_id',
-                        text:'Grade',
+                        text:'Current Grade',
                         type:'select',
                         value:'',
                         values: this.grades,

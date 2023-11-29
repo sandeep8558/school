@@ -9,7 +9,7 @@ class House extends Model
 {
     use HasFactory;
 
-    protected $fillable = [ 'branch_id', "name" ];
+    protected $fillable = [ 'branch_id', "name", "bg", "txt" ];
 
     public function branch(){
         return $this->belongsTo(Branch::class);

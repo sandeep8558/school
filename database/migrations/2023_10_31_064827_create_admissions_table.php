@@ -25,6 +25,9 @@ return new class extends Migration
             $table->string('previous_school')->nullable();
             $table->set('board', ['SSC', 'CBSE', 'ICSE', 'IGCSE', 'IB', 'NIOS'])->nullable();
 
+            $table->bigInteger('admission_academic_year_id')->index();
+            $table->bigInteger('admission_grade_id')->index();
+
             $table->bigInteger('academic_year_id')->index();
             $table->bigInteger('grade_id')->index();
             $table->bigInteger('branch_id')->index();

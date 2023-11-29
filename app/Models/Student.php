@@ -10,6 +10,10 @@ class Student extends Model
     use HasFactory;
 
     protected $fillable = [
+        
+        'admission_academic_year_id',
+        'admission_grade_id',
+
         'academic_year_id',
         'grade_id',
         'branch_id',
@@ -98,9 +102,17 @@ class Student extends Model
         return $this->hasMany(StudentSibling::class);
     }
 
-    protected $appends = ['full_name'];
+    public function batch(){
+        return $this->belongsTo(Batch::class, 'students.academic_year_id', 'batches.academic_year_id');
+    }
+
+    protected $appends = ['full_name', 'name'];
 
     public function getFullNameAttribute(){
+        return $this->first_name . " " . $this->middle_name  . " " . $this->last_name;
+    }
+
+    public function getNameAttribute(){
         return $this->first_name . " " . $this->last_name;
     }
 }

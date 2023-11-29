@@ -25,7 +25,9 @@ class HouseRequest extends FormRequest
     {
         return [
             'branch_id' => 'required',
-            'name' => 'required'
+            'name' => 'required',
+            'bg' => '',
+            'txt' => '',
         ];
     }
 }

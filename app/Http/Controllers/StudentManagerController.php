@@ -18,14 +18,28 @@ class StudentManagerController extends Controller
 
     /* Students Page */
     public function students(){
+
+        /* Branch Fetched */
         $branch_id = Auth::user()->branch_id;
+
+        /* Houses fetched */
         $houses = House::where('branch_id', $branch_id)->select('id', 'name as text')->get();
+
+        /* Academic Year fetched */
         $academic_years = AcademicYear::where('branch_id', $branch_id)->select('id', 'name as text')->get();
+
+        /* Grades fetched */
         $grades = Grade::whereHas('section', function($q) use($branch_id){
             $q->where('branch_id', $branch_id);
         })->select('id', 'name as text')->get();
+
+        /* First Language fetched */
         $first_languages = Language::where('branch_id', $branch_id)->where('which', 'First Language')->select('id', 'language as text')->get();
+
+        /* Second language fetched */
         $second_languages = Language::where('branch_id', $branch_id)->where('which', 'Second Language')->select('id', 'language as text')->get();
+
+        /* Third language fetched */
         $third_languages = Language::where('branch_id', $branch_id)->where('which', 'Third Language')->select('id', 'language as text')->get();
 
         return Inertia::render('Administrator/StudentManager/Students', compact('houses', 'academic_years', 'grades', 'first_languages', 'second_languages', 'third_languages'));
@@ -81,7 +95,14 @@ class StudentManagerController extends Controller
             $q->where('branch_id', $branch_id);
         })->get();
 
-        $students = Student::with('grade', 'house');
+        $s = Student::where('branch_id', $branch_id)->where('house_id', null);
+        $non = [
+            'total' => $s->count(),
+            'male' => $s->where('gender', 'Male')->count(),
+            'female' => $s->where('gender', 'Female')->count(),
+        ];
+
+        $students = Student::with('grade', 'house')->where('branch_id', $branch_id);
 
         /* If Grade id sent */
         if(isset($request->grade_id)){
@@ -93,8 +114,11 @@ class StudentManagerController extends Controller
 
         /* If House id Sent */
         if(isset($request->house_id)){
-            if($request->house_id != 'All'){
+            if($request->house_id != 'All' && $request->house_id != 'Uncategorized'){
                 $students = $students->where('house_id', $request->house_id);
+                $house_id = $request->house_id;
+            } else if($request->house_id == 'Uncategorized'){
+                $students = $students->where('house_id', null);
                 $house_id = $request->house_id;
             }
         }
@@ -110,7 +134,99 @@ class StudentManagerController extends Controller
         /* Final students query */
         $students = $students->get();
 
-        return Inertia::render('Administrator/StudentManager/StudentHouses', compact('houses', 'grades', 'students', 'grade_id', 'house_id', 'gender'));
+        return Inertia::render('Administrator/StudentManager/StudentHouses', compact('houses', 'grades', 'students', 'grade_id', 'house_id', 'gender', 'non'));
+
+    }
+
+    /* GRN Allotment Page */
+    public function grn_allotment(Request $request){
+
+        /* Variable Setup for querying students data */
+        $admission_academic_year_id = isset($request->admission_academic_year_id) ? $request->admission_academic_year_id : 'All';
+        $admission_grade_id = isset($request->admission_grade_id) ? $request->admission_grade_id : 'All';
+
+        /* Branch Fetched */
+        $branch_id = Auth::user()->branch_id;
+
+        /* Academic Year fetched */
+        $academic_years = AcademicYear::where('branch_id', $branch_id)->get();
+
+        /* Grades fetched */
+        $grades = Grade::whereHas('section', function($q) use($branch_id){
+            $q->where('branch_id', $branch_id);
+        })->get();
+
+        /* Students Query Starts Here */
+        $students = Student::with('grade', 'academic_year')->where('branch_id', $branch_id);
+
+        /* Academic Year Query */
+        if(isset($request->admission_academic_year_id)){
+            if($admission_academic_year_id != 'All'){
+                $students = $students->where('admission_academic_year_id', $admission_academic_year_id);
+            }
+        }
+
+        /* Grade Query */
+        if(isset($request->admission_grade_id)){
+            if($admission_grade_id != 'All'){
+                $students = $students->where('admission_grade_id', $admission_grade_id);
+            }
+        }
+
+        /* Final students query */
+        $students = $students->get();
+
+        return Inertia::render('Administrator/StudentManager/GRNAllotment', compact('academic_years', 'grades', 'students', 'admission_academic_year_id', 'admission_grade_id'));
+    }
+
+    /* API Call for updating house */
+    public function student_house_update(Request $request){
+        $i = $request->all();
+        $s = Student::find($request->id);
+        $i['house_id'] = $request->house_id == 'Uncategorized' ? null : $request->house_id;
+        $s->update($i);
+        return back();
+    }
+
+    public function save_grn(Request $request){
+
+        /* Variable Setup for querying students data */
+        $admission_academic_year_id = isset($request->admission_academic_year_id) ? $request->admission_academic_year_id : 'All';
+        $admission_grade_id = isset($request->admission_grade_id) ? $request->admission_grade_id : 'All';
+
+        /* Branch Fetched */
+        $branch_id = Auth::user()->branch_id;
+
+        /* Students Query Starts Here */
+        $students = Student::with('grade', 'academic_year')->where('branch_id', $branch_id);
+
+        /* Academic Year Query */
+        if(isset($request->admission_academic_year_id)){
+            if($admission_academic_year_id != 'All'){
+                $students = $students->where('admission_academic_year_id', $admission_academic_year_id);
+            }
+        }
+
+        /* Grade Query */
+        if(isset($request->admission_grade_id)){
+            if($admission_grade_id != 'All'){
+                $students = $students->where('admission_grade_id', $admission_grade_id);
+            }
+        }
+
+        /* Final students query */
+        $i = $request->start;
+        $students = $students->chunk(100, function($student_chunk) use($request, &$i) {
+            $j = $i;
+            foreach($student_chunk as $ind=>$student){
+                $i = $ind + $j;
+                $n = $request->prefix . $request->seperator . $i . $request->seperator . $request->suffix;
+                $student->update([
+                    'gr_number' => $n
+                ]);
+            }
+            $i+=1;
+        });
 
     }
 

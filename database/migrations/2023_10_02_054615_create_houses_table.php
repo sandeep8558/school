@@ -18,6 +18,8 @@ return new class extends Migration
 
             $table->bigInteger('branch_id')->index();
             $table->string('name');
+            $table->string('bg', 10)->nullable();
+            $table->string('txt', 10)->nullable();
             
             $table->timestamps();
         });

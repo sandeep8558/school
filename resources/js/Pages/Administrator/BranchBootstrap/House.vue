@@ -15,6 +15,8 @@ export default {
                 branch_id: this.$page.props.gbranch ? this.$page.props.gbranch.id : null,
                 id: null,
                 name: null,
+                bg: '#000000',
+                txt: '#ffffff',
             }),
         };
     },
@@ -35,6 +37,8 @@ export default {
         editRow(house){
             this.form.id = house.id;
             this.form.name = house.name;
+            this.form.bg = house.bg;
+            this.form.txt = house.txt;
             this.isForm = true;
         },
 
@@ -52,6 +56,8 @@ export default {
 
                     this.form.id = house.id;
                     this.form.name = house.name;
+                    this.form.bg = house.bg;
+                    this.form.txt = house.txt;
 
                     this.form.post('/branch_bootstrap/delete_house', {
                         onSuccess: data => {
@@ -118,6 +124,22 @@ export default {
                             <label for="floating_outlined" class="floating-lbl">House Name</label>
                         </div>
                         <span v-if="errors" class="text-sm text-red-500">{{ errors.name }}</span>
+                    </div>
+
+                    <div class="w-full mb-5">
+                        <div class="relative">
+                            <input type="text" id="floating_outlined" class="peer floating-inp" v-model="form.bg" placeholder="" />
+                            <label for="floating_outlined" class="floating-lbl">Background Color</label>
+                        </div>
+                        <span v-if="errors" class="text-sm text-red-500">{{ errors.bg }}</span>
+                    </div>
+
+                    <div class="w-full mb-5">
+                        <div class="relative">
+                            <input type="text" id="floating_outlined" class="peer floating-inp" v-model="form.txt" placeholder="" />
+                            <label for="floating_outlined" class="floating-lbl">Text Color</label>
+                        </div>
+                        <span v-if="errors" class="text-sm text-red-500">{{ errors.txt }}</span>
                     </div>
 
                     <div class="w-full">

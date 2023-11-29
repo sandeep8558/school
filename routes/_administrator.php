@@ -95,6 +95,11 @@ Route::middleware(['auth','verified','administrator'])->group(function () {
     Route::get('/student_manager/student_parent', [App\Http\Controllers\StudentManagerController::class, 'student_parent']);
     Route::get('/student_manager/student_sibling', [App\Http\Controllers\StudentManagerController::class, 'student_sibling']);
     Route::get('/student_manager/student_houses', [App\Http\Controllers\StudentManagerController::class, 'student_houses']);
+    Route::get('/student_manager/grn_allotment', [App\Http\Controllers\StudentManagerController::class, 'grn_allotment']);
+
+    /* Student Manager API Calls */
+    Route::post('/student_manager/student_house_update', [App\Http\Controllers\StudentManagerController::class, 'student_house_update']);
+    Route::post('/student_manager/save_grn', [App\Http\Controllers\StudentManagerController::class, 'save_grn']);
 
 
     /* Academic Year Pages */
@@ -134,8 +139,11 @@ Route::middleware(['auth','verified','administrator'])->group(function () {
 
     /* Batch Manager Pages */
     Route::get('/batch_manager/batches', [App\Http\Controllers\BatchManagerController::class, 'batches']);
+    Route::get('/batch_manager/student_pool', [App\Http\Controllers\BatchManagerController::class, 'student_pool']);
 
     /* Batch Manager API Calls */
+    Route::post('/batch_manager/students', [App\Http\Controllers\BatchManagerController::class, 'students']);
+    Route::post('/batch_manager/allocate_student', [App\Http\Controllers\BatchManagerController::class, 'allocate_student']);
     Route::post('/batch_manager/create_batch', [App\Http\Controllers\BatchManagerController::class, 'create_batch']);
     Route::post('/batch_manager/update_batch', [App\Http\Controllers\BatchManagerController::class, 'update_batch']);
     Route::post('/batch_manager/assign_teacher', [App\Http\Controllers\BatchManagerController::class, 'assign_teacher']);

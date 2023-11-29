@@ -365,6 +365,9 @@ export default {
                                     <li>
                                         <Link class="nav-sec-link" :class="{'active': $page.url.startsWith('/student_manager/student_houses')}" href="/student_manager/student_houses">Student Houses</Link>
                                     </li>
+                                    <li>
+                                        <Link class="nav-sec-link" :class="{'active': $page.url.startsWith('/student_manager/grn_allotment')}" href="/student_manager/grn_allotment">GRN Allotment</Link>
+                                    </li>
                                 </ul>
                             </li>
 
@@ -381,6 +384,9 @@ export default {
                                 <ul class="nav-sec-ul" v-if="ughadZap.batchManager || $page.url.startsWith('/batch_manager')">
                                     <li>
                                         <Link class="nav-sec-link" :class="{'active': $page.url.startsWith('/batch_manager/batches')}" href="/batch_manager/batches">Batches</Link>
+                                    </li>
+                                    <li>
+                                        <Link class="nav-sec-link" :class="{'active': $page.url.startsWith('/batch_manager/student_pool')}" href="/batch_manager/student_pool">Student Pool</Link>
                                     </li>
                                 </ul>
                             </li>

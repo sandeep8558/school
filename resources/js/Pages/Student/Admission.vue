@@ -116,6 +116,8 @@ export default {
                     first_language_id: '',
                     second_language_id: '',
                     third_language_id: '',
+                    admission_academic_year_id: '',
+                    admission_grade_id: '',
                     academic_year_id: '',
                     branch_id: '',
                     grade_id: '',
@@ -538,6 +540,14 @@ export default {
 
     methods: {
 
+        changeAY(e){
+            this.formData.admissions.admission_academic_year_id = e.target.value;
+        },
+
+        changeGrade(e){
+            this.formData.admissions.admission_grade_id = e.target.value;
+        },
+
         submitApplication(){
             let frm = useForm(this.formData);
             frm.post('/admission/save_application', {
@@ -564,6 +574,10 @@ export default {
 
         demoData(){
             this.formData.admissions.branch_id = 1;
+            
+            this.formData.admissions.admission_academic_year_id = 2;
+            this.formData.admissions.admission_grade_id = 2;
+
             this.formData.admissions.academic_year_id = 2;
             this.formData.admissions.grade_id = 2;
             this.formData.admissions.first_language_id = 1;
@@ -752,9 +766,9 @@ export default {
                         
                         <Select v-model="formData.admissions.branch_id" label="Branch" error="" width="w-full lg:w-1/3" :options="allBranches"></Select>
 
-                        <Select v-model="formData.admissions.academic_year_id" label="Academic Year" error="" width="w-full lg:w-1/3" :options="academic_years"></Select>
+                        <Select v-model="formData.admissions.academic_year_id" @change="changeAY($event)" label="Academic Year" error="" width="w-full lg:w-1/3" :options="academic_years"></Select>
 
-                        <Select v-model="formData.admissions.grade_id" label="Grade" error="" width="w-full lg:w-1/3" :options="grades"></Select>
+                        <Select v-model="formData.admissions.grade_id" @change="changeGrade($event)" label="Grade" error="" width="w-full lg:w-1/3" :options="grades"></Select>
 
                         <Select v-model="formData.admissions.first_language_id" label="First Language" error="" width="w-full lg:w-1/3" :options="first_languages"></Select>
 

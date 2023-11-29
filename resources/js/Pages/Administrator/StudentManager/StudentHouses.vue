@@ -1,6 +1,6 @@
 <script>
 import Administrator from '@/Layouts/Administrator.vue';
-import { Head, Link } from '@inertiajs/vue3';
+import { Head, Link, useForm } from '@inertiajs/vue3';
 
 export default {
     
@@ -12,6 +12,7 @@ export default {
         grade_id: String,
         house_id: String,
         gender: String,
+        non: Object,
     },
 
     data: function () {
@@ -27,7 +28,16 @@ export default {
     methods: {
         openWith(){
             this.$refs.myForm.submit();
-        }
+        },
+        setHouse(e, sid){
+            let url = '/student_manager/student_house_update';
+            let data = {
+                id: sid,
+                house_id: e.target.value
+            };
+            let frm = new useForm(data);
+            frm.post(url);
+        },
     },
 
     mounted: function() {
@@ -46,6 +56,7 @@ export default {
         <div class="w-1/3">
             <select class="w-full" name="house_id" id="house_id" @change="openWith()" v-model="frm.house_id">
                 <option value="All">All</option>
+                <option value="Uncategorized">Uncategorized</option>
                 <option v-for="house in houses" :key="house.id" :value="house.id">{{ house.name }}</option>
             </select>
         </div>
@@ -79,12 +90,21 @@ export default {
                     </tr>
                 </thead>
                 <tbody>
+                    
                     <tr v-for="house in houses" :key="house.id" class="odd:bg-white">
                         <td class="p-2">{{ house.name }}</td>
                         <td class="p-2 text-center">{{ house.counts.male }}</td>
                         <td class="p-2 text-center">{{ house.counts.female }}</td>
                         <td class="p-2 text-center">{{ house.counts.total }}</td>
                     </tr>
+
+                    <tr class="odd:bg-white">
+                        <td class="p-2">Uncategorized</td>
+                        <td class="p-2 text-center">{{ non.male }}</td>
+                        <td class="p-2 text-center">{{ non.female }}</td>
+                        <td class="p-2 text-center">{{ non.total }}</td>
+                    </tr>
+
                 </tbody>
             </table>
 
@@ -113,7 +133,12 @@ export default {
                         <td class="border border-gray-400 p-2 text-center w-24">{{ student.id }}</td>
                         <td class="border border-gray-400 p-2 text-center w-24">{{ student.gr_number }}</td>
                         <td class="border border-gray-400 p-2">{{ student.first_name }} {{ student.middle_name }} {{ student.last_name }}</td>
-                        <td class="border border-gray-400 p-2 text-center w-32">{{ student.house.name }}</td>
+                        <td class="border border-gray-400 p-2 text-center w-32">
+                            <select name="hid" id="hid" class="border-none bg-transparent bg-none pr-3 text-center" v-model="student.house_id" @change="setHouse($event, student.id)">
+                                <option :value="null">Uncategorized</option>
+                                <option v-for="house in houses" :key="house.id" :value="house.id">{{ house.name }}</option>
+                            </select>
+                        </td>
                         <td class="border border-gray-400 p-2 text-center w-24">{{ student.grade.name }}</td>
                         <td class="border border-gray-400 p-2 text-center w-24">{{ student.gender }}</td>
                         <td class="border border-gray-400 p-2 text-center w-32">{{ student.dob }}</td>

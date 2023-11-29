@@ -16,6 +16,9 @@ return new class extends Migration
         Schema::create('students', function (Blueprint $table) {
             $table->id();
             
+            $table->bigInteger('admission_academic_year_id')->index();
+            $table->bigInteger('admission_grade_id')->index();
+            
             $table->bigInteger('academic_year_id')->index();
             $table->bigInteger('grade_id')->index();
             $table->bigInteger('branch_id')->index();
