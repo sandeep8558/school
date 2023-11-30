@@ -1,8 +1,13 @@
 <script>
 import Administrator from '@/Layouts/Administrator.vue';
 import { Head, Link, useForm } from '@inertiajs/vue3';
+import {openModal, closeModal} from "jenesius-vue-modal";
+import ShiftPlanForm from '@/Pages/Administrator/BranchBootstrap/ShiftPlanForm.vue';
 
 export default {
+
+    components: { Administrator, Head, Link, ShiftPlanForm, },
+
     props: {
         errors: Object,
         student_shifts: Object,
@@ -17,14 +22,6 @@ export default {
                 name: null,
                 from: null,
                 to: null,
-            }),
-            planForm: useForm({
-                id: null,
-                student_shift_id: null,
-                period_index: null,
-                from: null,
-                to: null,
-                slot: null,
             }),
         };
     },
@@ -89,11 +86,12 @@ export default {
             }).then((e) => {
                 if(e.isConfirmed){
 
-                    this.planForm.id = plan.id;
+                    let frm = useForm({
+                        id: plan.id
+                    });
 
-                    this.planForm.post('/branch_bootstrap/delete_student_shift_plan', {
+                    frm.post('/branch_bootstrap/delete_student_shift_plan', {
                         onSuccess: data => {
-                            this.planForm.reset();
                         }
                     });
 
@@ -101,71 +99,50 @@ export default {
             });
         },
 
-        shodStudentShiftPlanForm(student_shift){
-            this.$swal.fire({
-                title: student_shift.name,
-                html:
-                '<div class="py-5">'+
-                '<div class="relative">'+
-                
-                '<div for="from" class="w-full text-left mb-1">From</div>'+
-                '<input type="time" id="from" placeholder="" class="inp mb-5" />'+
+        async shodStudentShiftPlanForm(student_shift){
 
-                '<div for="to" class="w-full text-left mb-1">To</div>'+
-                '<input type="time" id="to" placeholder="" class="inp mb-5" />'+
-
-                '<div for="period_index" class="w-full text-left mb-1">Period Index</div>'+
-                '<input type="text" id="period_index" placeholder="" class="inp mb-5" />'+
-
-                '<div for="slot" class="w-full text-left mb-1">Slot</div>'+
-                '<select type="text" id="slot" placeholder="" class="inp mb-5">'+
-                '<option value="">Select Slot</option>'+
-                '<option value="Lecture">Lecture</option>'+
-                '<option value="Short Break">Short Break</option>'+
-                '<option value="Long Break">Long Break</option>'+
-                '<option value="Interation Time">Interation Time</option>'+
-                '<option value="Prayer">Prayer</option>'+
-                '<option value="Assembly">Assembly</option>'+
-                '</select>'+
-
-                '</div>'+
-                '</div>',
-                confirmButtonText: 'Save Slot',
-                showCancelButton: true,
-                preConfirm: () => {
-
-                    this.planForm.student_shift_id = student_shift.id;
-                    this.planForm.from = document.getElementById('from').value;
-                    this.planForm.to = document.getElementById('to').value;
-                    this.planForm.period_index = document.getElementById('period_index').value;
-                    this.planForm.slot = document.getElementById('slot').value;
-
-                    this.$swal.showLoading();
-
-                    this.planForm.post('/branch_bootstrap/save_student_shift_plan',{
-                        onSuccess: data => {
-                            this.$swal.close();
-                        },
-                        onError: err => {
-                            //this.$swal.hideLoading();
-                            this.$swal.showValidationMessage('Validation Failed');
-                            throw new Error("Validation Failed");
-                        }
-                    });
-
-                    return false;
-
-                }
-
+            let frm = await openModal(ShiftPlanForm, {
+                student_shift : student_shift,
             });
-        }
+
+            frm.on('close', e => {
+                closeModal();
+            });
+
+            frm.on('save', e => {
+                let frm = useForm(e);
+                frm.post('/branch_bootstrap/save_student_shift_plan', {
+                    onFinish: res => {
+                        closeModal();
+                    },
+                });
+            });
+        },
+
+        async editPlan(plan){
+            
+            let frm = await openModal(ShiftPlanForm, {
+                plan : plan,
+            });
+
+            frm.on('close', e => {
+                closeModal();
+            });
+
+            frm.on('save', e => {
+                let frm = useForm(e);
+                frm.post('/branch_bootstrap/save_student_shift_plan', {
+                    onFinish: res => {
+                        closeModal();
+                    },
+                });
+            });
+        },
 
     },
 
     mounted: function() {
     },
-
-    components: { Administrator, Head, Link }
 }
 </script>
 
@@ -249,12 +226,7 @@ export default {
                         </div>
                         <div class="w-80 text-right">
 
-                            <button @click="shodStudentShiftPlanForm(student_shift)" class="btn btn-purple px-2 mr-1">
-                                <svg class="w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 16 20">
-                                    <path fill="currentColor" d="M11.045 7.514a.5.5 0 1 1-1 0 .5.5 0 0 1 1 0Zm-4.572 3.072L3.857 15.92h7.949l-1.811-3.37-1.61 2.716-1.912-4.679Z"/>
-                                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M6 1v4a1 1 0 0 1-1 1H1m14 12a.97.97 0 0 1-.933 1H1.933A.97.97 0 0 1 1 18V5.828a2 2 0 0 1 .586-1.414l2.828-2.828A2 2 0 0 1 5.828 1h8.239A.97.97 0 0 1 15 2v16ZM11.045 7.514a.5.5 0 1 1-1 0 .5.5 0 0 1 1 0ZM3.857 15.92l2.616-5.333 1.912 4.68 1.61-2.717 1.81 3.37H3.858Z"/>
-                                </svg>
-                            </button>
+                            
 
                             <button @click="editRow(student_shift)" class="btn btn-orange px-2 mr-1">
                                 <svg class="w-4 h-4 stroke-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 21 21">
@@ -271,15 +243,17 @@ export default {
                         
                     </div>
 
-                    <div class="flex flex-wrap space-x-3">
-                        <div v-for="plan in student_shift.student_shift_plans" :key="plan.id" class="w-auto mt-3 text-sm border border-gray-600 shadow-sm rounded-md">
+                    <div class="flex flex-wrap">
+                        <div v-for="plan in student_shift.student_shift_plans" :key="plan.id" class="w-auto mt-3 mr-3 text-sm border border-gray-600 shadow-sm rounded-md">
                             <div class="flex relative group cursor-pointer">
 
                                 <div class="bg-gray-600 text-white flex items-center text-2xl rounded-l-md">
                                     <div class="px-4">
-                                        {{ plan.period_index }}
+                                        <p class="text-center">{{ plan.period_index }}</p>
+                                        <p class="text-sm text-center">{{ plan.is_in_halfday[0] }}</p>
                                     </div>
                                 </div>
+
                                 <div class="flex flex-col space-y-1 py-2 px-3">
                                     <div class="uppercase text-xs">{{plan.slot}}</div>
                                     <div>{{plan.from}}</div>
@@ -287,16 +261,38 @@ export default {
                                     <div>{{plan.to}}</div>
                                 </div>
 
-                                <button @click="deletePlan(plan)" class="btn btn-red absolute -top-3 -right-3 p-2 hidden group-hover:block">
+                                <button @click="editPlan(plan)" class="btn btn-orange absolute -top-3 p-2 hidden group-hover:block">
+                                    <svg class="w-4 h-4 stroke-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 21 21">
+                                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M7.418 17.861 1 20l2.139-6.418m4.279 4.279 10.7-10.7a3.027 3.027 0 0 0-2.14-5.165c-.802 0-1.571.319-2.139.886l-10.7 10.7m4.279 4.279-4.279-4.279m2.139 2.14 7.844-7.844m-1.426-2.853 4.279 4.279"/>
+                                    </svg>
+                                </button>
+
+                                <button @click="deletePlan(plan)" class="btn btn-red absolute -top-3 right-0 p-2 hidden group-hover:block">
                                     <svg class="w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 20">
                                         <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M1 5h16M7 8v8m4-8v8M7 1h4a1 1 0 0 1 1 1v3H6V2a1 1 0 0 1 1-1ZM3 5h12v13a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V5Z"/>
                                     </svg>
                                 </button>
 
+                            </div>
+
+                        </div>
+
+                        <div class="w-auto mt-3 text-sm border border-gray-600 shadow-sm rounded-md">
+                            <div class="flex relative group h-full">
+
+                                <div class="flex items-center text-2xl rounded-l-md h-full">
+                                    <button @click="shodStudentShiftPlanForm(student_shift)" class="btn btn-purple px-2 py-5 h-full">
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+                                        </svg>
+
+                                    </button>
+                                </div>
 
                             </div>
-                            
+
                         </div>
+
                     </div>
 
                 </div>

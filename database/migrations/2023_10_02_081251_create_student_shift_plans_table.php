@@ -20,7 +20,8 @@ return new class extends Migration
             $table->integer('period_index');
             $table->time('from');
             $table->time('to');
-            $table->set('slot', ['Lecture', 'Short Break', 'Long Break']);
+            $table->set('slot', ['Lecture', 'Short Break', 'Long Break', 'Interaction', 'Prayer', 'Assembly']);
+            $table->set('is_in_halfday', ['Yes', 'No']);
 
             $table->timestamps();
         });

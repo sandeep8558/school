@@ -124,7 +124,7 @@ class BranchBootstrapController extends Controller
 
     /* Save and Update StudentShiftPlan */
     public function save_student_shift_plan(StudentShiftPlanRequest $request){
-        if($request->id == null){
+        if($request->id == null || $request->id == ''){
             StudentShiftPlan::create($request->validated());
         } else {
             StudentShiftPlan::find($request->id)->update($request->validated());

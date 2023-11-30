@@ -28,7 +28,8 @@ class StudentShiftPlanRequest extends FormRequest
             'from' => 'required',
             'to' => 'required',
             'period_index' => 'required',
-            'slot' => 'required'
+            'slot' => 'required',
+            'is_in_halfday' => 'required'
         ];
     }
 }
