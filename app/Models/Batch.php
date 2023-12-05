@@ -55,4 +55,8 @@ class Batch extends Model
         return $this->hasMany(BatchTimetable::class);
     }
 
+    public function class_teacher(){
+        return $this->hasOne(BatchTeacher::class)->where('role', 'Class teacher');
+    }
+
 }

@@ -21,6 +21,8 @@ return new class extends Migration
             $table->integer('lectures_per_week');
             $table->set('is_consecutive', ['Yes', 'No', 'Any']);
             $table->set('is_graded', ['Yes', 'No']);
+            $table->set('min_lect_per_day', ['0','1','2','3','4','5','6','7','8','9']);
+            $table->set('max_lect_per_day', ['0','1','2','3','4','5','6','7','8','9']);
 
             $table->timestamps();
         });

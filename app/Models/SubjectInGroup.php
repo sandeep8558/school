@@ -10,7 +10,7 @@ class SubjectInGroup extends Model
     use HasFactory;
     use \Znck\Eloquent\Traits\BelongsToThrough;
 
-    protected $fillable = ['subject_group_id','subject_id','lectures_per_week','is_consecutive','is_graded'];
+    protected $fillable = ['subject_group_id','subject_id','lectures_per_week','is_consecutive','is_graded','min_lect_per_day','max_lect_per_day'];
 
     public function subject(){
         return $this->belongsTo(Subject::class);

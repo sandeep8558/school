@@ -139,14 +139,18 @@ Route::middleware(['auth','verified','administrator'])->group(function () {
 
     /* Batch Manager Pages */
     Route::get('/batch_manager/batches', [App\Http\Controllers\BatchManagerController::class, 'batches']);
+    Route::get('/batch_manager/teachers', [App\Http\Controllers\BatchManagerController::class, 'teachers']);
     Route::get('/batch_manager/student_pool', [App\Http\Controllers\BatchManagerController::class, 'student_pool']);
+    Route::get('/batch_manager/timetable', [App\Http\Controllers\BatchManagerController::class, 'timetable']);
 
     /* Batch Manager API Calls */
+    Route::post('/batch_manager/fetch_teachers', [App\Http\Controllers\BatchManagerController::class, 'fetch_teachers']);
     Route::post('/batch_manager/students', [App\Http\Controllers\BatchManagerController::class, 'students']);
     Route::post('/batch_manager/allocate_student', [App\Http\Controllers\BatchManagerController::class, 'allocate_student']);
     Route::post('/batch_manager/create_batch', [App\Http\Controllers\BatchManagerController::class, 'create_batch']);
     Route::post('/batch_manager/update_batch', [App\Http\Controllers\BatchManagerController::class, 'update_batch']);
     Route::post('/batch_manager/assign_teacher', [App\Http\Controllers\BatchManagerController::class, 'assign_teacher']);
+    Route::post('/batch_manager/create_timetable', [App\Http\Controllers\BatchManagerController::class, 'create_timetable']);
 
 
 

@@ -34,4 +34,8 @@ class AcademicYear extends Model
     public function fee_groups(){
         return $this->hasMany(FeeGroup::class);
     }
+
+    public function batch_teachers(){
+        return $this->hasManyThrough(BatchTeacher::class, Batch::class);
+    }
 }

@@ -7,6 +7,7 @@ export default {
         title: String,
         subject: Object,
         teacher: Object,
+        grade_id: Number,
     },
 
     data: function () {
@@ -20,7 +21,7 @@ export default {
     methods: {
         setAssistant(){
             this.assistant_id = this.staff_id;
-        }
+        },
     },
 
     created: function() {
@@ -31,14 +32,22 @@ export default {
         }
     },
 
-    mounted: function() {
-    },
-
     components: {},
 
     computed: {
         isValid(){
             return this.role == '' || this.staff_id == '' ? true : false;
+        },
+        validTeachers(){
+            let teachers = [];
+            this.subject.subject.subject_teachers.forEach(teacher => {
+                teacher.staff.staff_grades.forEach(grade => {
+                    if(grade.grade_id == this.grade_id){
+                        teachers.push(teacher);
+                    }
+                });
+            });
+            return teachers;
         },
     },
 }
@@ -58,7 +67,9 @@ export default {
             <label for="staff_id" class="block mb-2">Assign Teacher for {{ subject.subject.name }}</label>
             <select @change="setAssistant()" name="staff_id" id="staff_id" class="w-full" v-model="staff_id">
                 <option value="">Select Staff</option>
-                <option v-for="staff in subject.subject.subject_teachers" :key="staff" :value="staff.staff.id">{{ staff.staff.full_name }} - {{ staff.staff.degree }}</option>
+                <option v-for="staff in validTeachers" :key="staff" :value="staff.staff.id">
+                    {{ staff.staff.full_name }} - {{ staff.staff.degree }}
+                </option>
             </select>
         </div>
 
@@ -66,7 +77,12 @@ export default {
             <label for="assistant_id" class="block mb-2">Assign Teacher for {{ subject.subject.name }}</label>
             <select name="assistant_id" id="assistant_id" class="w-full" v-model="assistant_id">
                 <option value="">Select Assistant</option>
-                <option v-for="staff in subject.subject.subject_teachers" :key="staff" :value="staff.staff.id">{{ staff.staff.full_name }} - {{ staff.staff.degree }}</option>
+                <template v-for="staff in validTeachers" :key="staff">
+                    <option v-if="staff" :value="staff.staff.id">
+                        {{ staff.staff.full_name }} - {{ staff.staff.degree }}
+                    </option>
+                </template>
+                
             </select>
         </div>
 

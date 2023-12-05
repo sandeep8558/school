@@ -120,7 +120,7 @@ export default {
             });
         },
 
-        async assignTeacher(batch, subject, title){
+        async assignTeacher(batch, subject, title, grade_id){
 
             let t = await this.getSubjectTeacher(batch, subject.id);
             
@@ -128,6 +128,7 @@ export default {
                 title: title,
                 subject: subject,
                 teacher: t,
+                grade_id: grade_id,
             });
             
             frm.on('close', e => {
@@ -230,7 +231,7 @@ export default {
                                             <li v-for="subject in batch.grade.subject_in_groups" :key="subject.id" class="border-b last:border-b-0 py-2 text-sm" :set="bt = getSubjectTeacher(batch, subject.id)">
                                                 <span class="inline-block w-7">{{ subject.lectures_per_week }}</span>
                                                 <span class="mr-3">{{ subject.subject.name }}</span>
-                                                <span @dblclick="assignTeacher(isBatch(grade.id, division.id), subject, (grade.name + ' - ' +  division.name))" class="float-right cursor-pointer hover:underline">
+                                                <span @dblclick="assignTeacher(isBatch(grade.id, division.id), subject, (grade.name + ' - ' +  division.name), grade.id)" class="float-right cursor-pointer hover:underline">
                                                     {{ bt == null ? 'Assign' : (bt.role == 'Subject teacher' ? '' : bt.role + ' - ' ) + (bt.staff.full_name + (bt.assistant_id != bt.staff_id ? ' | ' + bt.assistant.full_name : '')) }}
                                                 </span>
                                                 

@@ -17,8 +17,9 @@ return new class extends Migration
             $table->id();
 
             $table->bigInteger('batch_id')->index();
-            $table->bigInteger('batch_teacher_id')->index();
-            $table->integer('student_shift_plan_id')->nullable();
+            $table->bigInteger('batch_teacher_id')->index()->nullable();;
+            $table->integer('student_shift_plan_id')->index();
+            $table->set('day', ['Mon','Tue','Wed','Thu','Fri','Sat','Sun']);
 
             $table->timestamps();
         });

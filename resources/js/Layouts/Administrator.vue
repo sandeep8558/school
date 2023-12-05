@@ -386,7 +386,13 @@ export default {
                                         <Link class="nav-sec-link" :class="{'active': $page.url.startsWith('/batch_manager/batches')}" href="/batch_manager/batches">Batches</Link>
                                     </li>
                                     <li>
+                                        <Link class="nav-sec-link" :class="{'active': $page.url.startsWith('/batch_manager/teachers')}" href="/batch_manager/teachers">Teachers</Link>
+                                    </li>
+                                    <li>
                                         <Link class="nav-sec-link" :class="{'active': $page.url.startsWith('/batch_manager/student_pool')}" href="/batch_manager/student_pool">Student Pool</Link>
+                                    </li>
+                                    <li>
+                                        <Link class="nav-sec-link" :class="{'active': $page.url.startsWith('/batch_manager/timetable')}" href="/batch_manager/timetable">Timetable</Link>
                                     </li>
                                 </ul>
                             </li>

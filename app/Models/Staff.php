@@ -8,6 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 class Staff extends Model
 {
     use HasFactory;
+    use \Znck\Eloquent\Traits\BelongsToThrough;
+    use \Staudenmeir\EloquentHasManyDeep\HasRelationships;
 
     protected $fillable = [
         'branch_id',
@@ -38,9 +40,34 @@ class Staff extends Model
         return $this->belongsTo(Branch::class);
     }
 
-    protected $appends = ['full_name'];
+    public function Staff_grades(){
+        return $this->hasMany(StaffGrade::class);
+    }
+
+    public function batch_teachers(){
+        return $this->hasMany(BatchTeacher::class);
+    }
+
+    public function Staff_subjects(){
+        return $this->hasMany(StaffSubject::class);
+    }
+
+    public function batch(){
+        return $this->hasManyDeep(
+            Batch::class,
+            [BatchTeacher::class],
+            [null, 'id', 'id'],
+            [null, 'staff_id', 'batch_id']
+        );
+    }
+
+    protected $appends = ['name','full_name'];
+
+    public function getNameAttribute(){
+        return $this->first_name . " " . $this->last_name;
+    }
 
     public function getFullNameAttribute(){
-        return $this->first_name . " " . $this->last_name;
+        return $this->first_name . " " . $this->middle_name . " " . $this->last_name;
     }
 }

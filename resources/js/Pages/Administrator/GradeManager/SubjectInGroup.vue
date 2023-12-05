@@ -140,6 +140,55 @@ export default {
                         fieldWidth:'w-full'
                     },
 
+                    {
+                        field:'min_lect_per_day',
+                        text:'Minimumm Lectures per Day',
+                        type:'select',
+                        value:null,
+                        values:[
+                            {id: '0', text: '0'},
+                            {id: '1', text: '1'},
+                            {id: '2', text: '2'},
+                            {id: '3', text: '3'},
+                            {id: '4', text: '4'},
+                            {id: '5', text: '5'},
+                            {id: '6', text: '6'},
+                            {id: '7', text: '7'},
+                            {id: '8', text: '8'},
+                            {id: '9', text: '9'},
+                        ],
+                        validation:'required',
+                        display:false,
+                        isForm:true,
+                        isSearch:true,
+                        colWidth:'w-auto',
+                        fieldWidth:'w-full'
+                    },
+                    {
+                        field:'max_lect_per_day',
+                        text:'Maximun Lectures per Day',
+                        type:'select',
+                        value:null,
+                        values:[
+                            {id: '0', text: '0'},
+                            {id: '1', text: '1'},
+                            {id: '2', text: '2'},
+                            {id: '3', text: '3'},
+                            {id: '4', text: '4'},
+                            {id: '5', text: '5'},
+                            {id: '6', text: '6'},
+                            {id: '7', text: '7'},
+                            {id: '8', text: '8'},
+                            {id: '9', text: '9'},
+                        ],
+                        validation:'required',
+                        display:false,
+                        isForm:true,
+                        isSearch:true,
+                        colWidth:'w-auto',
+                        fieldWidth:'w-full'
+                    },
+
                 ],
             },
         };

@@ -13,6 +13,7 @@ class BatchTimetable extends Model
         'batch_id',
         'batch_teacher_id',
         'student_shift_plan_id',
+        'day',
     ];
 
     public function batch(){
