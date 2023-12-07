@@ -369,6 +369,9 @@ class BatchManagerController extends Controller
         ->where('batch_timetables.day', $day)
         ->exists();
 
+
+        
+
     }
 
 }
