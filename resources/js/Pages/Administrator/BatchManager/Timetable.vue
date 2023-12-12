@@ -217,6 +217,7 @@ export default {
         </div>
     </div>
 
+    <!-- Timetable settings -->
     <div class="box">
         <div class="w-full">
 
@@ -248,6 +249,14 @@ export default {
         </div>
     </div>
 
+    <!-- Timetables -->
+    <div class="box">
+        <div class="w-full">
+            <!-- <div v-for="tt in batches"></div> -->
+        </div>
+    </div>
+
+    <!-- Batch wise timetable -->
     <div class="box space-x-0" v-for="batch in batches" :key="batch.id">
 
         <div class="w-full">

@@ -150,9 +150,6 @@ Route::middleware(['auth','verified','administrator'])->group(function () {
     Route::post('/batch_manager/create_batch', [App\Http\Controllers\BatchManagerController::class, 'create_batch']);
     Route::post('/batch_manager/update_batch', [App\Http\Controllers\BatchManagerController::class, 'update_batch']);
     Route::post('/batch_manager/assign_teacher', [App\Http\Controllers\BatchManagerController::class, 'assign_teacher']);
-    Route::post('/batch_manager/create_timetable', [App\Http\Controllers\BatchManagerController::class, 'create_timetable']);
-
-
 
     /* Fee and Services Pages */
     Route::get('/fee_and_services/fee', [App\Http\Controllers\FeeAndServicesController::class, 'fee']);
@@ -164,5 +161,12 @@ Route::middleware(['auth','verified','administrator'])->group(function () {
     Route::post('/fee_and_services/save_service', [App\Http\Controllers\FeeAndServicesController::class, 'save_service']);
     Route::post('/fee_and_services/delete_service', [App\Http\Controllers\FeeAndServicesController::class, 'delete_service']);
 
+    /* Timetable Pages */
+    Route::get('/timetable/create_timetable', [App\Http\Controllers\TimetableController::class, 'create_timetable']);
+    Route::get('/timetable/batch_wise', [App\Http\Controllers\TimetableController::class, 'batch_wise']);
+    Route::get('/timetable/teacher_wise', [App\Http\Controllers\TimetableController::class, 'teacher_wise']);
+
+    /* Timetable API Calls */
+    Route::post('/timetable/save_timetable', [App\Http\Controllers\TimetableController::class, 'save_timetable']);
 
 });

@@ -32,7 +32,7 @@ class BatchManagerController extends Controller
         
         $branch_id = Auth::user()->branch_id;
         $academic_years = AcademicYear::
-        with('batches','batches.batch_students','batches.batch_teachers.staff','batches.batch_teachers.assistant','batches.batch_timetables','batches.classroom','batches.student_shift', 'batches.grade.subject_in_groups.subject.subject_teachers.staff.Staff_grades')
+        with('batches','batches.batch_students','batches.batch_teachers.staff','batches.batch_teachers.assistant','batches.classroom','batches.student_shift', 'batches.grade.subject_in_groups.subject.subject_teachers.staff.Staff_grades')
         ->where('branch_id', $branch_id)->orderBy('id', 'desc')->get();
         $grades = Grade::whereHas('section', function($q) use($branch_id){
             $q->where('branch_id', $branch_id);
@@ -82,7 +82,7 @@ class BatchManagerController extends Controller
         $branch_id = Auth::user()->branch_id;
         
         $academic_years = AcademicYear::with('batches.grade', 'batches.division')
-        ->with('batches.student_shift.student_shift_plans', 'batches.batch_timetables')
+        ->with('batches.student_shift.student_shift_plans', 'batches.batch_timetables.batch_timetable_data')
         ->with('batches.batch_teachers.staff', 'batches.batch_teachers.subject_in_group.subject')
         ->where('branch_id', $branch_id)
         ->orderBy('id', 'desc')
@@ -95,11 +95,6 @@ class BatchManagerController extends Controller
         $student_shifts = StudentShift::with('student_shift_plans')->where('branch_id', $branch_id)->orderBy('id', 'asc')->get();
 
         return Inertia::render('Administrator/BatchManager/Timetable', compact('academic_years', 'grades', 'student_shifts'));
-    }
-
-    /* Template */
-    public function temp(){
-        return Inertia::render('Administrator/BatchManager/Temp');
     }
 
     /* API Calls */
@@ -207,7 +202,6 @@ class BatchManagerController extends Controller
 
     public function fetch_teachers(Request $request){
 
-
         return $staff = Staff::where('doe', null)
         ->leftJoin('batch_teachers', 'staff.id', 'batch_teachers.staff_id')
         ->join('batches', 'batches.id', 'batch_teachers.batch_id')
@@ -249,47 +243,21 @@ class BatchManagerController extends Controller
             'staff.middle_name',
             'staff.last_name',
         )
+        ->orderBy('total', 'desc')
         ->get();
 
-
-
-        return $staff = Staff::where('doe', null)
-        ->with('batch_teachers', function($q) use($request){
-            $q->whereHas('batch', function($qq) use($request){
-                $qq->where('academic_year_id', $request->academic_year_id);
-            })
-            ->join('subject_in_groups', 'subject_in_groups.id', 'batch_teachers.subject_in_group_id')
-            ->join('subjects', 'subject_in_groups.subject_id', 'subjects.id')
-            ->select(
-                'batch_teachers.*',
-                'subjects.name as subject',
-                'subject_in_groups.lectures_per_week',
-                'subject_in_groups.is_consecutive',
-                'subject_in_groups.min_lect_per_day',
-                'subject_in_groups.max_lect_per_day',
-            );
-        })
-        ->select(
-            /* DB::raw('IFNULL( SUM( subject_in_groups.lectures_per_week ), 0 ) as total'), */
-        )
-        ->get();
     }
 
+    /* Creating Timetable */
     public function create_timetable(Request $request){
 
         /* Fetched all teachers of selected academic year */
-        $teachers = BatchTeacher::select('staff_id')
-        ->whereHas('batch', function($q) use($request){
-            $q->where('academic_year_id', $request->academic_year_id);
-        })
-        ->groupBy('staff_id')
-        ->get();
+        /* Order by maximum lectures in desending order */
+        $teachers = $this->fetch_teachers($request);
 
-        /* Batch query for sent academic year */
+        /* Fetched all batches for requested academic year which are needed to create timetable */
         $batches = Batch::query();
         $batches->where('academic_year_id', $request->academic_year_id);
-
-        /* Fetched all batches needs to create timetable */
         $batches = $batches->get();
 
         /* Insert data without teacher */
@@ -304,11 +272,11 @@ class BatchManagerController extends Controller
                             'day' => $day['short']
                         ];
 
-                        /* if($batch->batch_timetables()->where('student_shift_plan_id', $plan->id)->where('day', $day['short'])->exists()){
+                        if($batch->batch_timetables()->where('student_shift_plan_id', $plan->id)->where('day', $day['short'])->exists()){
                             $batch->batch_timetables()->where('student_shift_plan_id', $plan->id)->where('day', $day['short'])->update($data);
                         } else {
                             $batch->batch_timetables()->create($data);
-                        } */
+                        }
 
                     }
                 }
@@ -328,12 +296,12 @@ class BatchManagerController extends Controller
         if($request->first_lecture){
             foreach($teachers as $teacher){
                 foreach($batches as $batch){
-                    if($teacher->staff_id == $batch->class_teacher->staff_id){
+                    if($teacher->id == $batch->class_teacher->staff_id){
                         $lectures_per_week = $batch->class_teacher->subject_in_group->lectures_per_week;
                         $lectures = $this->noOfLecture($batch->id, $batch->class_teacher->id);
                         if($lectures_per_week > $lectures){}
 
-                        return $this->is_teacher($batch->academic_year_id, $teacher->staff_id, 10, 'Mon');
+                        return $this->is_teacher($batch->academic_year_id, $teacher->id, 10, 'Mon');
 
                         return $batch->batch_timetables;
                     }
@@ -368,9 +336,6 @@ class BatchManagerController extends Controller
         ->whereIn('batch_timetables.student_shift_plan_id', $ssp_ids)
         ->where('batch_timetables.day', $day)
         ->exists();
-
-
-        
 
     }
 

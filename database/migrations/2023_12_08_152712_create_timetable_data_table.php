@@ -13,12 +13,13 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('batch_timetables', function (Blueprint $table) {
+        Schema::create('timetable_data', function (Blueprint $table) {
             $table->id();
 
             $table->bigInteger('batch_id')->index();
-            $table->bigInteger('batch_teacher_id')->index()->nullable();;
-            $table->integer('student_shift_plan_id')->index();
+            $table->bigInteger('timetable_id')->index();
+            $table->bigInteger('batch_teacher_id')->index()->nullable();
+            $table->bigInteger('student_shift_plan_id')->index();
             $table->set('day', ['Mon','Tue','Wed','Thu','Fri','Sat','Sun']);
 
             $table->timestamps();
@@ -32,6 +33,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('batch_timetables');
+        Schema::dropIfExists('timetable_data');
     }
 };
