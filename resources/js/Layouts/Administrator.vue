@@ -1,7 +1,22 @@
 <script>
 import { Head, Link, useForm } from '@inertiajs/vue3';
-
-import {container} from "jenesius-vue-modal";
+import { container } from "jenesius-vue-modal";
+import {
+    Squares2X2Icon,
+    BuildingLibraryIcon,
+    BuildingOffice2Icon,
+    AcademicCapIcon,
+    CalendarDaysIcon,
+    CurrencyRupeeIcon,
+    ClipboardDocumentCheckIcon,
+    IdentificationIcon,
+    UserGroupIcon,
+    RectangleGroupIcon,
+    ClockIcon,
+    UsersIcon,
+    Cog6ToothIcon,
+    ArrowLeftOnRectangleIcon
+} from '@heroicons/vue/24/outline';
 
 
 export default {
@@ -71,7 +86,25 @@ export default {
         this.form.branch_id = this.$page.props.gbranch ? this.$page.props.gbranch.id : null;
     },
 
-    components: { Head, Link, WidgetContainerModal: container }
+    components: {
+        Head,
+        Link,
+        WidgetContainerModal: container,
+        Squares2X2Icon,
+        BuildingLibraryIcon,
+        BuildingOffice2Icon,
+        AcademicCapIcon,
+        CalendarDaysIcon,
+        CurrencyRupeeIcon,
+        ClipboardDocumentCheckIcon,
+        IdentificationIcon,
+        UserGroupIcon,
+        RectangleGroupIcon,
+        ClockIcon,
+        UsersIcon,
+        Cog6ToothIcon,
+        ArrowLeftOnRectangleIcon
+    }
 }
 
 </script>
@@ -107,9 +140,7 @@ export default {
 
                             <li class="nav-li">
                                 <Link href="/dashboard_administrator" class="nav-link" :class="{'active': $page.url === '/dashboard_administrator'}">
-                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" class="w-6 h-6 inline-block mr-2">
-                                        <path strokeLinecap="round" strokeLinejoin="round" d="M4.26 10.147a60.436 60.436 0 00-.491 6.347A48.627 48.627 0 0112 20.904a48.627 48.627 0 018.232-4.41 60.46 60.46 0 00-.491-6.347m-15.482 0a50.57 50.57 0 00-2.658-.813A59.905 59.905 0 0112 3.493a59.902 59.902 0 0110.399 5.84c-.896.248-1.783.52-2.658.814m-15.482 0A50.697 50.697 0 0112 13.489a50.702 50.702 0 017.74-3.342M6.75 15a.75.75 0 100-1.5.75.75 0 000 1.5zm0 0v-3.675A55.378 55.378 0 0112 8.443m-7.007 11.55A5.981 5.981 0 006.75 15.75v-1.5" />
-                                    </svg>
+                                    <Squares2X2Icon class="w-6 h-6 inline-block mr-2" />
                                     Dashboard
                                 </Link>
                             </li>
@@ -117,9 +148,7 @@ export default {
                             <!-- Bootstart Menu -->
                             <li class="nav-li">
                                 <a href="#" class="nav-link" :class="ughadZap.schoolBootstrap || $page.url.startsWith('/school_bootstrap') ? 'active' : ''" @click="ughadZapKar('schoolBootstrap', !ughadZap.schoolBootstrap)">
-                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" class="w-6 h-6 inline-block mr-2">
-                                        <path strokeLinecap="round" strokeLinejoin="round" d="M4.26 10.147a60.436 60.436 0 00-.491 6.347A48.627 48.627 0 0112 20.904a48.627 48.627 0 018.232-4.41 60.46 60.46 0 00-.491-6.347m-15.482 0a50.57 50.57 0 00-2.658-.813A59.905 59.905 0 0112 3.493a59.902 59.902 0 0110.399 5.84c-.896.248-1.783.52-2.658.814m-15.482 0A50.697 50.697 0 0112 13.489a50.702 50.702 0 017.74-3.342M6.75 15a.75.75 0 100-1.5.75.75 0 000 1.5zm0 0v-3.675A55.378 55.378 0 0112 8.443m-7.007 11.55A5.981 5.981 0 006.75 15.75v-1.5" />
-                                    </svg>
+                                    <BuildingLibraryIcon class="w-6 h-6 inline-block mr-2" />
                                     <span class="">School Bootstrap</span>
                                     <span class="float-right">&#128899;</span>
                                 </a>
@@ -137,9 +166,7 @@ export default {
                             <!-- Branch Bootstart Menu -->
                             <li class="nav-li">
                                 <a href="#" class="nav-link" :class="ughadZap.branchBootstrap || $page.url.startsWith('/branch_bootstrap') ? 'active' : ''" @click="ughadZapKar('branchBootstrap', !ughadZap.branchBootstrap)">
-                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" class="w-6 h-6 inline-block mr-2">
-                                        <path strokeLinecap="round" strokeLinejoin="round" d="M4.26 10.147a60.436 60.436 0 00-.491 6.347A48.627 48.627 0 0112 20.904a48.627 48.627 0 018.232-4.41 60.46 60.46 0 00-.491-6.347m-15.482 0a50.57 50.57 0 00-2.658-.813A59.905 59.905 0 0112 3.493a59.902 59.902 0 0110.399 5.84c-.896.248-1.783.52-2.658.814m-15.482 0A50.697 50.697 0 0112 13.489a50.702 50.702 0 017.74-3.342M6.75 15a.75.75 0 100-1.5.75.75 0 000 1.5zm0 0v-3.675A55.378 55.378 0 0112 8.443m-7.007 11.55A5.981 5.981 0 006.75 15.75v-1.5" />
-                                    </svg>
+                                    <BuildingOffice2Icon class="w-6 h-6 inline-block mr-2" />
                                     <span class="">Branch Bootstrap</span>
                                     <span class="float-right">&#128899;</span>
                                 </a>
@@ -166,9 +193,7 @@ export default {
                             <!-- Grade Manager -->
                             <li class="nav-li">
                                 <a href="#" class="nav-link" :class="ughadZap.gradeManager || $page.url.startsWith('/grade_manager') ? 'active' : ''" @click="ughadZapKar('gradeManager', !ughadZap.gradeManager)">
-                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" class="w-6 h-6 inline-block mr-2">
-                                        <path strokeLinecap="round" strokeLinejoin="round" d="M4.26 10.147a60.436 60.436 0 00-.491 6.347A48.627 48.627 0 0112 20.904a48.627 48.627 0 018.232-4.41 60.46 60.46 0 00-.491-6.347m-15.482 0a50.57 50.57 0 00-2.658-.813A59.905 59.905 0 0112 3.493a59.902 59.902 0 0110.399 5.84c-.896.248-1.783.52-2.658.814m-15.482 0A50.697 50.697 0 0112 13.489a50.702 50.702 0 017.74-3.342M6.75 15a.75.75 0 100-1.5.75.75 0 000 1.5zm0 0v-3.675A55.378 55.378 0 0112 8.443m-7.007 11.55A5.981 5.981 0 006.75 15.75v-1.5" />
-                                    </svg>
+                                    <AcademicCapIcon class="w-6 h-6 inline-block mr-2" />
                                     <span class="">Grade Manager</span>
                                     <span class="float-right">&#128899;</span>
                                 </a>
@@ -214,9 +239,7 @@ export default {
                             <!-- Academic Year -->
                             <li class="nav-li">
                                 <a href="#" class="nav-link" :class="ughadZap.academicYear || $page.url.startsWith('/academic_year') ? 'active' : ''" @click="ughadZapKar('academicYear', !ughadZap.academicYear)">
-                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" class="w-6 h-6 inline-block mr-2">
-                                        <path strokeLinecap="round" strokeLinejoin="round" d="M4.26 10.147a60.436 60.436 0 00-.491 6.347A48.627 48.627 0 0112 20.904a48.627 48.627 0 018.232-4.41 60.46 60.46 0 00-.491-6.347m-15.482 0a50.57 50.57 0 00-2.658-.813A59.905 59.905 0 0112 3.493a59.902 59.902 0 0110.399 5.84c-.896.248-1.783.52-2.658.814m-15.482 0A50.697 50.697 0 0112 13.489a50.702 50.702 0 017.74-3.342M6.75 15a.75.75 0 100-1.5.75.75 0 000 1.5zm0 0v-3.675A55.378 55.378 0 0112 8.443m-7.007 11.55A5.981 5.981 0 006.75 15.75v-1.5" />
-                                    </svg>
+                                    <CalendarDaysIcon class="w-6 h-6 inline-block mr-2" />
                                     <span class="">Academic Year</span>
                                     <span class="float-right">&#128899;</span>
                                 </a>
@@ -243,9 +266,7 @@ export default {
                             <!-- Fee and Services Menu -->
                             <li class="nav-li">
                                 <a href="#" class="nav-link" :class="ughadZap.feeAndServices || $page.url.startsWith('/fee_and_services') ? 'active' : ''" @click="ughadZapKar('feeAndServices', !ughadZap.feeAndServices)">
-                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" class="w-6 h-6 inline-block mr-2">
-                                        <path strokeLinecap="round" strokeLinejoin="round" d="M4.26 10.147a60.436 60.436 0 00-.491 6.347A48.627 48.627 0 0112 20.904a48.627 48.627 0 018.232-4.41 60.46 60.46 0 00-.491-6.347m-15.482 0a50.57 50.57 0 00-2.658-.813A59.905 59.905 0 0112 3.493a59.902 59.902 0 0110.399 5.84c-.896.248-1.783.52-2.658.814m-15.482 0A50.697 50.697 0 0112 13.489a50.702 50.702 0 017.74-3.342M6.75 15a.75.75 0 100-1.5.75.75 0 000 1.5zm0 0v-3.675A55.378 55.378 0 0112 8.443m-7.007 11.55A5.981 5.981 0 006.75 15.75v-1.5" />
-                                    </svg>
+                                    <CurrencyRupeeIcon class="w-6 h-6 inline-block mr-2" />
                                     <span class="">Fee and Services</span>
                                     <span class="float-right">&#128899;</span>
                                 </a>
@@ -263,9 +284,7 @@ export default {
                             <!-- Admission Pool Menu -->
                             <li class="nav-li">
                                 <a href="#" class="nav-link" :class="ughadZap.admissionPool || $page.url.startsWith('/admission_pool') ? 'active' : ''" @click="ughadZapKar('admissionPool', !ughadZap.admissionPool)">
-                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" class="w-6 h-6 inline-block mr-2">
-                                        <path strokeLinecap="round" strokeLinejoin="round" d="M4.26 10.147a60.436 60.436 0 00-.491 6.347A48.627 48.627 0 0112 20.904a48.627 48.627 0 018.232-4.41 60.46 60.46 0 00-.491-6.347m-15.482 0a50.57 50.57 0 00-2.658-.813A59.905 59.905 0 0112 3.493a59.902 59.902 0 0110.399 5.84c-.896.248-1.783.52-2.658.814m-15.482 0A50.697 50.697 0 0112 13.489a50.702 50.702 0 017.74-3.342M6.75 15a.75.75 0 100-1.5.75.75 0 000 1.5zm0 0v-3.675A55.378 55.378 0 0112 8.443m-7.007 11.55A5.981 5.981 0 006.75 15.75v-1.5" />
-                                    </svg>
+                                    <ClipboardDocumentCheckIcon class="w-6 h-6 inline-block mr-2" />
                                     <span class="">Admission Pool</span>
                                     <span class="float-right">&#128899;</span>
                                 </a>
@@ -289,9 +308,7 @@ export default {
                             <!-- Staff Manager -->
                             <li class="nav-li">
                                 <a href="#" class="nav-link" :class="ughadZap.staffManager || $page.url.startsWith('/staff_manager') ? 'active' : ''" @click="ughadZapKar('staffManager', !ughadZap.staffManager)">
-                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" class="w-6 h-6 inline-block mr-2">
-                                        <path strokeLinecap="round" strokeLinejoin="round" d="M4.26 10.147a60.436 60.436 0 00-.491 6.347A48.627 48.627 0 0112 20.904a48.627 48.627 0 018.232-4.41 60.46 60.46 0 00-.491-6.347m-15.482 0a50.57 50.57 0 00-2.658-.813A59.905 59.905 0 0112 3.493a59.902 59.902 0 0110.399 5.84c-.896.248-1.783.52-2.658.814m-15.482 0A50.697 50.697 0 0112 13.489a50.702 50.702 0 017.74-3.342M6.75 15a.75.75 0 100-1.5.75.75 0 000 1.5zm0 0v-3.675A55.378 55.378 0 0112 8.443m-7.007 11.55A5.981 5.981 0 006.75 15.75v-1.5" />
-                                    </svg>
+                                    <IdentificationIcon class="w-6 h-6 inline-block mr-2" />
                                     <span class="">Staff Manager</span>
                                     <span class="float-right">&#128899;</span>
                                 </a>
@@ -336,9 +353,7 @@ export default {
                             <!-- Student Manager -->
                             <li class="nav-li">
                                 <a href="#" class="nav-link" :class="ughadZap.studentManager || $page.url.startsWith('/student_manager') ? 'active' : ''" @click="ughadZapKar('studentManager', !ughadZap.studentManager)">
-                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" class="w-6 h-6 inline-block mr-2">
-                                        <path strokeLinecap="round" strokeLinejoin="round" d="M4.26 10.147a60.436 60.436 0 00-.491 6.347A48.627 48.627 0 0112 20.904a48.627 48.627 0 018.232-4.41 60.46 60.46 0 00-.491-6.347m-15.482 0a50.57 50.57 0 00-2.658-.813A59.905 59.905 0 0112 3.493a59.902 59.902 0 0110.399 5.84c-.896.248-1.783.52-2.658.814m-15.482 0A50.697 50.697 0 0112 13.489a50.702 50.702 0 017.74-3.342M6.75 15a.75.75 0 100-1.5.75.75 0 000 1.5zm0 0v-3.675A55.378 55.378 0 0112 8.443m-7.007 11.55A5.981 5.981 0 006.75 15.75v-1.5" />
-                                    </svg>
+                                    <UserGroupIcon class="w-6 h-6 inline-block mr-2" />
                                     <span class="">Student Manager</span>
                                     <span class="float-right">&#128899;</span>
                                 </a>
@@ -377,9 +392,7 @@ export default {
                             <!-- Batch Manager -->
                             <li class="nav-li">
                                 <a href="#" class="nav-link" :class="ughadZap.batchManager || $page.url.startsWith('/batch_manager') ? 'active' : ''" @click="ughadZapKar('batchManager', !ughadZap.batchManager)">
-                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" class="w-6 h-6 inline-block mr-2">
-                                        <path strokeLinecap="round" strokeLinejoin="round" d="M4.26 10.147a60.436 60.436 0 00-.491 6.347A48.627 48.627 0 0112 20.904a48.627 48.627 0 018.232-4.41 60.46 60.46 0 00-.491-6.347m-15.482 0a50.57 50.57 0 00-2.658-.813A59.905 59.905 0 0112 3.493a59.902 59.902 0 0110.399 5.84c-.896.248-1.783.52-2.658.814m-15.482 0A50.697 50.697 0 0112 13.489a50.702 50.702 0 017.74-3.342M6.75 15a.75.75 0 100-1.5.75.75 0 000 1.5zm0 0v-3.675A55.378 55.378 0 0112 8.443m-7.007 11.55A5.981 5.981 0 006.75 15.75v-1.5" />
-                                    </svg>
+                                    <RectangleGroupIcon class="w-6 h-6 inline-block mr-2" />
                                     <span class="">Batch Manager</span>
                                     <span class="float-right">&#128899;</span>
                                 </a>
@@ -404,9 +417,7 @@ export default {
                             <!-- Timetable -->
                             <li class="nav-li">
                                 <a href="#" class="nav-link" :class="ughadZap.timetable || $page.url.startsWith('/timetable') ? 'active' : ''" @click="ughadZapKar('timetable', !ughadZap.timetable)">
-                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" class="w-6 h-6 inline-block mr-2">
-                                        <path strokeLinecap="round" strokeLinejoin="round" d="M4.26 10.147a60.436 60.436 0 00-.491 6.347A48.627 48.627 0 0112 20.904a48.627 48.627 0 018.232-4.41 60.46 60.46 0 00-.491-6.347m-15.482 0a50.57 50.57 0 00-2.658-.813A59.905 59.905 0 0112 3.493a59.902 59.902 0 0110.399 5.84c-.896.248-1.783.52-2.658.814m-15.482 0A50.697 50.697 0 0112 13.489a50.702 50.702 0 017.74-3.342M6.75 15a.75.75 0 100-1.5.75.75 0 000 1.5zm0 0v-3.675A55.378 55.378 0 0112 8.443m-7.007 11.55A5.981 5.981 0 006.75 15.75v-1.5" />
-                                    </svg>
+                                    <ClockIcon class="w-6 h-6 inline-block mr-2" />
                                     <span class="">Timetable</span>
                                     <span class="float-right">&#128899;</span>
                                 </a>
@@ -567,9 +578,7 @@ export default {
 
                             <li class="cursor-pointer select-none">
                                 <Link href="/user_manager" class="nav-link" :class="{'active': $page.url.startsWith('/user_manager')}">
-                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" class="w-6 h-6 inline-block mr-2">
-                                        <path strokeLinecap="round" strokeLinejoin="round" d="M4.26 10.147a60.436 60.436 0 00-.491 6.347A48.627 48.627 0 0112 20.904a48.627 48.627 0 018.232-4.41 60.46 60.46 0 00-.491-6.347m-15.482 0a50.57 50.57 0 00-2.658-.813A59.905 59.905 0 0112 3.493a59.902 59.902 0 0110.399 5.84c-.896.248-1.783.52-2.658.814m-15.482 0A50.697 50.697 0 0112 13.489a50.702 50.702 0 017.74-3.342M6.75 15a.75.75 0 100-1.5.75.75 0 000 1.5zm0 0v-3.675A55.378 55.378 0 0112 8.443m-7.007 11.55A5.981 5.981 0 006.75 15.75v-1.5" />
-                                    </svg>
+                                    <UsersIcon class="w-6 h-6 inline-block mr-2" />
                                     User Manager
                                 </Link>
                             </li>
@@ -577,9 +586,7 @@ export default {
 
                             <li class="cursor-pointer select-none">
                                 <Link href="/settings" class="nav-link" :class="{'active': $page.url === '/settings'}">
-                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" class="w-6 h-6 inline-block mr-2">
-                                        <path strokeLinecap="round" strokeLinejoin="round" d="M4.26 10.147a60.436 60.436 0 00-.491 6.347A48.627 48.627 0 0112 20.904a48.627 48.627 0 018.232-4.41 60.46 60.46 0 00-.491-6.347m-15.482 0a50.57 50.57 0 00-2.658-.813A59.905 59.905 0 0112 3.493a59.902 59.902 0 0110.399 5.84c-.896.248-1.783.52-2.658.814m-15.482 0A50.697 50.697 0 0112 13.489a50.702 50.702 0 017.74-3.342M6.75 15a.75.75 0 100-1.5.75.75 0 000 1.5zm0 0v-3.675A55.378 55.378 0 0112 8.443m-7.007 11.55A5.981 5.981 0 006.75 15.75v-1.5" />
-                                    </svg>
+                                    <Cog6ToothIcon class="w-6 h-6 inline-block mr-2" />
                                     Settings
                                 </Link>
                             </li>
@@ -587,9 +594,7 @@ export default {
 
                             <li class="cursor-pointer select-none">
                                 <Link href="/logout" method="post" as="button" class="nav-link w-full text-left" :class="{'active': $page.url === '/logout'}">
-                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" class="w-6 h-6 inline-block mr-2">
-                                        <path strokeLinecap="round" strokeLinejoin="round" d="M4.26 10.147a60.436 60.436 0 00-.491 6.347A48.627 48.627 0 0112 20.904a48.627 48.627 0 018.232-4.41 60.46 60.46 0 00-.491-6.347m-15.482 0a50.57 50.57 0 00-2.658-.813A59.905 59.905 0 0112 3.493a59.902 59.902 0 0110.399 5.84c-.896.248-1.783.52-2.658.814m-15.482 0A50.697 50.697 0 0112 13.489a50.702 50.702 0 017.74-3.342M6.75 15a.75.75 0 100-1.5.75.75 0 000 1.5zm0 0v-3.675A55.378 55.378 0 0112 8.443m-7.007 11.55A5.981 5.981 0 006.75 15.75v-1.5" />
-                                    </svg>
+                                    <ArrowLeftOnRectangleIcon class="w-6 h-6 inline-block mr-2" />
                                     Logout
                                 </Link>
                             </li>
